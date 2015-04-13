@@ -58,6 +58,7 @@ public class ListAllDirectoryFilesTaskFactory {
                 path.setType(CloudPathType.SIMPLE_FILE);
                 path.setSize(((DbxEntry.File)entry).numBytes);
                 path.setLastModificationDate(((DbxEntry.File)entry).lastModified);
+                path.setExtension(path.getPath().substring(path.getPath().lastIndexOf(".") + 1));
             } else {
                 path.setType(CloudPathType.DIRECTORY);
             }
