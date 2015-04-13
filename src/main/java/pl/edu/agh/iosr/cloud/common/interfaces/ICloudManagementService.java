@@ -1,11 +1,11 @@
 package pl.edu.agh.iosr.cloud.common.interfaces;
 
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
-import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Krzysztof Kicinger on 2015-04-09.
@@ -18,7 +18,7 @@ public interface ICloudManagementService {
      * @param cloudDirectory
      * @return
      */
-    public CloudTask<List<CloudPath>> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory);
+    public List<CloudPath> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException;
 
     /**
      *
@@ -27,7 +27,7 @@ public interface ICloudManagementService {
      * @param outputStream
      * @return
      */
-    public CloudTask<CloudPath> downloadFile(String sessionId, CloudPath cloudPath, OutputStream outputStream);
+    public CloudPath downloadFile(String sessionId, CloudPath cloudPath, OutputStream outputStream);
 
     /**
      *
@@ -36,7 +36,7 @@ public interface ICloudManagementService {
      * @param fileInputStream
      * @return
      */
-    public CloudTask<CloudPath> uploadFile(String sessionId, CloudPath cloudPath, InputStream fileInputStream);
+    public CloudPath uploadFile(String sessionId, CloudPath cloudPath, InputStream fileInputStream);
 
     /**
      *
@@ -44,6 +44,6 @@ public interface ICloudManagementService {
      * @param cloudPath
      * @return
      */
-    public CloudTask<Boolean> deleteFile(String sessionId, CloudPath cloudPath);
+    public Boolean deleteFile(String sessionId, CloudPath cloudPath);
 
 }

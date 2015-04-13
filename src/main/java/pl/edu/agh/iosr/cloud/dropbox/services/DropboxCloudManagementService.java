@@ -4,11 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
-import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
+import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.ListAllDirectoryFilesTask;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.ListAllDirectoryFilesTaskFactory;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Krzysztof Kicinger on 2015-04-11.
@@ -17,6 +22,7 @@ import java.util.List;
 public class DropboxCloudManagementService implements ICloudManagementService {
 
     private DropboxCloudSessionService cloudSessionService;
+    private ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     @Autowired
     public DropboxCloudManagementService(DropboxCloudSessionService cloudSessionService) {
@@ -24,22 +30,25 @@ public class DropboxCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public CloudTask<List<CloudPath>> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) {
+    public List<CloudPath> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
+        DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
+        ListAllDirectoryFilesTask task = new ListAllDirectoryFilesTaskFactory().create(dropboxCloudSession.getClient(), cloudDirectory);
+        executorService.execute(task);
+        return task.get();
+    }
+
+    @Override
+    public CloudPath downloadFile(String sessionId, CloudPath cloudPath, OutputStream outputStream) {
         return null;
     }
 
     @Override
-    public CloudTask<CloudPath> downloadFile(String sessionId, CloudPath cloudPath, OutputStream outputStream) {
+    public CloudPath uploadFile(String sessionId, CloudPath cloudPath, InputStream fileInputStream) {
         return null;
     }
 
     @Override
-    public CloudTask<CloudPath> uploadFile(String sessionId, CloudPath cloudPath, InputStream fileInputStream) {
-        return null;
-    }
-
-    @Override
-    public CloudTask<Boolean> deleteFile(String sessionId, CloudPath cloudPath) {
+    public Boolean deleteFile(String sessionId, CloudPath cloudPath) {
         return null;
     }
 
