@@ -76,6 +76,13 @@
             <version>${dropbox.version}</version>
         </dependency>
 
+        <!--GOOGLE DRIVE DEPENDENCIES-->
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-drive</artifactId>
+            <version>v2-rev135-1.19.0</version>
+        </dependency>
+
         <!-- JUNIT DEPENDECIES -->
         <dependency>
             <groupId>junit</groupId>
