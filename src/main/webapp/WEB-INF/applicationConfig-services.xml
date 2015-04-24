@@ -10,4 +10,15 @@
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.configuration" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.services" />
 
+    <bean id="onedriveConfig" class="pl.edu.agh.iosr.cloud.common.CloudConfiguration">
+        <constructor-arg name="appKey" value="000000004015302A"/>
+        <constructor-arg name="appKeySecret" value="3nbUeQnDqrFLSZwPKpjLBrYubFelq7TL"/>
+        <constructor-arg name="appName" value="burak"/>
+    </bean>
+
+    <bean id="client" class="com.sun.jersey.api.client.Client"/>
+    <bean id="executorService" class="java.util.concurrent.Executors" factory-method="newSingleThreadExecutor"/>
+
+    <context:component-scan base-package="pl.edu.agh.iosr.cloud.onedrive.services" />
+
 </beans>
