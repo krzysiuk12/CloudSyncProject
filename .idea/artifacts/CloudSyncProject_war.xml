@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" build-on-make="true" name="CloudSyncProject:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="CloudSyncProject.war">
-      <element id="artifact" artifact-name="CloudSyncProject:war exploded" />
-    </root>
-  </artifact>
-</component>
