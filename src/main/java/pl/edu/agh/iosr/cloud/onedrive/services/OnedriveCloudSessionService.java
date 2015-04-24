@@ -68,7 +68,7 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
 
     @Override
     public void logoutUser(String sessionId) {
-        //TODO
+        sessions.remove(sessionId);
     }
 
     @Override

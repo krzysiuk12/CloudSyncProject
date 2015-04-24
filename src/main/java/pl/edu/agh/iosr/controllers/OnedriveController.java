@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudSessionService;
-import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagmentService;
+import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagementService;
 import pl.edu.agh.iosr.exceptions.ErrorMessages;
 import pl.edu.agh.iosr.serializers.LoginCloudSerializer;
 import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
@@ -20,12 +20,12 @@ import java.util.concurrent.ExecutionException;
 public class OnedriveController {
 
     private final OnedriveCloudSessionService onedriveCloudSessionService;
-    private final OnedriveCloudManagmentService onedriveCloudManagmentService;
+    private final OnedriveCloudManagementService onedriveCloudManagementService;
 
     @Autowired
-    public OnedriveController(OnedriveCloudSessionService onedriveCloudSessionService, OnedriveCloudManagmentService onedriveCloudManagmentService) {
+    public OnedriveController(OnedriveCloudSessionService onedriveCloudSessionService, OnedriveCloudManagementService onedriveCloudManagementService) {
         this.onedriveCloudSessionService = onedriveCloudSessionService;
-        this.onedriveCloudManagmentService = onedriveCloudManagmentService;
+        this.onedriveCloudManagementService = onedriveCloudManagementService;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "login")
@@ -40,25 +40,23 @@ public class OnedriveController {
         }
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "logout")
-//    public ResponseSerializer logout(@RequestHeader("cloudSessionId") String sessionId) {
-//        System.out.println("HERE I AM - LOGOUT!!!");
-//        dropboxCloudSessionService.logoutUser(sessionId);
-//        return new ResponseSerializer(ResponseStatus.OK);
-//    }
-//
+    @RequestMapping(method = RequestMethod.POST, value = "logout")
+    public ResponseSerializer logout(@RequestHeader("cloudSessionId") String sessionId) {
+        System.out.println("HERE I AM - LOGOUT!!!");
+        onedriveCloudSessionService.logoutUser(sessionId);
+        return new ResponseSerializer(ResponseStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
     public ResponseSerializer<List<CloudPath>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId) {
         System.out.println("HERE I AM - LIST ALL FILES!!!");
         try {
-            List<CloudPath> paths = onedriveCloudManagmentService.listAllDirectoryFiles(sessionId, null);
-            return new ResponseSerializer<List<CloudPath>>(paths);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            List<CloudPath> paths = onedriveCloudManagementService.listAllDirectoryFiles(sessionId, null);
+            return new ResponseSerializer<>(paths);
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        return new ResponseSerializer<List<CloudPath>>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+        return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
     }
 
 }
