@@ -4,7 +4,7 @@ interactions:
 - recorded: 2015-04-25T19:05:40.824Z
   request:
     method: GET
-    uri: https://login.live.com/oauth20_token.srf?client_id=000000004015302A&client_secret=3nbUeQnDqrFLSZwPKpjLBrYubFelq7TL&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=bubu
+    uri: https://login.live.com/oauth20_token.srf?client_id=THE_CLIENT_ID&client_secret=THE_CLIENT_SECRET&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=bubu
     headers:
       Accept: application/json
       Connection: keep-alive

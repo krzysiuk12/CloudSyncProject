@@ -24,14 +24,14 @@ public class OnedriveCloudSessionServiceTest {
     }
 
     private CloudConfiguration createConfiguration() {
-        return new CloudConfiguration("testApp", "000000004015302A", "3nbUeQnDqrFLSZwPKpjLBrYubFelq7TL");
+        return new CloudConfiguration("testApp", "THE_CLIENT_ID", "THE_CLIENT_SECRET");
     }
 
     @Betamax(tape="onedrive_validLogin")
     @Test
     public void testForValidCode() throws Exception {
         // given
-        String authorizationCode = "4a5353fc-c08e-a4b3-f8f7-a08d7182a27c";
+        String authorizationCode = "THE_VALID_CODE";
 
         // when
         BasicSession session = underTest.loginUser("some login", authorizationCode);
