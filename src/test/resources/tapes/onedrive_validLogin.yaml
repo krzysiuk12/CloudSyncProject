@@ -1,0 +1,22 @@
+!tape
+name: onedrive_validLogin
+interactions:
+- recorded: 2015-04-25T19:06:49.255Z
+  request:
+    method: GET
+    uri: https://login.live.com/oauth20_token.srf?client_id=000000004015302A&client_secret=3nbUeQnDqrFLSZwPKpjLBrYubFelq7TL&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=4a5353fc-c08e-a4b3-f8f7-a08d7182a27c
+    headers:
+      Accept: application/json
+      Connection: keep-alive
+      Host: login.live.com
+      User-Agent: Java/1.7.0_40
+  response:
+    status: 200
+    headers:
+      Cache-Control: no-store
+      Content-Type: application/json
+      Date: Sat, 25 Apr 2015 19:06:48 GMT
+      PPServer: 'PPV: 30 H: BAYIDSLGN2G057 V: 0'
+      Pragma: no-cache
+      Server: Microsoft-IIS/8.5
+    body: '{"token_type":"bearer","expires_in":3600,"scope":"wl.signin wl.offline_access onedrive.readwrite","access_token":"EwBoAq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAanL4NWTYboRbCrfzwDK6oiz0qapau8Wmci7iQkMNGSQ7nGY+ihhDRuXevrAtG9IZX2wtzofkD86fjjbq1i/aJ6AFqAlZNpGP+Y9JYdTDlFOcjeJ4WZ/6beGlmZ9Wcz5UxiCnGlX2TVlyA3jBLm9U32vIjuTbiVzVZyBtRekbXbXyXX23rgsl8S5d18uytZQv4g0jVgaOQOs/wMNgens7lYYXIsommHyz6r1+YHE+GTKRe5zWasxj0PgD6yEuBh7a5VotfS/Q3jZgGsdb6RETA6MKCdzuxer0McXCQbVa5gxa3LGl9PpRMoykNlgt0qHFZp90MWAgCZrCMux03wlLWkDZgAACF2OkvD0cyvsOAE6bHfQPUNNDs6bD89jxj+7vguqKraeTQtc4dvOkmA5FMWwLmwdb0wMkwnC/Jgx7HZOCQFBYvEjHdvyiTcbaqvb0IcsfhOg/6I33a+4lSGYUp878MKmAqwXk0ytCcXnIhXqlhj9m3iEEWS+2ClR03uWlV7kLuS3E/8jPJKBxVmDl3XQzkVLhH5ng2xH4fjrQx6t7XtCnW7PHgvKyBzqBOgsm/33NWBnk9ES9fUyjuNRRN3G9i5yiu3lQAfu3ugdstTPsEPU2EsGbNKkvCXTY8G5hdOOq8m/WHHVwIafQJoemkeCAMECk3Ubf2SmID2NBQaacXGjsWouR0pjptlJIIsusTug0wNUFp7iR8Ym7t69qSNA+WsJTPRfsMqxoDb8muLwlKnhcsCzlDU4SKAhiLWRzAEdUuEIM3FYAQ==","refresh_token":"CnXXuViYdZIX5lCpXnJy0qnLBcZoYy4LvnzOAkhyBF4zJlgO6jeM0CcfOKYDXH*KIHMdtzj3J8nPIPF4YnyYABrCFjzcTCrJl7yT6l0NUvUjL6ic1NaKznf!yEiM6f6R8yBflj8Gdgv0qLHQku1x*UhwZsic!ZLRPSnqoWiq5!qz2FF9b1KYxNaRGAmsCV9cZ!tnxitfw8j7tKkFty5F!S!OdpxgntllvnBprEaxN5Y359LuFqlh2ZRU8df0IPRrEyebAQPUw9TBilGOBD7ibPz65!KReJSHhVzl1lkWu2DK!a!x5VMoAYIBSRlEk2JLJYh77GF2Kn48ImyanN*gt5B2rGPjKE5sEbEU2G1uOnilhSRwUIpU*f!MLTZqCAJqL7jVo7xoaQjYCBzYoTGIE9g$","user_id":"90281a4fe5503e6352fdb12d38083511"}'

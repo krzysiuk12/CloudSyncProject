@@ -47,7 +47,11 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
     private String redeemCodeForToken(String authorizationCode) {
         JSONObject responseJson = requestForAccessToken(authorizationCode);
 
-        return responseJson.get("access_token").toString();
+        if (responseJson.has("access_token")) {
+            return responseJson.get("access_token").toString();
+        }
+
+        throw new IllegalArgumentException("Entered invalid authorization code: " + authorizationCode);
     }
 
     private WebResource queryObtainTokenResource(String code) {

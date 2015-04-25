@@ -1,0 +1,23 @@
+!tape
+name: onedrive_invalidLogin
+interactions:
+- recorded: 2015-04-25T19:05:40.824Z
+  request:
+    method: GET
+    uri: https://login.live.com/oauth20_token.srf?client_id=000000004015302A&client_secret=3nbUeQnDqrFLSZwPKpjLBrYubFelq7TL&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=bubu
+    headers:
+      Accept: application/json
+      Connection: keep-alive
+      Host: login.live.com
+      User-Agent: Java/1.7.0_40
+  response:
+    status: 400
+    headers:
+      Cache-Control: no-store
+      Content-Type: application/json
+      Date: Sat, 25 Apr 2015 19:05:39 GMT
+      PPServer: 'PPV: 30 H: BAYIDSLGN1B079 V: 0'
+      Pragma: no-cache
+      Server: Microsoft-IIS/8.5
+      X-WLID-Error: '0x800482B6'
+    body: '{"error":"invalid_grant","error_description":"The provided value for the ''code'' parameter is not valid."}'
