@@ -20,16 +20,6 @@ public class GoogleDriveCloudConfiguration extends ICloudConfiguration {
     private static final String APP_KEY = "2828043487-aepcph91ibr6vurdij6qo2nckv2dmgt7.apps.googleusercontent.com";
     private static final String APP_KEY_SECRET = "s4CWlPWyq4n0-rMmRosqnUxt";
 
-    /**
-     * Global instance of the JSON factory.
-     */
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
-    /**
-     * Global instance of the HTTP transport.
-     */
-    private static HttpTransport httpTransport;
-
     @Override
     public String getAppName() {
         return APP_NAME;
@@ -43,17 +33,6 @@ public class GoogleDriveCloudConfiguration extends ICloudConfiguration {
     @Override
     public String getAppKeySecret() {
         return APP_KEY_SECRET;
-    }
-
-    public JsonFactory getJsonFactory() {
-        return JSON_FACTORY;
-    }
-
-    public HttpTransport getHttpTransport() throws GeneralSecurityException, IOException {
-        if (httpTransport == null) {
-            httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        }
-        return httpTransport;
     }
 
 }

@@ -21,13 +21,9 @@ import java.util.concurrent.Executors;
 @Service
 public class GoogleDriveCloudManagementService implements ICloudManagementService {
 
+    @Autowired
     private GoogleDriveCloudSessionService cloudSessionService;
     private ExecutorService executorService = Executors.newFixedThreadPool(5);
-
-    @Autowired
-    public GoogleDriveCloudManagementService(GoogleDriveCloudSessionService cloudSessionService) {
-        this.cloudSessionService = cloudSessionService;
-    }
 
     @Override
     public List<CloudPath> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {

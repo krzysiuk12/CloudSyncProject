@@ -11,6 +11,8 @@ import pl.edu.agh.iosr.serializers.LoginCloudSerializer;
 import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
 import pl.edu.agh.iosr.serializers.common.ResponseStatus;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -21,14 +23,23 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @RequestMapping(value = "google")
 public class GoogleDriveController {
+    @Autowired
     private GoogleDriveCloudSessionService googleDriveCloudSessionService;
+    @Autowired
     private GoogleDriveCloudManagementService googleDriveCloudManagementService;
 
-    @Autowired
-    public GoogleDriveController(GoogleDriveCloudSessionService googleDriveCloudSessionService, GoogleDriveCloudManagementService googleDriveCloudManagementService) {
-        this.googleDriveCloudSessionService = googleDriveCloudSessionService;
-        this.googleDriveCloudManagementService = googleDriveCloudManagementService;
+    @RequestMapping(method = RequestMethod.GET, value = "login")
+    public ResponseSerializer<String> getAuthorizationUrl() {
+        System.out.println("GOOGLE AUTHORIZATION URL");
+        try {
+            String url = googleDriveCloudSessionService.getAuthorizationUrl();
+            return new ResponseSerializer<String>(url);
+        } catch (IOException | GeneralSecurityException e) {
+            e.printStackTrace();
+            return new ResponseSerializer<String>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+        }
     }
+
 
     @RequestMapping(method = RequestMethod.POST, value = "login")
     public ResponseSerializer<BasicSession> loginUser(@RequestBody LoginCloudSerializer loginCloudSerializer) {

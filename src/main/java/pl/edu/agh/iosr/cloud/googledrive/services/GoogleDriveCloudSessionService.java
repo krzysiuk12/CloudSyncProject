@@ -1,8 +1,13 @@
 package pl.edu.agh.iosr.cloud.googledrive.services;
 
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +18,8 @@ import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 import pl.edu.agh.iosr.cloud.googledrive.configuration.GoogleDriveCloudConfiguration;
 import pl.edu.agh.iosr.cloud.googledrive.session.GoogleDriveCloudSession;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,44 +31,34 @@ import java.util.UUID;
 @Service
 public class GoogleDriveCloudSessionService implements ICloudSessionService {
 
+    @Autowired
     private GoogleDriveCloudConfiguration googleDriveCloudConfiguration;
-    private Map<String, GoogleDriveCloudSession> googleDriveCloudSessions;
-    private String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
+    private Map<String, GoogleDriveCloudSession> googleDriveCloudSessions = new HashMap<>();
 
     /**
      * Global Drive API client.
      */
     private Drive drive;
 
-    @Autowired
-    public GoogleDriveCloudSessionService(GoogleDriveCloudConfiguration googleDriveCloudConfiguration) {
-        this.googleDriveCloudConfiguration = googleDriveCloudConfiguration;
-        this.googleDriveCloudSessions = new HashMap<String, GoogleDriveCloudSession>();
-    }
+    private static GoogleAuthorizationCodeFlow flow = null;
+
+    private static final JacksonFactory JSON_FACTORY =
+            JacksonFactory.getDefaultInstance();
+    private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
+
 
     @Override
     public BasicSession loginUser(String login, String authorizationCode) throws Exception {
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                googleDriveCloudConfiguration.getHttpTransport(),
-                googleDriveCloudConfiguration.getJsonFactory(),
-                googleDriveCloudConfiguration.getAppKey(),
-                googleDriveCloudConfiguration.getAppKeySecret(),
-                Collections.singleton(DriveScopes.DRIVE))
-                .setApprovalPrompt("auto")
-                .build();
-        String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
-
-        GoogleTokenResponse response = flow.newTokenRequest(authorizationCode).setRedirectUri(REDIRECT_URI).execute();
-        GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
-
+        Credential credential = exchangeCode(authorizationCode);
         drive = new Drive.Builder(
-                googleDriveCloudConfiguration.getHttpTransport(),
-                googleDriveCloudConfiguration.getJsonFactory(),
+                HTTP_TRANSPORT,
+                JSON_FACTORY,
                 credential)
-                .setApplicationName(googleDriveCloudConfiguration.getAppName())
                 .build();
 
-        GoogleDriveCloudSession googleDriveCloudSession = new GoogleDriveCloudSession(UUID.randomUUID().toString(), authorizationCode, response.getAccessToken(), CloudSessionStatus.ACTIVE, drive);
+
+        GoogleDriveCloudSession googleDriveCloudSession = new GoogleDriveCloudSession(UUID.randomUUID().toString(), authorizationCode, credential.getAccessToken(), CloudSessionStatus.ACTIVE, drive);
         googleDriveCloudSessions.put(googleDriveCloudSession.getSessionId(), googleDriveCloudSession);
 
         return googleDriveCloudSession;
@@ -76,4 +73,49 @@ public class GoogleDriveCloudSessionService implements ICloudSessionService {
     public GoogleDriveCloudSession getSession(String sessionId) {
         return googleDriveCloudSessions.get(sessionId);
     }
+
+    public String getAuthorizationUrl() throws GeneralSecurityException, IOException {
+        GoogleAuthorizationCodeFlow flow = getFlow();
+        return flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
+    }
+
+    /**
+     * Exchange an authorization code for OAuth 2.0 credentials.
+     *
+     * @param authorizationCode Authorization code to exchange for OAuth 2.0
+     *                          credentials.
+     * @return OAuth 2.0 credentials.
+     */
+    private Credential exchangeCode(String authorizationCode) throws IOException {
+        GoogleAuthorizationCodeFlow flow = getFlow();
+        GoogleTokenResponse response = flow
+                .newTokenRequest(authorizationCode)
+                .setRedirectUri(REDIRECT_URI)
+                .execute();
+        return flow.createAndStoreCredential(response, null);
+    }
+
+    /**
+     * Build an authorization flow and store it as a static class attribute.
+     *
+     * @return GoogleAuthorizationCodeFlow instance.
+     * @throws IOException Unable to load client_secret.json.
+     */
+    private GoogleAuthorizationCodeFlow getFlow() throws IOException {
+        if (flow == null) {
+            GoogleClientSecrets.Details details = new GoogleClientSecrets.Details();
+            details.setClientId(googleDriveCloudConfiguration.getAppKey());
+            details.setClientSecret(googleDriveCloudConfiguration.getAppKeySecret());
+            GoogleClientSecrets googleClientSecrets = new GoogleClientSecrets();
+            googleClientSecrets.setInstalled(details);
+
+            flow = new GoogleAuthorizationCodeFlow.Builder(
+                    HTTP_TRANSPORT, JSON_FACTORY, googleClientSecrets, Collections.singleton(DriveScopes.DRIVE))
+                    .setAccessType("offline")
+                    .setApprovalPrompt("force")
+                    .build();
+        }
+        return flow;
+    }
+
 }
