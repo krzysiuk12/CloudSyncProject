@@ -47,14 +47,13 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
                 //TODO: extract obtaining and processing of the client response to some entity
                 ClientResponse clientResponse = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
                 String rawResponse = clientResponse.getEntity(String.class);
-                //TODO: fix. for now wild injecting json to cloudPath.filename
+
                 JSONObject responseJson = new JSONObject(rawResponse);
                 JSONArray files = responseJson.getJSONArray("value");
                 List<CloudPath> cloudPaths = new ArrayList<>();
                 for (int i = 0; i < files.length(); i++) {
                     JSONObject file = files.getJSONObject(i);
                     CloudPath path = new CloudPath();
-                    //TODO: some path concating utility
                     path.setPath("/" + file.getString("name"));
                     path.setFileName(file.getString("name"));
                     path.setSize(file.getInt("size"));

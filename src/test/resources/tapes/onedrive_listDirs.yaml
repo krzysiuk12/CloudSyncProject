@@ -1,0 +1,30 @@
+!tape
+name: onedrive_listDirs
+interactions:
+- recorded: 2015-04-26T19:28:41.488Z
+  request:
+    method: GET
+    uri: https://api.onedrive.com/v1.0/drive/root:/:/children?access_token=THE_VALID_TOKEN
+    headers:
+      Accept: application/json
+      Connection: keep-alive
+      Host: api.onedrive.com
+      User-Agent: Java/1.7.0_40
+  response:
+    status: 200
+    headers:
+      Content-Type: application/json; odata.metadata=none
+      Date: Sun, 26 Apr 2015 19:28:40 GMT
+      OData-Version: '4.0'
+      P3P: CP="BUS CUR CONo FIN IVDo ONL OUR PHY SAMo TELo"
+      Server: Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security: max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains
+      X-AsmVersion: UNKNOWN; 19.18.0.0
+      X-MSNSERVER: DM2304____PAP278
+      X-WLSPROXY: DM2305____PAP205
+    body: '{"value":[{"createdBy":{"application":{"displayName":"OneDrive website","id":"44048800"},"user":{"displayName":"asd asd","id":"b6b408b50320c42b"}},"createdDateTime":"2015-04-19T19:50:45.007Z","cTag":"adDpCNkI0MDhCNTAzMjBDNDJCITEwNS42MzU2NTA2OTg0NTAwNzAwMDA","eTag":"aQjZCNDA4QjUwMzIwQzQyQiExMDUuMA","id":"B6B408B50320C42B!105","lastModifiedBy":{"application":{"displayName":"OneDrive
+      website","id":"44048800"},"user":{"displayName":"asd asd","id":"b6b408b50320c42b"}},"lastModifiedDateTime":"2015-04-19T19:50:45.007Z","name":"Dokumenty","parentReference":{"driveId":"b6b408b50320c42b","id":"B6B408B50320C42B!101","path":"/drive/root:"},"size":0,"webUrl":"https://onedrive.live.com/redir?resid=B6B408B50320C42B!105","folder":{"childCount":0},"specialFolder":{"name":"documents"}},{"createdBy":{"application":{"displayName":"OneDrive
+      website","id":"44048800"},"user":{"displayName":"asd asd","id":"b6b408b50320c42b"}},"createdDateTime":"2015-04-19T19:50:44.74Z","cTag":"adDpCNkI0MDhCNTAzMjBDNDJCITEwMi42MzU2NTA2OTg0NDc0MDAwMDA","eTag":"aQjZCNDA4QjUwMzIwQzQyQiExMDIuMA","id":"B6B408B50320C42B!102","lastModifiedBy":{"application":{"displayName":"OneDrive
+      website","id":"44048800"},"user":{"displayName":"asd asd","id":"b6b408b50320c42b"}},"lastModifiedDateTime":"2015-04-19T19:50:44.74Z","name":"Obrazy","parentReference":{"driveId":"b6b408b50320c42b","id":"B6B408B50320C42B!101","path":"/drive/root:"},"size":0,"webUrl":"https://onedrive.live.com/redir?resid=B6B408B50320C42B!102","folder":{"childCount":0},"specialFolder":{"name":"photos"}},{"@content.downloadUrl":"https://public.dm2304.livefilestore.com/y2mlYrdGs4HKuJIUcn8jSVdfwjdoe5AEz17kjBPdR2m_ogXSBuRgXb7zHR21BSr-e8euacO-hKH3vPlvXRVAuXKznfUmbsTzbzaHsn2yLq_PGGGzXu6OqMoUF5AgqX7LtP7-Qq_h4lrjMyzQo_5D1oWe7wALMrU6nxVhJ6UlbfMUls","createdBy":{"user":{"displayName":"asd
+      asd","id":"b6b408b50320c42b"}},"createdDateTime":"2015-04-24T22:20:41.007Z","cTag":"aYzpCNkI0MDhCNTAzMjBDNDJCITEwNi4yNTg","eTag":"aQjZCNDA4QjUwMzIwQzQyQiExMDYuMg","id":"B6B408B50320C42B!106","lastModifiedBy":{"user":{"displayName":"asd asd","id":"b6b408b50320c42b"}},"lastModifiedDateTime":"2015-04-24T22:20:50.46Z","name":"Bez
+      nazwy.txt","parentReference":{"driveId":"b6b408b50320c42b","id":"B6B408B50320C42B!101","path":"/drive/root:"},"size":13,"webUrl":"https://onedrive.live.com/redir?resid=B6B408B50320C42B!106","file":{"hashes":{"crc32Hash":"C823FA6D","sha1Hash":"86D708264CF08632ABF16A5D8584139BEC212EBE"},"mimeType":"text/plain"}}]}'
