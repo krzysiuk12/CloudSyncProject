@@ -50,6 +50,7 @@ public class OnedriveCloudManagementServiceTest {
     public void testListRootDir() throws Exception {
         // given
         CloudPath rootPath = mock(CloudPath.class);
+        given(rootPath.getPath()).willReturn("/");
 
         // when
         List<CloudPath> paths = underTest.listAllDirectoryFiles(sessionId, rootPath);

@@ -28,3 +28,25 @@ interactions:
       website","id":"44048800"},"user":{"displayName":"asd asd","id":"b6b408b50320c42b"}},"lastModifiedDateTime":"2015-04-19T19:50:44.74Z","name":"Obrazy","parentReference":{"driveId":"b6b408b50320c42b","id":"B6B408B50320C42B!101","path":"/drive/root:"},"size":0,"webUrl":"https://onedrive.live.com/redir?resid=B6B408B50320C42B!102","folder":{"childCount":0},"specialFolder":{"name":"photos"}},{"@content.downloadUrl":"https://public.dm2304.livefilestore.com/y2mlYrdGs4HKuJIUcn8jSVdfwjdoe5AEz17kjBPdR2m_ogXSBuRgXb7zHR21BSr-e8euacO-hKH3vPlvXRVAuXKznfUmbsTzbzaHsn2yLq_PGGGzXu6OqMoUF5AgqX7LtP7-Qq_h4lrjMyzQo_5D1oWe7wALMrU6nxVhJ6UlbfMUls","createdBy":{"user":{"displayName":"asd
       asd","id":"b6b408b50320c42b"}},"createdDateTime":"2015-04-24T22:20:41.007Z","cTag":"aYzpCNkI0MDhCNTAzMjBDNDJCITEwNi4yNTg","eTag":"aQjZCNDA4QjUwMzIwQzQyQiExMDYuMg","id":"B6B408B50320C42B!106","lastModifiedBy":{"user":{"displayName":"asd asd","id":"b6b408b50320c42b"}},"lastModifiedDateTime":"2015-04-24T22:20:50.46Z","name":"Bez
       nazwy.txt","parentReference":{"driveId":"b6b408b50320c42b","id":"B6B408B50320C42B!101","path":"/drive/root:"},"size":13,"webUrl":"https://onedrive.live.com/redir?resid=B6B408B50320C42B!106","file":{"hashes":{"crc32Hash":"C823FA6D","sha1Hash":"86D708264CF08632ABF16A5D8584139BEC212EBE"},"mimeType":"text/plain"}}]}'
+- recorded: 2015-04-26T20:19:38.706Z
+  request:
+    method: GET
+    uri: https://api.onedrive.com/v1.0/drive/root:null:/children?access_token=THE_VALID_TOKEN
+    headers:
+      Accept: application/json
+      Connection: keep-alive
+      Host: api.onedrive.com
+      User-Agent: Java/1.7.0_40
+  response:
+    status: 400
+    headers:
+      Content-Type: application/json
+      Date: Sun, 26 Apr 2015 20:19:37 GMT
+      P3P: CP="BUS CUR CONo FIN IVDo ONL OUR PHY SAMo TELo"
+      Server: Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security: max-age=31536000; includeSubDomains
+      X-AsmVersion: UNKNOWN; 19.18.0.0
+      X-MSNSERVER: DM2302____PAP102
+      X-QosStats: '{"ApiId":0,"ResultType":2,"SourcePropertyId":0,"TargetPropertyId":42}'
+      X-ThrowSite: 5ce0.eb9a
+    body: '{"error":{"code":"invalidArgument","message":"ObjectHandle is Invalid","innererror":{"code":"badArgument","innererror":{"code":"invalidObjectHandle","innererror":{"code":"invalidResourceId"}}}}}'
