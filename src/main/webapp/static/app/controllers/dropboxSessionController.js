@@ -3,49 +3,51 @@
  */
 (function () {
 
-    var DropboxSessionController = function ($scope, $log, $location, dropboxSessionFactory, dropboxSession) {
+    angular.module('cloudSyncApp')
+        .constant('dropboxRedirectUrl', '/dropboxmanagement')
+        .controller('DropboxSessionController', function ($scope, $log, $location, dropboxSessionFactory, dropboxSession, dropboxRedirectUrl) {
 
-        $scope.authenticationUrl = '';
-        $scope.authenticationCode = '';
-        $scope.userName = 'DropboxUser';
-        $scope.dropboxSession = dropboxSession;
-
-
-        function init() {
-            dropboxSessionFactory.getAuthenticationUrl()
-                .success(function (response) {
-                    $scope.authenticationUrl = response.result;
-                })
-                .error(function (data, status, headers, config) {
-                    // handle error
-                    $log.log(data.error + ' ' + status);
-                });
-        };
-
-        init();
-
-        $scope.login = function (redirectPageUrl) {
-            postData = {
-                "login" : $scope.userName,
-                "authorizationCode" : $scope.authenticationCode
+            $scope.authorization = {
+                url : null,
+                code : null
             }
-            dropboxSessionFactory.login(postData)
-                .success(function (response) {
-                    console.log('DropboxSessionController - login.');
-                    $scope.dropboxSession['sessionId'] = response.result.sessionId;
-                    console.log('DropboxSessionController - login - reponse: ' + response);
-                    console.log('DropboxSessionController - login - User: ' + $scope.userName + " logged with sessionId: " + $scope.dropboxSession.sessionId)
-                    $location.path(redirectPageUrl);
-                })
-                .error(function (data, status, headers, config) {
-                    console.log('DropboxSessionController - error: ' + data.error);
-                    $log.log(data.error + ' ' + status);
-                });
-        };
-    };
+            $scope.userName = null;
+            $scope.errors = null;
 
-    DropboxSessionController.$inject = ['$scope', '$log', '$location', 'dropboxSessionFactory', 'dropboxSession'];
+            $scope.getAuthorizationUrl = function() {
+                dropboxSessionFactory.getAuthorizationUrl()
+                    .success(function (response) {
+                        $scope.authorization.url = response.result;
+                    })
+                    .error(function (error) {
+                        $scope.errors = error
+                        $log.log(error);
+                    });
+            }
 
-    angular.module('cloudSyncApp').controller('DropboxSessionController', DropboxSessionController);
+            $scope.login = function () {
+                var postData = {
+                    "login" : $scope.userName,
+                    "authorizationCode" : $scope.authorization.code
+                }
+                dropboxSessionFactory.login(postData)
+                    .success(function (response) {
+                        console.log('DropboxSessionController - login.');
+                        dropboxSession.sessionId = response.result.sessionId;
+                        console.log('DropboxSessionController - login - User: ' + $scope.userName + " logged with sessionId: " + dropboxSession.sessionId)
+                    })
+                    .error(function (error) {
+                        $scope.errors = error
+                        $log.log(error);
+                    })
+                    .finally(function() {
+                        $location.path(dropboxRedirectUrl);
+                    });
+            };
 
+            if($scope.authorization.code === null) {
+                $scope.getAuthorizationUrl();
+            }
+
+        });
 }());
