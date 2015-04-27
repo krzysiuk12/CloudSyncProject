@@ -8,8 +8,10 @@
         .controller('DropboxCloudManagementController', function ($scope, $log, dropboxCloudManagementFactory, initialDirectoryPath) {
 
             $scope.files = null;
+            $scope.currentDirectoryPath = null;
 
             $scope.listFiles = function (directoryPath) {
+                $scope.currentDirectoryPath = directoryPath;
                 dropboxCloudManagementFactory.listFiles({
                     "id": 0,
                     "path": directoryPath,

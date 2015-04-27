@@ -1,16 +1,16 @@
-<h2>Dropbox Cloud</h2>
-<br/>
-<table>
-    <tr>
-        <th>File name</th>
-        <th>Type</th>
-        <th>Size</th>
-        <th>Last modification date</th>
-    </tr>
-    <tr ng-repeat="file in files">
-        <td>{{ file.fileName }}</td>
-        <td>{{ file.type | lowercase }}</td>
-        <td>{{ file.size }}</td>
-        <td>{{ file.lastModificationDate | date }}</td>
-    </tr>
-</table>
+
+<div class="alert alert-warning" ng-show="files == null">
+    Please wait... Application is currently listing files from directory {{currentDirectoryPath}}.
+</div>
+<div ng-show="files != null">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="file in files">
+            <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
+            {{file.fileName}}
+            <span class="pull-right">
+                <span class="badge">{{file.lastModificationDate | date}}</span>
+            </span>
+        </li>
+    </ul>
+</div>
