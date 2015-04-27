@@ -3,34 +3,37 @@
  */
 (function () {
 
-    var DropboxCloudManagementController = function ($scope, $log, dropboxCloudManagementFactory) {
-        $scope.files = {};
+    angular.module('cloudSyncApp')
+        .constant('initialDirectoryPath', '/')
+        .controller('DropboxCloudManagementController', function ($scope, $log, dropboxCloudManagementFactory, initialDirectoryPath) {
 
-        function init() {
-            dropboxCloudManagementFactory.listFiles({
-                "id" : 0,
-                "path" : "/",
-                "type" : "DIRECTORY",
-                "fileName" : "",
-                "extension" : "",
-                "size" : 0,
-                "lastModificationDate" : null
-            })
-            .success(function (response) {
-                    console.log('DropboxCloudManagementController - init - response: ' + response);
-                $scope.files = response.result;
-            })
-            .error(function (data, status, headers, config) {
-                    console.log('DropboxCloudManagementController - init - error: ' + data.error);
-                $log.log(data.error + ' ' + status);
-            });
-        };
+            $scope.files = null;
+            $scope.currentDirectoryPath = null;
 
-        init();
-    };
+            $scope.listFiles = function (directoryPath) {
+                $scope.currentDirectoryPath = directoryPath;
+                dropboxCloudManagementFactory.listFiles({
+                    "id": 0,
+                    "path": directoryPath,
+                    "type": "DIRECTORY",
+                    "fileName": "",
+                    "extension": "",
+                    "size": 0,
+                    "lastModificationDate": null
+                })
+                .success(function (response) {
+                    console.log('DropboxCloudManagementController - listFiles - success.');
+                    $scope.files = response.result;
+                })
+                .error(function (error) {
+                    console.log('DropboxCloudManagementController - listFiles - error.');
+                    $scope.errors = error
+                    $log.log(error);
+                });
+            };
 
-    DropboxCloudManagementController.$inject = ['$scope', '$log', 'dropboxCloudManagementFactory'];
-
-    angular.module('cloudSyncApp').controller('DropboxCloudManagementController', DropboxCloudManagementController);
-
+            if ($scope.files === null) {
+                $scope.listFiles(initialDirectoryPath);
+            }
+        });
 }());

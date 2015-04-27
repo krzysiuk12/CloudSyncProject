@@ -9,7 +9,7 @@
 
         var factory = {};
 
-        factory.getAuthenticationUrl = function () {
+        factory.getAuthorizationUrl = function () {
             console.log("Dropbox Session Factory - authenticationUrl");
             return $http.get('/dropbox/authUrl')
         };

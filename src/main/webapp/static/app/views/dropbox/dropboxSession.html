@@ -2,21 +2,19 @@
 <div>
     <h2>Log in with dropbox</h2>
     <p>Follow the link below to authorize in Dropbox and copy authorization code.</p>
-    <p class="text-center">
-        <a href="{{ authenticationUrl }}" target="_blank">
+    <div class="text-center">
+        <a href="{{authorization.url}}" target="_blank">
             <button class="btn btn-primary" type="button">Login with dropbox</button>
         </a>
-    </p>
+    </div>
 </div>
 <div>
     <h2>Paste authorization code</h2>
     <div class="input-group">
         <span class="input-group-addon">Authorization Code</span>
-        <input type="text" class="form-control" ng-model="authenticationCode" aria-label="Authorization Code provided by Dropbox"/>
+        <input type="text" class="form-control" ng-model="authorization.code" aria-label="Authorization Code provided by Dropbox"/>
     </div>
 </div>
-<div>
-    <p class="text-center">
-        <button class="btn btn-success" type="button" ng-click="login('/dropboxmanagement')">Go to Dropbox Management Page</button>
-    </p>
+<div class="text-center">
+        <button class="btn btn-success" type="button" ng-click="login()">Go to Dropbox Management Page</button>
 </div>
