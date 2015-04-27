@@ -12,7 +12,11 @@ import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 import pl.edu.agh.iosr.cloud.dropbox.configuration.DropboxCloudConfiguration;
 import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
 
-import java.util.*;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Krzysztof Kicinger on 2015-04-11.
@@ -33,7 +37,7 @@ public class DropboxCloudSessionService implements ICloudSessionService {
     public BasicSession loginUser(String login, String authorizationCode) throws Exception {
         DbxRequestConfig dbxRequestConfig = dropboxCloudConfiguration.getRequestConfig();
         DbxWebAuthNoRedirect webAuth = dropboxCloudConfiguration.getWebAuth();
-        String authorizationUrl = webAuth.start();
+        String authorizationUrl = getAuthorizationUrl();
         DbxAuthFinish authFinish = webAuth.finish(authorizationCode);
         DbxClient dbxClient = new DbxClient(dbxRequestConfig, authFinish.accessToken);
         DropboxCloudSession dropboxCloudSession = new DropboxCloudSession(UUID.randomUUID().toString(), authorizationCode, authFinish.accessToken, CloudSessionStatus.ACTIVE, dbxClient);
@@ -50,6 +54,10 @@ public class DropboxCloudSessionService implements ICloudSessionService {
     @Override
     public DropboxCloudSession getSession(String sessionId) {
         return dropboxCloudSessions.get(sessionId);
+    }
+
+    public String getAuthorizationUrl() throws GeneralSecurityException, IOException {
+        return dropboxCloudConfiguration.getWebAuth().start();
     }
 
 }
