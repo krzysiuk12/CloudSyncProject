@@ -1,0 +1,16 @@
+<h2>Dropbox Cloud</h2>
+<br/>
+<table>
+    <tr>
+        <th>File name</th>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Last modification date</th>
+    </tr>
+    <tr ng-repeat="file in files">
+        <td>{{ file.fileName }}</td>
+        <td>{{ file.type | lowercase }}</td>
+        <td>{{ file.size }}</td>
+        <td>{{ file.lastModificationDate | date }}</td>
+    </tr>
+</table>

@@ -11,3 +11,8 @@ angular.module('cloudSyncApp').value('googleSession', {
     id: '',
     sessionId: ''
 });
+
+angular.module('cloudSyncApp').value('dropboxSession', {
+    id: 'DropboxId',
+    sessionId: 'DropboxSessionId'
+});

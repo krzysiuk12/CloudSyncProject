@@ -19,6 +19,14 @@
                 controller: 'GoogleCloudController',
                 templateUrl: '/static/app/views/googleCloud.html'
             })
+            .when('/dropboxsession', {
+                controller: 'DropboxSessionController',
+                templateUrl: '/static/app/views/dropbox/dropboxSession.html'
+            })
+            .when('/dropboxmanagement', {
+                controller: 'DropboxCloudManagementController',
+                templateUrl: '/static/app/views/dropbox/dropboxCloudManagement.html'
+            })
             .otherwise( { redirectTo: '/' });
     });
 
