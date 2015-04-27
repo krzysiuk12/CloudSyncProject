@@ -1,11 +1,22 @@
-<h2>Google Drive login page</h2>
-<span>Follow the link below to authenticate in service and copy authentication code below:</span>
-<br/>
-<a href="{{ authenticationUrl }}" target="_blank">Authentication url</a>
-<br/><br/>
-Code: <input type="text" ng-model="authenticationCode"/>
-<br/>
-<h4 ng-click="logIn('/googlecloud')">LogIn</h4>
-<br/>
-
+<img src="/static/app/images/google-drive-logo.png" class="img-responsive" alt="GoogleDrive"/>
+<div>
+    <h2>Log in with Google</h2>
+    <p>Follow the link below to authorize in Google Drive and copy authorization code.</p>
+    <p class="text-center">
+        <a href="{{ authenticationUrl }}" target="_blank">
+            <button class="btn btn-primary" type="button">Login with Google</button>
+        </a>
+    </p>
+</div>
+<div>
+    <h2>Paste authorization code</h2>
+    <div class="input-group">
+        <span class="input-group-addon">Authorization Code</span>
+        <input type="text" class="form-control" ng-model="authenticationCode" aria-label="Authorization Code provided by Google"/>
+    </div>
+</div>
+<div>
+    <p class="text-center">
+        <button class="btn btn-success" type="button" ng-click="logIn('/googlecloud')">Go to Google Drive Management Page</button>
+    </p>
 </div>
