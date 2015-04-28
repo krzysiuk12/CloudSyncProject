@@ -1,4 +1,9 @@
 <h2>Available services:</h2>
 <br/>
-<br/>
-<span ng-repeat="login in logins"><a href="{{ login.url }}">{{ login.name }}</a></span>
+<div ng-repeat="login in logins">
+    <p class="text-left">
+        <a href="{{ login.url }}">
+            <button class="btn btn-primary" type="button">{{ login.name }}</button>
+        </a>
+    </p>
+</div>
