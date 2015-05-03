@@ -6,7 +6,7 @@
 
         var factory = {};
         factory.getAuthenticationUrl = function () {
-            return $http.get('/google/login')
+            return $http.get('/google/authUrl')
         };
 
         factory.logIn = function (login) {

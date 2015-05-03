@@ -28,7 +28,7 @@ public class GoogleDriveController {
     @Autowired
     private GoogleDriveCloudManagementService googleDriveCloudManagementService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "login")
+    @RequestMapping(method = RequestMethod.GET, value = "authUrl")
     public ResponseSerializer<String> getAuthorizationUrl() {
         System.out.println("GOOGLE AUTHORIZATION URL");
         try {
