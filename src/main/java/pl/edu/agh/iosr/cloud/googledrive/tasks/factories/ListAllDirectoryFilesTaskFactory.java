@@ -56,12 +56,11 @@ public class ListAllDirectoryFilesTaskFactory {
                 FileList files = request.execute();
                 for (File file : files.getItems()) {
                     CloudPath cloudFile = new CloudPath();
-                    cloudFile.setId(13L);
+                    cloudFile.setId(file.getId());
                     cloudFile.setFileName(file.getTitle());
                     cloudFile.setExtension(file.getFileExtension());
                     cloudFile.setLastModificationDate(new Date(file.getModifiedDate().getValue()));
-                    cloudFile.setPath("FileId:" + file.getId());
-                    cloudFile.setSize(0);
+                    cloudFile.setSize(file.getFileSize() != null ? file.getFileSize() : 0);
                     if ("application/vnd.google-apps.folder".equals(file.getMimeType()) && file.getFileExtension() == null) {
                         cloudFile.setType(CloudPathType.DIRECTORY);
                     } else {
