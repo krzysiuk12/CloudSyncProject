@@ -9,7 +9,7 @@ public class CloudPath {
 
     private String id;
     private String path;
-    private CloudPathType type;
+    private FileType type;
     private String fileName;
     private String extension;
     private long size;
@@ -34,11 +34,11 @@ public class CloudPath {
         this.path = path;
     }
 
-    public CloudPathType getType() {
+    public FileType getType() {
         return type;
     }
 
-    public void setType(CloudPathType type) {
+    public void setType(FileType type) {
         this.type = type;
     }
 

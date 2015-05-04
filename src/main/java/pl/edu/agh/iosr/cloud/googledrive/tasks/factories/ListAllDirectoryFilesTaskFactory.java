@@ -5,7 +5,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import org.apache.log4j.Logger;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
-import pl.edu.agh.iosr.cloud.common.files.CloudPathType;
+import pl.edu.agh.iosr.cloud.common.files.FileType;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.GoogleDriveCallable;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.ListAllDirectoryFilesTask;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.params.ListAllDirectoryFilesTaskParams;
@@ -62,9 +62,9 @@ public class ListAllDirectoryFilesTaskFactory {
                     cloudFile.setLastModificationDate(new Date(file.getModifiedDate().getValue()));
                     cloudFile.setSize(file.getFileSize() != null ? file.getFileSize() : 0);
                     if ("application/vnd.google-apps.folder".equals(file.getMimeType()) && file.getFileExtension() == null) {
-                        cloudFile.setType(CloudPathType.DIRECTORY);
+                        cloudFile.setType(FileType.DIRECTORY);
                     } else {
-                        cloudFile.setType(CloudPathType.SIMPLE_FILE);
+                        cloudFile.setType(FileType.SIMPLE_FILE);
                     }
                     result.add(cloudFile);
                 }

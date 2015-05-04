@@ -1,6 +1,8 @@
 package pl.edu.agh.iosr.cloud.common.interfaces;
 
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,7 +20,7 @@ public interface ICloudManagementService {
      * @param cloudDirectory
      * @return
      */
-    public List<CloudPath> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException;
+    public List<CoolFileMetadata> listAllDirectoryFiles(String sessionId, CoolCloudPath cloudDirectory) throws ExecutionException, InterruptedException;
 
     /**
      *

@@ -1,6 +1,8 @@
 package pl.edu.agh.iosr.cloud.dropbox.tasks;
 
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 
 import java.util.List;
@@ -8,11 +10,11 @@ import java.util.List;
 /**
  * Created by Krzysztof Kicinger on 2015-04-13.
  */
-public class ListAllDirectoryFilesTask extends CloudTask<List<CloudPath>> {
+public class ListAllDirectoryFilesTask extends CloudTask<List<CoolFileMetadata>> {
 
-    private DropboxCallable<List<CloudPath>> callable;
+    private DropboxCallable<List<CoolFileMetadata>> callable;
 
-    public ListAllDirectoryFilesTask(DropboxCallable<List<CloudPath>> callable) {
+    public ListAllDirectoryFilesTask(DropboxCallable<List<CoolFileMetadata>> callable) {
         super(callable);
         this.callable = callable;
     }

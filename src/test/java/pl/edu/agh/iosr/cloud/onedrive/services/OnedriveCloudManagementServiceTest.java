@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 
 import java.util.List;
@@ -49,11 +51,10 @@ public class OnedriveCloudManagementServiceTest {
     @Test
     public void testListRootDir() throws Exception {
         // given
-        CloudPath rootPath = mock(CloudPath.class);
-        given(rootPath.getPath()).willReturn("/");
+        CoolCloudPath rootPath = new CoolCloudPath("/");
 
         // when
-        List<CloudPath> paths = underTest.listAllDirectoryFiles(sessionId, rootPath);
+        List<CoolFileMetadata> paths = underTest.listAllDirectoryFiles(sessionId, rootPath);
 
         // then
         assertThat(paths).hasSize(3);

@@ -4,6 +4,8 @@ import com.sun.jersey.api.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
@@ -31,12 +33,12 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public List<CloudPath> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
+    public List<CoolFileMetadata> listAllDirectoryFiles(String sessionId, CoolCloudPath cloudDirectory) throws ExecutionException, InterruptedException {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         //TODO: sooooooooooo cool. TaskFactory as session-scoped bean
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        FutureTask<List<CloudPath>> task = new FutureTask<>(taskFactory.createListChildrenTask(cloudDirectory.getPath(), progressMonitor));
+        FutureTask<List<CoolFileMetadata>> task = new FutureTask<>(taskFactory.createListChildrenTask(cloudDirectory, progressMonitor));
 
         executorService.execute(task);
         return task.get();

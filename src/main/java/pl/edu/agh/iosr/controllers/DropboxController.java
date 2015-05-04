@@ -3,6 +3,8 @@ package pl.edu.agh.iosr.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.dropbox.services.DropboxCloudManagementService;
 import pl.edu.agh.iosr.cloud.dropbox.services.DropboxCloudSessionService;
@@ -60,16 +62,14 @@ public class DropboxController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
-    public ResponseSerializer<List<CloudPath>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
+    public ResponseSerializer<List<CoolFileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         try {
-            List<CloudPath> paths = dropboxCloudManagementService.listAllDirectoryFiles(sessionId, directory);
-            return new ResponseSerializer<List<CloudPath>>(paths);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            List<CoolFileMetadata> paths = dropboxCloudManagementService.listAllDirectoryFiles(sessionId, new CoolCloudPath(directory.getPath()));
+            return new ResponseSerializer<>(paths);
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        return new ResponseSerializer<List<CloudPath>>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+        return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
     }
 
 }

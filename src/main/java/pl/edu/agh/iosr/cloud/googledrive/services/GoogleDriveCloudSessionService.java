@@ -47,6 +47,9 @@ public class GoogleDriveCloudSessionService implements ICloudSessionService {
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 
+    public void setGoogleDriveCloudConfiguration(GoogleDriveCloudConfiguration googleDriveCloudConfiguration) {
+        this.googleDriveCloudConfiguration = googleDriveCloudConfiguration;
+    }
 
     @Override
     public BasicSession loginUser(String login, String authorizationCode) throws Exception {
@@ -111,7 +114,7 @@ public class GoogleDriveCloudSessionService implements ICloudSessionService {
 
             flow = new GoogleAuthorizationCodeFlow.Builder(
                     HTTP_TRANSPORT, JSON_FACTORY, googleClientSecrets, Collections.singleton(DriveScopes.DRIVE))
-                    .setAccessType("offline")
+                    .setAccessType("online")
                     .setApprovalPrompt("force")
                     .build();
         }
