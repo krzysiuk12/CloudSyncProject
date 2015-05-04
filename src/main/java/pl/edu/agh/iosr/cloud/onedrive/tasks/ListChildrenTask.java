@@ -9,24 +9,25 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CloudPathType;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.tasks.Progress;
-import pl.edu.agh.iosr.cloud.common.tasks.ProgressTracking;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class ListChildrenTask implements Callable<List<CloudPath>>, ProgressTracking {
+public class ListChildrenTask implements Callable<List<CloudPath>> {
 
     private final Client client;
     private final CloudSession session;
     private final String rootPath;
-    private Progress progress = new Progress(0.0);
+    private final ProgressMonitor progressMonitor;
 
-    ListChildrenTask(Client client, CloudSession session, String rootPath) {
+    ListChildrenTask(Client client, CloudSession session, String rootPath, ProgressMonitor progressMonitor) {
         this.client = client;
         this.session = session;
         this.rootPath = rootPath;
+        this.progressMonitor = progressMonitor;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ListChildrenTask implements Callable<List<CloudPath>>, ProgressTrac
     }
 
     private void updateProgress(double value) {
-        progress = new Progress(value);
+        progressMonitor.setProgress(new Progress(value));
     }
 
     private CloudPath fileFromJson(JSONObject file) {
@@ -65,10 +66,5 @@ public class ListChildrenTask implements Callable<List<CloudPath>>, ProgressTrac
     private WebResource queryListDirectories(String path, String accessToken) {
         return client.resource(String.format("https://api.onedrive.com/v1.0/drive/root:%s:/children", path))
                 .queryParam("access_token", accessToken);
-    }
-
-    @Override
-    public Progress getProgress() {
-        return progress;
     }
 }

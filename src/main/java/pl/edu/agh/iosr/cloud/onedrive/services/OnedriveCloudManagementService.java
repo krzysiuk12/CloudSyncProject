@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.onedrive.tasks.OnedriveTaskFactory;
 
 import java.io.InputStream;
@@ -34,7 +35,8 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         //TODO: sooooooooooo cool. TaskFactory as session-scoped bean
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
-        FutureTask<List<CloudPath>> task = new FutureTask<>(taskFactory.createListChildrenTask(cloudDirectory.getPath()));
+        ProgressMonitor progressMonitor = new ProgressMonitor();
+        FutureTask<List<CloudPath>> task = new FutureTask<>(taskFactory.createListChildrenTask(cloudDirectory.getPath(), progressMonitor));
 
         executorService.execute(task);
         return task.get();
