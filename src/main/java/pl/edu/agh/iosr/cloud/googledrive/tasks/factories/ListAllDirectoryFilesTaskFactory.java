@@ -4,7 +4,10 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.GoogleDriveCallable;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.ListAllDirectoryFilesTask;
@@ -12,7 +15,6 @@ import pl.edu.agh.iosr.cloud.googledrive.tasks.params.ListAllDirectoryFilesTaskP
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,50 +25,49 @@ public class ListAllDirectoryFilesTaskFactory {
 
     private Logger logger = Logger.getLogger(this.getClass());
 
-    public ListAllDirectoryFilesTask create(final Drive service, CloudPath directory) {
+    public ListAllDirectoryFilesTask create(final Drive service, CoolCloudPath directory) {
         ListAllDirectoryFilesTaskParams params = new ListAllDirectoryFilesTaskParams(directory);
-        GoogleDriveCallable<List<CloudPath>> callable = getTask(service, params);
+        GoogleDriveCallable<List<CoolFileMetadata>> callable = getTask(service, params);
         return new ListAllDirectoryFilesTask(callable);
     }
 
-    private GoogleDriveCallable<List<CloudPath>> getTask(final Drive service, final ListAllDirectoryFilesTaskParams params) {
-        return new GoogleDriveCallable<List<CloudPath>>() {
+    private GoogleDriveCallable<List<CoolFileMetadata>> getTask(final Drive service, final ListAllDirectoryFilesTaskParams params) {
+        return new GoogleDriveCallable<List<CoolFileMetadata>>() {
             @Override
-            public List<CloudPath> call() throws Exception {
+            public List<CoolFileMetadata> call() throws Exception {
                 try {
                     setProgress(0.1f);
-                    List<CloudPath> files = getResult(service, params.getDirectory().getPath());
+                    List<CoolFileMetadata> files = getResult(service, params.getDirectory().getPath());
                     setProgress(1.0f);
                     return files;
                 } catch (IOException ex) {
                     logger.error("Problem during files listing.", ex);
                 }
-                return new LinkedList<CloudPath>();
+                return new LinkedList<>();
             }
         };
 
     }
 
-    private List<CloudPath> getResult(Drive service, String directoryId) throws IOException {
-        List<CloudPath> result = new ArrayList<CloudPath>();
+    private List<CoolFileMetadata> getResult(Drive service, String directoryId) throws IOException {
+        List<CoolFileMetadata> result = new ArrayList<>();
         // todo: fix: directory id/path, cloudPath properties
         Drive.Files.List request = service.files().list().setQ("'" + directoryId + "' in parents");
         do {
             try {
                 FileList files = request.execute();
                 for (File file : files.getItems()) {
-                    CloudPath cloudFile = new CloudPath();
-                    cloudFile.setId(file.getId());
-                    cloudFile.setFileName(file.getTitle());
-                    cloudFile.setExtension(file.getFileExtension());
-                    cloudFile.setLastModificationDate(new Date(file.getModifiedDate().getValue()));
-                    cloudFile.setSize(file.getFileSize() != null ? file.getFileSize() : 0);
+                    CoolFileMetadata.Builder fileBuilder = CoolFileMetadata.newBuilder();
+                    fileBuilder.setFileName(file.getTitle());
+                    fileBuilder.setExtension(file.getFileExtension());
+                    fileBuilder.setLastModificationTime(new DateTime(file.getModifiedDate().getValue()));
+                    fileBuilder.setSize(file.getFileSize() != null ? file.getFileSize() : 0);
                     if ("application/vnd.google-apps.folder".equals(file.getMimeType()) && file.getFileExtension() == null) {
-                        cloudFile.setType(FileType.DIRECTORY);
+                        fileBuilder.setType(FileType.DIRECTORY);
                     } else {
-                        cloudFile.setType(FileType.SIMPLE_FILE);
+                        fileBuilder.setType(FileType.SIMPLE_FILE);
                     }
-                    result.add(cloudFile);
+                    result.add(fileBuilder.build());
                 }
                 request.setPageToken(files.getNextPageToken());
             } catch (IOException e) {

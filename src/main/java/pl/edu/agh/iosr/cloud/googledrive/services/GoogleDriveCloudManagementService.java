@@ -27,17 +27,12 @@ public class GoogleDriveCloudManagementService implements ICloudManagementServic
     private GoogleDriveCloudSessionService cloudSessionService;
     private ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-//    @Override
-    public List<CloudPath> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
+    @Override
+    public List<CoolFileMetadata> listAllDirectoryFiles(String sessionId, CoolCloudPath cloudDirectory) throws ExecutionException, InterruptedException {
         GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
         ListAllDirectoryFilesTask task = new ListAllDirectoryFilesTaskFactory().create(cloudSession.getDrive(), cloudDirectory);
         executorService.execute(task);
         return task.get();
-    }
-
-    @Override
-    public List<CoolFileMetadata> listAllDirectoryFiles(String sessionId, CoolCloudPath cloudDirectory) throws ExecutionException, InterruptedException {
-        return null;
     }
 
     @Override
