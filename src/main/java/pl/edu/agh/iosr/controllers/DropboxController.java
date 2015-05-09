@@ -2,7 +2,6 @@ package pl.edu.agh.iosr.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
@@ -17,9 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-/**
- * Created by Krzysztof Kicinger on 2015-04-11.
- */
 @RestController
 @RequestMapping(value = "dropbox")
 public class DropboxController {
@@ -37,10 +33,10 @@ public class DropboxController {
     public ResponseSerializer<String> authorizationUrl() {
         try {
             String authorizationUrl = dropboxCloudSessionService.getAuthorizationUrl();
-            return new ResponseSerializer<String>(authorizationUrl);
+            return new ResponseSerializer<>(authorizationUrl);
         } catch(Exception ex) {
             ex.printStackTrace();
-            return new ResponseSerializer<String>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+            return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
         }
     }
 
@@ -48,10 +44,10 @@ public class DropboxController {
     public ResponseSerializer<BasicSession> loginUser(@RequestBody LoginCloudSerializer loginCloudSerializer) {
         try {
             BasicSession basicSession = dropboxCloudSessionService.loginUser(loginCloudSerializer.getLogin(), loginCloudSerializer.getAuthorizationCode());
-            return new ResponseSerializer<BasicSession>(basicSession);
+            return new ResponseSerializer<>(basicSession);
         } catch(Exception ex) {
             ex.printStackTrace();
-            return new ResponseSerializer<BasicSession>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+            return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
         }
     }
 
@@ -62,9 +58,9 @@ public class DropboxController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
-    public ResponseSerializer<List<CoolFileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
+    public ResponseSerializer<List<CoolFileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CoolCloudPath directory) {
         try {
-            List<CoolFileMetadata> paths = dropboxCloudManagementService.listAllDirectoryFiles(sessionId, new CoolCloudPath(directory.getPath()));
+            List<CoolFileMetadata> paths = dropboxCloudManagementService.listAllDirectoryFiles(sessionId, directory);
             return new ResponseSerializer<>(paths);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

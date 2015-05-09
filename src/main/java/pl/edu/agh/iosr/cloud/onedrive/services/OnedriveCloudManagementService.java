@@ -3,7 +3,6 @@ package pl.edu.agh.iosr.cloud.onedrive.services;
 import com.sun.jersey.api.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
@@ -45,23 +44,22 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public CloudPath downloadFile(String sessionId, CoolCloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+    public void downloadFile(String sessionId, CoolCloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        FutureTask<CloudPath> task = new FutureTask<>(taskFactory.createDownloadTask(path, progressMonitor, outputStream));
+        FutureTask<Object> task = new FutureTask<>(taskFactory.createDownloadTask(path, progressMonitor, outputStream));
 
         executorService.execute(task);
-        return task.get();
+        task.get();
     }
 
     @Override
-    public CloudPath uploadFile(String sessionId, CloudPath cloudPath, InputStream fileInputStream) {
-        return null;
+    public void uploadFile(String sessionId, CoolCloudPath path, InputStream fileInputStream) {
     }
 
     @Override
-    public Boolean deleteFile(String sessionId, CloudPath cloudPath) {
+    public Boolean deleteFile(String sessionId, CoolCloudPath path) {
         return null;
     }
 }

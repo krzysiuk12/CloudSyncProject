@@ -2,7 +2,6 @@ package pl.edu.agh.iosr.cloud.dropbox.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
@@ -17,9 +16,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Created by Krzysztof Kicinger on 2015-04-11.
- */
 @Service
 public class DropboxCloudManagementService implements ICloudManagementService {
 
@@ -40,17 +36,15 @@ public class DropboxCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public CloudPath downloadFile(String sessionId, CoolCloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
-        return null;
+    public void downloadFile(String sessionId, CoolCloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
     }
 
     @Override
-    public CloudPath uploadFile(String sessionId, CloudPath cloudPath, InputStream fileInputStream) {
-        return null;
+    public void uploadFile(String sessionId, CoolCloudPath path, InputStream fileInputStream) {
     }
 
     @Override
-    public Boolean deleteFile(String sessionId, CloudPath cloudPath) {
+    public Boolean deleteFile(String sessionId, CoolCloudPath path) {
         return null;
     }
 

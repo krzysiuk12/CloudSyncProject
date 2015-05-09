@@ -5,7 +5,6 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
 import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
@@ -18,9 +17,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Mateusz Drożdż on 18.04.15.
- */
 public class ListAllDirectoryFilesTaskFactory {
 
     private Logger logger = Logger.getLogger(this.getClass());

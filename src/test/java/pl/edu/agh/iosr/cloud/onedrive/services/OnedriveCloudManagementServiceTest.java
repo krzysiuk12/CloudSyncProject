@@ -44,7 +44,7 @@ public class OnedriveCloudManagementServiceTest {
         OnedriveCloudSessionService sessionService = mock(OnedriveCloudSessionService.class);
         //TODO: redesign as mock returns mock
         CloudSession session = mock(CloudSession.class);
-        given(session.getAccessToken()).willReturn("EwBoAq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAa1+uVVKBrMK1IISFMN3IcO5HJeQ6uanTY5ugh+ROiZjPTaVBdpRp1YZ5yuWpo+mLHTEO0zBr5cP1lDdnRFQp9af8OILalvpIp8KoS5z6fKnJH5H5U3GLDgu3JxSkGWL+23VwT5igCfzgKpfEGql7GHVvDXtDhmTHATLpGy/bGDLOwVuMVefXE8kqY/ihq1hpjbm6deL7cbDo5g4T0NZ1UfaHW5JwF3pWTnnpuGZ8t+Ea2Ygh4w2cyWVw1/pWB92wfpBWdqziHCBZSIv6g/BPU8derLL5sCHgIesTXsnawO6EhBTg0C4EcYTRP0T9iE6cVEZrsPuresa/eVtdBeXSncDZgAACNmrqMHQ9wC/OAFBAmpFPqs+2HUrnLGHi1TTLoir7Y3/Ir1ppGJQpQ1T5QgS+QlhpN3qT/HZAlyaTY+fL3uUmypEKIeWdcbQsTdtkEu+h0UgEklp4z1NKn5/evTUNHJtEjC8LiLhIoSGd9fFy1AYGX9FqUTXagGg5h1aNhBnMFtBfOj4DLiTgaATD/LfStgvmASfViKlGOzSX21ItrlnudDMF4vkTTYAO8PB90aAnWtv9+TxsXH1MleYR8+db8N65Ir2WMouPx/hV8gUXXp2j49MkFf3f6FYA+YTC4wEzoZ+TbQBXrfwrDVr1nRZ1oeHSKK2cNJmLrtqyEf5cnW2Z2mGWOoaau6Rdol3cAd7Wm3FbEaN+Br9uSAbesdQkx379LdATz4HKZJothFHW7ZryiWGaPNPSosWfnAy+eYjzM0FNSxYAQ==");
+        given(session.getAccessToken()).willReturn("THE_VALID_TOKEN");
 
         given(sessionService.getSession(sessionId)).willReturn(session);
 
@@ -72,12 +72,13 @@ public class OnedriveCloudManagementServiceTest {
     public void testDownload() throws Exception {
         // given
         CoolCloudPath path = new CoolCloudPath("/some_note.txt");
-        PipedInputStream pipedInputStream = new PipedInputStream();
+        PipedInputStream grabbedContentStream = new PipedInputStream();
+        PipedOutputStream outputStream = new PipedOutputStream(grabbedContentStream);
 
         // when
-        underTest.downloadFile(sessionId, path, new PipedOutputStream(pipedInputStream));
-        pipedInputStream.close();
-        String downloadedContent = IOUtils.toString(pipedInputStream);
+        underTest.downloadFile(sessionId, path, outputStream);
+        outputStream.close();
+        String downloadedContent = IOUtils.toString(grabbedContentStream);
 
         // then
         assertThat(downloadedContent).contains("litwo ojczyzno moja");

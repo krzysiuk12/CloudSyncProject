@@ -4,7 +4,7 @@ interactions:
 - recorded: 2015-05-09T16:49:21.328Z
   request:
     method: GET
-    uri: https://api.onedrive.com/v1.0/drive/root:/some_node.txt:/content?access_token=EwBoAq1DBAAUGCCXc8wU/zFu9QnLdZXy%2BYnElFkAAa1%2BuVVKBrMK1IISFMN3IcO5HJeQ6uanTY5ugh%2BROiZjPTaVBdpRp1YZ5yuWpo%2BmLHTEO0zBr5cP1lDdnRFQp9af8OILalvpIp8KoS5z6fKnJH5H5U3GLDgu3JxSkGWL%2B23VwT5igCfzgKpfEGql7GHVvDXtDhmTHATLpGy/bGDLOwVuMVefXE8kqY/ihq1hpjbm6deL7cbDo5g4T0NZ1UfaHW5JwF3pWTnnpuGZ8t%2BEa2Ygh4w2cyWVw1/pWB92wfpBWdqziHCBZSIv6g/BPU8derLL5sCHgIesTXsnawO6EhBTg0C4EcYTRP0T9iE6cVEZrsPuresa/eVtdBeXSncDZgAACNmrqMHQ9wC/OAFBAmpFPqs%2B2HUrnLGHi1TTLoir7Y3/Ir1ppGJQpQ1T5QgS%2BQlhpN3qT/HZAlyaTY%2BfL3uUmypEKIeWdcbQsTdtkEu%2Bh0UgEklp4z1NKn5/evTUNHJtEjC8LiLhIoSGd9fFy1AYGX9FqUTXagGg5h1aNhBnMFtBfOj4DLiTgaATD/LfStgvmASfViKlGOzSX21ItrlnudDMF4vkTTYAO8PB90aAnWtv9%2BTxsXH1MleYR8%2Bdb8N65Ir2WMouPx/hV8gUXXp2j49MkFf3f6FYA%2BYTC4wEzoZ%2BTbQBXrfwrDVr1nRZ1oeHSKK2cNJmLrtqyEf5cnW2Z2mGWOoaau6Rdol3cAd7Wm3FbEaN%2BBr9uSAbesdQkx379LdATz4HKZJothFHW7ZryiWGaPNPSosWfnAy%2BeYjzM0FNSxYAQ%3D%3D
+    uri: https://api.onedrive.com/v1.0/drive/root:/some_node.txt:/content?access_token=THE_VALID_TOKEN
     headers:
       Accept: application/json
       Connection: keep-alive
@@ -27,7 +27,7 @@ interactions:
 - recorded: 2015-05-09T16:50:54.102Z
   request:
     method: GET
-    uri: https://api.onedrive.com/v1.0/drive/root:/some_note.txt:/content?access_token=EwBoAq1DBAAUGCCXc8wU/zFu9QnLdZXy%2BYnElFkAAa1%2BuVVKBrMK1IISFMN3IcO5HJeQ6uanTY5ugh%2BROiZjPTaVBdpRp1YZ5yuWpo%2BmLHTEO0zBr5cP1lDdnRFQp9af8OILalvpIp8KoS5z6fKnJH5H5U3GLDgu3JxSkGWL%2B23VwT5igCfzgKpfEGql7GHVvDXtDhmTHATLpGy/bGDLOwVuMVefXE8kqY/ihq1hpjbm6deL7cbDo5g4T0NZ1UfaHW5JwF3pWTnnpuGZ8t%2BEa2Ygh4w2cyWVw1/pWB92wfpBWdqziHCBZSIv6g/BPU8derLL5sCHgIesTXsnawO6EhBTg0C4EcYTRP0T9iE6cVEZrsPuresa/eVtdBeXSncDZgAACNmrqMHQ9wC/OAFBAmpFPqs%2B2HUrnLGHi1TTLoir7Y3/Ir1ppGJQpQ1T5QgS%2BQlhpN3qT/HZAlyaTY%2BfL3uUmypEKIeWdcbQsTdtkEu%2Bh0UgEklp4z1NKn5/evTUNHJtEjC8LiLhIoSGd9fFy1AYGX9FqUTXagGg5h1aNhBnMFtBfOj4DLiTgaATD/LfStgvmASfViKlGOzSX21ItrlnudDMF4vkTTYAO8PB90aAnWtv9%2BTxsXH1MleYR8%2Bdb8N65Ir2WMouPx/hV8gUXXp2j49MkFf3f6FYA%2BYTC4wEzoZ%2BTbQBXrfwrDVr1nRZ1oeHSKK2cNJmLrtqyEf5cnW2Z2mGWOoaau6Rdol3cAd7Wm3FbEaN%2BBr9uSAbesdQkx379LdATz4HKZJothFHW7ZryiWGaPNPSosWfnAy%2BeYjzM0FNSxYAQ%3D%3D
+    uri: https://api.onedrive.com/v1.0/drive/root:/some_note.txt:/content?access_token=THE_VALID_TOKEN
     headers:
       Accept: application/json
       Connection: keep-alive

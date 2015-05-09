@@ -13,13 +13,7 @@
             $scope.listFiles = function (directoryPath) {
                 $scope.currentDirectoryPath = directoryPath;
                 dropboxCloudManagementFactory.listFiles({
-                    "id": 0,
-                    "path": directoryPath,
-                    "type": "DIRECTORY",
-                    "fileName": "",
-                    "extension": "",
-                    "size": 0,
-                    "lastModificationDate": null
+                    "path": directoryPath
                 })
                 .success(function (response) {
                     console.log('DropboxCloudManagementController - listFiles - success.');
