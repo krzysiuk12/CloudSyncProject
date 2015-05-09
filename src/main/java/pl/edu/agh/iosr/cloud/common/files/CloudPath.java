@@ -3,12 +3,12 @@ package pl.edu.agh.iosr.cloud.common.files;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CoolCloudPath {
+public class CloudPath {
 
     private final String path;
 
     @JsonCreator
-    public CoolCloudPath(@JsonProperty("path") String path) {
+    public CloudPath(@JsonProperty("path") String path) {
         this.path = path;
     }
 

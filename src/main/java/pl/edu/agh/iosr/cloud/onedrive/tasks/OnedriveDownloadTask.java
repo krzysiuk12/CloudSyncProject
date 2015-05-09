@@ -3,7 +3,7 @@ package pl.edu.agh.iosr.cloud.onedrive.tasks;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.tasks.Progress;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
@@ -16,11 +16,11 @@ public class OnedriveDownloadTask implements Callable<Object> {
 
     private final Client client;
     private final CloudSession session;
-    private final CoolCloudPath path;
+    private final CloudPath path;
     private final ProgressMonitor progressMonitor;
     private final OutputStream stream;
 
-    public OnedriveDownloadTask(Client client, CloudSession session, CoolCloudPath path, ProgressMonitor progressMonitor, OutputStream stream) {
+    public OnedriveDownloadTask(Client client, CloudSession session, CloudPath path, ProgressMonitor progressMonitor, OutputStream stream) {
         this.client = client;
         this.session = session;
         this.path = path;
@@ -40,7 +40,7 @@ public class OnedriveDownloadTask implements Callable<Object> {
         return new Object();
     }
 
-    private WebResource queryDownloadFile(CoolCloudPath path, String accessToken) {
+    private WebResource queryDownloadFile(CloudPath path, String accessToken) {
         return client.resource(String.format("https://api.onedrive.com/v1.0/drive/root:%s:/content", path.getPath()))
                 .queryParam("access_token", accessToken);
     }

@@ -2,16 +2,16 @@ package pl.edu.agh.iosr.cloud.common.files;
 
 import org.joda.time.DateTime;
 
-public class CoolFileMetadata {
+public class FileMetadata {
 
-    private final CoolCloudPath path;
+    private final CloudPath path;
     private final FileType type;
     private final String fileName;
     private final String extension;
     private final long size;
     private final DateTime lastModificationTime;
 
-    CoolFileMetadata(CoolCloudPath path, FileType type, String fileName, String extension, long size, DateTime lastModificationTime) {
+    FileMetadata(CloudPath path, FileType type, String fileName, String extension, long size, DateTime lastModificationTime) {
         this.path = path;
         this.type = type;
         this.fileName = fileName;
@@ -24,7 +24,7 @@ public class CoolFileMetadata {
         return new Builder();
     }
 
-    public CoolCloudPath getPath() {
+    public CloudPath getPath() {
         return path;
     }
 
@@ -49,14 +49,14 @@ public class CoolFileMetadata {
     }
 
     public static class Builder {
-        private CoolCloudPath path;
+        private CloudPath path;
         private FileType type;
         private String fileName;
         private String extension;
         private long size;
         private DateTime lastModificationTime;
 
-        public Builder setPath(CoolCloudPath path) {
+        public Builder setPath(CloudPath path) {
             this.path = path;
             return this;
         }
@@ -86,8 +86,8 @@ public class CoolFileMetadata {
             return this;
         }
 
-        public CoolFileMetadata build() {
-            return new CoolFileMetadata(path, type, fileName, extension, size, lastModificationTime);
+        public FileMetadata build() {
+            return new FileMetadata(path, type, fileName, extension, size, lastModificationTime);
         }
     }
 }

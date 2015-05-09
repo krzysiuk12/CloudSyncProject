@@ -5,8 +5,8 @@ import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
-import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
+import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DropboxCallable;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.ListAllDirectoryFilesTask;
@@ -23,19 +23,19 @@ public class ListAllDirectoryFilesTaskFactory {
 
     private Logger logger = Logger.getLogger(this.getClass());
 
-    public ListAllDirectoryFilesTask create(final DbxClient dbxClient, CoolCloudPath directory) {
+    public ListAllDirectoryFilesTask create(final DbxClient dbxClient, CloudPath directory) {
         ListAllDirectoryFilesTaskParams listAllDirectoryFilesTaskParams = new ListAllDirectoryFilesTaskParams(directory);
-        DropboxCallable<List<CoolFileMetadata>> callable = getTask(dbxClient, listAllDirectoryFilesTaskParams);
+        DropboxCallable<List<FileMetadata>> callable = getTask(dbxClient, listAllDirectoryFilesTaskParams);
         return new ListAllDirectoryFilesTask(callable);
     }
 
-    private DropboxCallable<List<CoolFileMetadata>> getTask(final DbxClient dbxClient, final ListAllDirectoryFilesTaskParams params) {
-        return new DropboxCallable<List<CoolFileMetadata>>() {
+    private DropboxCallable<List<FileMetadata>> getTask(final DbxClient dbxClient, final ListAllDirectoryFilesTaskParams params) {
+        return new DropboxCallable<List<FileMetadata>>() {
             @Override
-            public List<CoolFileMetadata> call() throws Exception {
+            public List<FileMetadata> call() throws Exception {
                 try {
                     setProgress(0.1f);
-                    List<CoolFileMetadata> paths = getResult(dbxClient, params.getDirectory().getPath());
+                    List<FileMetadata> paths = getResult(dbxClient, params.getDirectory().getPath());
                     setProgress(1.0f);
                     return paths;
                 } catch(DbxException ex) {
@@ -46,17 +46,17 @@ public class ListAllDirectoryFilesTaskFactory {
         };
     }
 
-    private List<CoolFileMetadata> getResult(final DbxClient dbxClient, String directory) throws DbxException {
-        List<CoolFileMetadata> paths = new ArrayList<>();
+    private List<FileMetadata> getResult(final DbxClient dbxClient, String directory) throws DbxException {
+        List<FileMetadata> paths = new ArrayList<>();
         DbxEntry.WithChildren directoryEntries = dbxClient.getMetadataWithChildren(directory);
         if(directoryEntries == null || directoryEntries.children == null || directoryEntries.children.isEmpty()) {
             return paths;
         }
         for(DbxEntry entry : directoryEntries.children) {
-            CoolFileMetadata.Builder fileBuilder = CoolFileMetadata.newBuilder();
+            FileMetadata.Builder fileBuilder = FileMetadata.newBuilder();
 
             fileBuilder.setFileName(entry.name);
-            fileBuilder.setPath(new CoolCloudPath(entry.path));
+            fileBuilder.setPath(new CloudPath(entry.path));
             if(entry.isFile()) {
                 fileBuilder.setType(FileType.SIMPLE_FILE);
                 fileBuilder.setSize(((DbxEntry.File) entry).numBytes);

@@ -2,8 +2,8 @@ package pl.edu.agh.iosr.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
-import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
+import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudManagementService;
 import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudSessionService;
@@ -59,10 +59,10 @@ public class GoogleDriveController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
-    public ResponseSerializer<List<CoolFileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CoolCloudPath directory) {
+    public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         System.out.println("GOOGLE - LIST ALL FILES!!!");
         try {
-            List<CoolFileMetadata> files = googleDriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
+            List<FileMetadata> files = googleDriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
             return new ResponseSerializer<>(files);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

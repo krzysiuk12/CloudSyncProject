@@ -5,8 +5,8 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
-import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
+import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.GoogleDriveCallable;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.ListAllDirectoryFilesTask;
@@ -21,19 +21,19 @@ public class ListAllDirectoryFilesTaskFactory {
 
     private Logger logger = Logger.getLogger(this.getClass());
 
-    public ListAllDirectoryFilesTask create(final Drive service, CoolCloudPath directory) {
+    public ListAllDirectoryFilesTask create(final Drive service, CloudPath directory) {
         ListAllDirectoryFilesTaskParams params = new ListAllDirectoryFilesTaskParams(directory);
-        GoogleDriveCallable<List<CoolFileMetadata>> callable = getTask(service, params);
+        GoogleDriveCallable<List<FileMetadata>> callable = getTask(service, params);
         return new ListAllDirectoryFilesTask(callable);
     }
 
-    private GoogleDriveCallable<List<CoolFileMetadata>> getTask(final Drive service, final ListAllDirectoryFilesTaskParams params) {
-        return new GoogleDriveCallable<List<CoolFileMetadata>>() {
+    private GoogleDriveCallable<List<FileMetadata>> getTask(final Drive service, final ListAllDirectoryFilesTaskParams params) {
+        return new GoogleDriveCallable<List<FileMetadata>>() {
             @Override
-            public List<CoolFileMetadata> call() throws Exception {
+            public List<FileMetadata> call() throws Exception {
                 try {
                     setProgress(0.1f);
-                    List<CoolFileMetadata> files = getResult(service, params.getDirectory().getPath());
+                    List<FileMetadata> files = getResult(service, params.getDirectory().getPath());
                     setProgress(1.0f);
                     return files;
                 } catch (IOException ex) {
@@ -45,15 +45,15 @@ public class ListAllDirectoryFilesTaskFactory {
 
     }
 
-    private List<CoolFileMetadata> getResult(Drive service, String directoryId) throws IOException {
-        List<CoolFileMetadata> result = new ArrayList<>();
+    private List<FileMetadata> getResult(Drive service, String directoryId) throws IOException {
+        List<FileMetadata> result = new ArrayList<>();
         // todo: fix: directory id/path, cloudPath properties
         Drive.Files.List request = service.files().list().setQ("'" + directoryId + "' in parents");
         do {
             try {
                 FileList files = request.execute();
                 for (File file : files.getItems()) {
-                    CoolFileMetadata.Builder fileBuilder = CoolFileMetadata.newBuilder();
+                    FileMetadata.Builder fileBuilder = FileMetadata.newBuilder();
                     fileBuilder.setFileName(file.getTitle());
                     fileBuilder.setExtension(file.getFileExtension());
                     fileBuilder.setLastModificationTime(new DateTime(file.getModifiedDate().getValue()));

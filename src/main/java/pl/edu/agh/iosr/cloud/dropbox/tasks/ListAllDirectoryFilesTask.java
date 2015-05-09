@@ -1,15 +1,15 @@
 package pl.edu.agh.iosr.cloud.dropbox.tasks;
 
-import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
+import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 
 import java.util.List;
 
-public class ListAllDirectoryFilesTask extends CloudTask<List<CoolFileMetadata>> {
+public class ListAllDirectoryFilesTask extends CloudTask<List<FileMetadata>> {
 
-    private DropboxCallable<List<CoolFileMetadata>> callable;
+    private DropboxCallable<List<FileMetadata>> callable;
 
-    public ListAllDirectoryFilesTask(DropboxCallable<List<CoolFileMetadata>> callable) {
+    public ListAllDirectoryFilesTask(DropboxCallable<List<FileMetadata>> callable) {
         super(callable);
         this.callable = callable;
     }

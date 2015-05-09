@@ -7,12 +7,10 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
-import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
+import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.List;
@@ -55,10 +53,10 @@ public class OnedriveCloudManagementServiceTest {
     @Test
     public void testListRootDir() throws Exception {
         // given
-        CoolCloudPath rootPath = new CoolCloudPath("/");
+        CloudPath rootPath = new CloudPath("/");
 
         // when
-        List<CoolFileMetadata> paths = underTest.listAllDirectoryFiles(sessionId, rootPath);
+        List<FileMetadata> paths = underTest.listAllDirectoryFiles(sessionId, rootPath);
 
         // then
         assertThat(paths).hasSize(3);
@@ -71,7 +69,7 @@ public class OnedriveCloudManagementServiceTest {
     @Test
     public void testDownload() throws Exception {
         // given
-        CoolCloudPath path = new CoolCloudPath("/some_note.txt");
+        CloudPath path = new CloudPath("/some_note.txt");
         PipedInputStream grabbedContentStream = new PipedInputStream();
         PipedOutputStream outputStream = new PipedOutputStream(grabbedContentStream);
 

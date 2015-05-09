@@ -1,7 +1,7 @@
 package pl.edu.agh.iosr.cloud.onedrive.tasks;
 
 import com.sun.jersey.api.client.Client;
-import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
+import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 
@@ -17,11 +17,11 @@ public class OnedriveTaskFactory {
         this.session = session;
     }
 
-    public ListChildrenTask createListChildrenTask(CoolCloudPath rootPath, ProgressMonitor progressMonitor) {
-        return new ListChildrenTask(client, session, rootPath, progressMonitor);
+    public OnedriveListChildrenTask createListChildrenTask(CloudPath rootPath, ProgressMonitor progressMonitor) {
+        return new OnedriveListChildrenTask(client, session, rootPath, progressMonitor);
     }
 
-    public OnedriveDownloadTask createDownloadTask(CoolCloudPath path, ProgressMonitor progressMonitor, OutputStream stream) {
+    public OnedriveDownloadTask createDownloadTask(CloudPath path, ProgressMonitor progressMonitor, OutputStream stream) {
         return new OnedriveDownloadTask(client, session, path, progressMonitor, stream);
     }
 }

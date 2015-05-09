@@ -1,6 +1,6 @@
 package pl.edu.agh.iosr.cloud.googledrive.tasks;
 
-import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
+import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 
 import java.util.List;
@@ -8,11 +8,11 @@ import java.util.List;
 /**
  * Created by Mateusz Drożdż on 18.04.15.
  */
-public class ListAllDirectoryFilesTask extends CloudTask<List<CoolFileMetadata>> {
+public class ListAllDirectoryFilesTask extends CloudTask<List<FileMetadata>> {
 
-    private GoogleDriveCallable<List<CoolFileMetadata>> callable;
+    private GoogleDriveCallable<List<FileMetadata>> callable;
 
-    public ListAllDirectoryFilesTask(GoogleDriveCallable<List<CoolFileMetadata>> callable) {
+    public ListAllDirectoryFilesTask(GoogleDriveCallable<List<FileMetadata>> callable) {
         super(callable);
         this.callable = callable;
     }

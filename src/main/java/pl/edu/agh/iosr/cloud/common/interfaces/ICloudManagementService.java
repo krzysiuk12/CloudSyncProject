@@ -1,7 +1,7 @@
 package pl.edu.agh.iosr.cloud.common.interfaces;
 
-import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
-import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
+import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -16,7 +16,7 @@ public interface ICloudManagementService {
      * @param cloudDirectory
      * @return
      */
-    public List<CoolFileMetadata> listAllDirectoryFiles(String sessionId, CoolCloudPath cloudDirectory) throws ExecutionException, InterruptedException;
+    public List<FileMetadata> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException;
 
     /**
      *
@@ -25,7 +25,7 @@ public interface ICloudManagementService {
      * @param outputStream
      * @return
      */
-    public void downloadFile(String sessionId, CoolCloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
+    public void downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
 
     /**
      *
@@ -34,7 +34,7 @@ public interface ICloudManagementService {
      * @param fileInputStream
      * @return
      */
-    public void uploadFile(String sessionId, CoolCloudPath path, InputStream fileInputStream);
+    public void uploadFile(String sessionId, CloudPath path, InputStream fileInputStream);
 
     /**
      *
@@ -42,6 +42,6 @@ public interface ICloudManagementService {
      * @param path
      * @return
      */
-    public Boolean deleteFile(String sessionId, CoolCloudPath path);
+    public Boolean deleteFile(String sessionId, CloudPath path);
 
 }

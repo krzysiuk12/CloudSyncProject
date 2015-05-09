@@ -2,8 +2,8 @@ package pl.edu.agh.iosr.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
-import pl.edu.agh.iosr.cloud.common.files.CoolFileMetadata;
+import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagementService;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudSessionService;
@@ -49,10 +49,10 @@ public class OnedriveController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
-    public ResponseSerializer<List<CoolFileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId) {
+    public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId) {
         System.out.println("HERE I AM - LIST ALL FILES!!!");
         try {
-            List<CoolFileMetadata> paths = onedriveCloudManagementService.listAllDirectoryFiles(sessionId, new CoolCloudPath("/"));
+            List<FileMetadata> paths = onedriveCloudManagementService.listAllDirectoryFiles(sessionId, new CloudPath("/"));
             return new ResponseSerializer<>(paths);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
