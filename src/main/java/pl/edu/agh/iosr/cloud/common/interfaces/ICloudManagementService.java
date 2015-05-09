@@ -25,11 +25,11 @@ public interface ICloudManagementService {
     /**
      *
      * @param sessionId
-     * @param cloudPath
+     * @param path
      * @param outputStream
      * @return
      */
-    public CloudPath downloadFile(String sessionId, CloudPath cloudPath, OutputStream outputStream);
+    public CloudPath downloadFile(String sessionId, CoolCloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
 
     /**
      *

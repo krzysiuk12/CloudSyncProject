@@ -5,6 +5,8 @@ import pl.edu.agh.iosr.cloud.common.files.CoolCloudPath;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 
+import java.io.OutputStream;
+
 public class OnedriveTaskFactory {
 
     private final Client client;
@@ -19,4 +21,7 @@ public class OnedriveTaskFactory {
         return new ListChildrenTask(client, session, rootPath, progressMonitor);
     }
 
+    public OnedriveDownloadTask createDownloadTask(CoolCloudPath path, ProgressMonitor progressMonitor, OutputStream stream) {
+        return new OnedriveDownloadTask(client, session, path, progressMonitor, stream);
+    }
 }

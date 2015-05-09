@@ -45,8 +45,14 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public CloudPath downloadFile(String sessionId, CloudPath cloudPath, OutputStream outputStream) {
-        return null;
+    public CloudPath downloadFile(String sessionId, CoolCloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+        CloudSession session = onedriveSessionService.getSession(sessionId);
+        OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
+        ProgressMonitor progressMonitor = new ProgressMonitor();
+        FutureTask<CloudPath> task = new FutureTask<>(taskFactory.createDownloadTask(path, progressMonitor, outputStream));
+
+        executorService.execute(task);
+        return task.get();
     }
 
     @Override

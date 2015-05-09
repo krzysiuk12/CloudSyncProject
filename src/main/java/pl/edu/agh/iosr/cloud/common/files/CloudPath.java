@@ -5,6 +5,7 @@ import java.util.Date;
 /**
  * Created by Krzysztof Kicinger on 2015-04-11.
  */
+@Deprecated
 public class CloudPath {
 
     private String id;

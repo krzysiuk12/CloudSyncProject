@@ -1,0 +1,57 @@
+!tape
+name: onedrive_download
+interactions:
+- recorded: 2015-05-09T16:49:21.328Z
+  request:
+    method: GET
+    uri: https://api.onedrive.com/v1.0/drive/root:/some_node.txt:/content?access_token=EwBoAq1DBAAUGCCXc8wU/zFu9QnLdZXy%2BYnElFkAAa1%2BuVVKBrMK1IISFMN3IcO5HJeQ6uanTY5ugh%2BROiZjPTaVBdpRp1YZ5yuWpo%2BmLHTEO0zBr5cP1lDdnRFQp9af8OILalvpIp8KoS5z6fKnJH5H5U3GLDgu3JxSkGWL%2B23VwT5igCfzgKpfEGql7GHVvDXtDhmTHATLpGy/bGDLOwVuMVefXE8kqY/ihq1hpjbm6deL7cbDo5g4T0NZ1UfaHW5JwF3pWTnnpuGZ8t%2BEa2Ygh4w2cyWVw1/pWB92wfpBWdqziHCBZSIv6g/BPU8derLL5sCHgIesTXsnawO6EhBTg0C4EcYTRP0T9iE6cVEZrsPuresa/eVtdBeXSncDZgAACNmrqMHQ9wC/OAFBAmpFPqs%2B2HUrnLGHi1TTLoir7Y3/Ir1ppGJQpQ1T5QgS%2BQlhpN3qT/HZAlyaTY%2BfL3uUmypEKIeWdcbQsTdtkEu%2Bh0UgEklp4z1NKn5/evTUNHJtEjC8LiLhIoSGd9fFy1AYGX9FqUTXagGg5h1aNhBnMFtBfOj4DLiTgaATD/LfStgvmASfViKlGOzSX21ItrlnudDMF4vkTTYAO8PB90aAnWtv9%2BTxsXH1MleYR8%2Bdb8N65Ir2WMouPx/hV8gUXXp2j49MkFf3f6FYA%2BYTC4wEzoZ%2BTbQBXrfwrDVr1nRZ1oeHSKK2cNJmLrtqyEf5cnW2Z2mGWOoaau6Rdol3cAd7Wm3FbEaN%2BBr9uSAbesdQkx379LdATz4HKZJothFHW7ZryiWGaPNPSosWfnAy%2BeYjzM0FNSxYAQ%3D%3D
+    headers:
+      Accept: application/json
+      Connection: keep-alive
+      Host: api.onedrive.com
+      User-Agent: Java/1.7.0_40
+  response:
+    status: 404
+    headers:
+      Content-Type: application/json
+      Date: Sat, 09 May 2015 16:49:20 GMT
+      P3P: CP="BUS CUR CONo FIN IVDo ONL OUR PHY SAMo TELo"
+      Server: Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security: max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains
+      X-AsmVersion: UNKNOWN; 19.18.0.0
+      X-MSNSERVER: DM2304____PAP266
+      X-QosStats: '{"ApiId":0,"ResultType":2,"SourcePropertyId":0,"TargetPropertyId":42}'
+      X-ThrowSite: 292e.dbe0
+      X-WLSPROXY: DM2306____PAP130
+    body: '{"error":{"code":"itemNotFound","message":"Item Does Not Exist","innererror":{"code":"itemDoesNotExist"}}}'
+- recorded: 2015-05-09T16:50:54.102Z
+  request:
+    method: GET
+    uri: https://api.onedrive.com/v1.0/drive/root:/some_note.txt:/content?access_token=EwBoAq1DBAAUGCCXc8wU/zFu9QnLdZXy%2BYnElFkAAa1%2BuVVKBrMK1IISFMN3IcO5HJeQ6uanTY5ugh%2BROiZjPTaVBdpRp1YZ5yuWpo%2BmLHTEO0zBr5cP1lDdnRFQp9af8OILalvpIp8KoS5z6fKnJH5H5U3GLDgu3JxSkGWL%2B23VwT5igCfzgKpfEGql7GHVvDXtDhmTHATLpGy/bGDLOwVuMVefXE8kqY/ihq1hpjbm6deL7cbDo5g4T0NZ1UfaHW5JwF3pWTnnpuGZ8t%2BEa2Ygh4w2cyWVw1/pWB92wfpBWdqziHCBZSIv6g/BPU8derLL5sCHgIesTXsnawO6EhBTg0C4EcYTRP0T9iE6cVEZrsPuresa/eVtdBeXSncDZgAACNmrqMHQ9wC/OAFBAmpFPqs%2B2HUrnLGHi1TTLoir7Y3/Ir1ppGJQpQ1T5QgS%2BQlhpN3qT/HZAlyaTY%2BfL3uUmypEKIeWdcbQsTdtkEu%2Bh0UgEklp4z1NKn5/evTUNHJtEjC8LiLhIoSGd9fFy1AYGX9FqUTXagGg5h1aNhBnMFtBfOj4DLiTgaATD/LfStgvmASfViKlGOzSX21ItrlnudDMF4vkTTYAO8PB90aAnWtv9%2BTxsXH1MleYR8%2Bdb8N65Ir2WMouPx/hV8gUXXp2j49MkFf3f6FYA%2BYTC4wEzoZ%2BTbQBXrfwrDVr1nRZ1oeHSKK2cNJmLrtqyEf5cnW2Z2mGWOoaau6Rdol3cAd7Wm3FbEaN%2BBr9uSAbesdQkx379LdATz4HKZJothFHW7ZryiWGaPNPSosWfnAy%2BeYjzM0FNSxYAQ%3D%3D
+    headers:
+      Accept: application/json
+      Connection: keep-alive
+      Host: api.onedrive.com
+      User-Agent: Java/1.7.0_40
+  response:
+    status: 200
+    headers:
+      Accept-Ranges: bytes
+      CTag: aYzpCNkI0MDhCNTAzMjBDNDJCITEwNy4yNTg
+      Cache-Control: public
+      Content-Location: https://public.dm2304.livefilestore.com/y2mSdx5glTME_kCDaQ-nAkbvkVUng1KfzURf1AfmfHWxl9N2P9nWw0M9P4d9yWsSK-giPnMjogfswXh5w5WrNrrKM1Kfg0hkYOIj-NADNToNMqbgxkRdh3jr_WnNl8ErDHSTYaDbLYCXX_S5FGjmjhBF1hyj2iypC8mmPjXuZRlYbo
+      Content-Type: text/plain
+      Date: Sat, 09 May 2015 16:50:53 GMT
+      ETag: aQjZCNDA4QjUwMzIwQzQyQiExMDcuNg
+      Expires: Fri, 07 Aug 2015 16:50:53 GMT
+      Last-Modified: Sat, 09 May 2015 16:41:05 GMT
+      P3P: CP="BUS CUR CONo FIN IVDo ONL OUR PHY SAMo TELo"
+      Server: Microsoft-IIS/8.5
+      Strict-Transport-Security: max-age=31536000; includeSubDomains
+      X-AsmVersion: UNKNOWN; 19.18.0.0
+      X-Content-Type-Options: nosniff
+      X-MSNSERVER: DM2304____PAP170
+      X-PreAuthInfo: rv;poba;
+      X-SqlDataOrigin: S
+      X-StreamOrigin: X
+    body: "litwo ojczyzno moja\r\nblablabla\r\n"
