@@ -13,6 +13,7 @@ import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -81,5 +82,24 @@ public class OnedriveCloudManagementServiceTest {
         // then
         assertThat(downloadedContent).contains("litwo ojczyzno moja");
         assertThat(downloadedContent).contains("blablabla");
+    }
+
+
+    @Betamax(tape="onedrive_upload")
+    @Test
+    public void testUpload() throws Exception {
+        // given
+        CloudPath path = new CloudPath("/uploaded.txt");
+        PipedInputStream givenContentStream = new PipedInputStream();
+        PipedOutputStream outputStream = new PipedOutputStream(givenContentStream);
+        outputStream.write("hello world".getBytes(StandardCharsets.US_ASCII));
+        outputStream.close();
+
+        // when
+        FileMetadata file = underTest.uploadFile(sessionId, path, givenContentStream);
+
+        // then
+        //TODO: more fancy check - some unified hash stored in file metadata
+        assertThat(file.getSize()).isEqualTo(11);
     }
 }

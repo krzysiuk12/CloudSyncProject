@@ -1,0 +1,37 @@
+!tape
+name: onedrive_upload
+interactions:
+- recorded: 2015-05-10T12:15:26.408Z
+  request:
+    method: PUT
+    uri: https://api.onedrive.com/v1.0/drive/root:/uploaded.txt:/content?access_token=THE_VALID_TOKEN
+    headers:
+      Accept: application/json
+      Connection: keep-alive
+      Content-Length: '11'
+      Content-Type: text/plain
+      Host: api.onedrive.com
+      User-Agent: Java/1.7.0_40
+    body: hello world
+  response:
+    status: 200
+    headers:
+      Content-Location: https://public.dm2304.livefilestore.com/y2prmvbcBhxZRkRqRpFBirgMlbjFeawoupnY1vhdfWcXWsJ4r_KsUPQ1D-HI2BBWWa2Hy18M-ONY-CtJAPmd9xByAHluR9QLF7_paAXigr5Wg8
+      Content-Type: application/json; odata.metadata=none
+      Date: Sun, 10 May 2015 12:15:25 GMT
+      ETag: B6B408B50320C42B!108.4
+      Location: https://public.dm2304.livefilestore.com/y2prmvbcBhxZRkRqRpFBirgMlbjFeawoupnY1vhdfWcXWsJ4r_KsUPQ1D-HI2BBWWa2Hy18M-ONY-CtJAPmd9xByAHluR9QLF7_paAXigr5Wg8
+      OData-Version: '4.0'
+      P3P: CP="BUS CUR CONo FIN IVDo ONL OUR PHY SAMo TELo"
+      Server: Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security: max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains
+      X-AsmVersion: UNKNOWN; 19.18.0.0
+      X-Cid: '-5281586889464167381'
+      X-ItemVersion: '4'
+      X-Last-Modified-ISO8601: '2015-05-10T12:15:25.8Z'
+      X-MSNSERVER: DM2304____PAP038
+      X-Resource-Id: B6B408B50320C42B!108
+      X-WLSPROXY: BN1302____PAP056
+    body: '{"@content.downloadUrl":"https://public.dm2304.livefilestore.com/y2msRZsaprIm473VA-Y7kogkx1jnd0JusQjjZRfnjI67aHaFZFiO8aDTiwFcFgHyTOpMTisR0EwC9c9q9k3RVLAAymnJVeFXZ6rgqGUwzAqV0Rx2oi6LbuXB3i1Z4hVue4rXgJFWeoxDDjXiIjNcEz0N3FC93CvEmtYj3gT4vB_faI","createdBy":{"application":{"displayName":"burak","id":"4015302a"},"user":{"displayName":"asd
+      asd","id":"b6b408b50320c42b"}},"createdDateTime":"2015-05-10T11:31:00.34Z","cTag":"aYzpCNkI0MDhCNTAzMjBDNDJCITEwOC4yNTk","eTag":"aQjZCNDA4QjUwMzIwQzQyQiExMDguNA","id":"B6B408B50320C42B!108","lastModifiedBy":{"application":{"displayName":"burak","id":"4015302a"},"user":{"displayName":"asd
+      asd","id":"b6b408b50320c42b"}},"lastModifiedDateTime":"2015-05-10T12:15:25.8Z","name":"uploaded.txt","parentReference":{"driveId":"b6b408b50320c42b","id":"B6B408B50320C42B!101","path":"/drive/root:"},"size":11,"webUrl":"https://onedrive.live.com/redir?resid=B6B408B50320C42B!108","file":{"hashes":{"crc32Hash":"85114A0D","sha1Hash":"2AAE6C35C94FCFB415DBE95F408B9CE91EE846ED"},"mimeType":"text/plain"}}'

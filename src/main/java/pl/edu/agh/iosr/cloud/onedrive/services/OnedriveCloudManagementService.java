@@ -55,7 +55,14 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public void uploadFile(String sessionId, CloudPath path, InputStream fileInputStream) {
+    public FileMetadata uploadFile(String sessionId, CloudPath path, InputStream fileInputStream) throws ExecutionException, InterruptedException {
+        CloudSession session = onedriveSessionService.getSession(sessionId);
+        OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
+        ProgressMonitor progressMonitor = new ProgressMonitor();
+        FutureTask<FileMetadata> task = new FutureTask<>(taskFactory.createUploadTask(path, progressMonitor, fileInputStream));
+
+        executorService.execute(task);
+        return task.get();
     }
 
     @Override

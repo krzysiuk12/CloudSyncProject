@@ -34,7 +34,7 @@ public interface ICloudManagementService {
      * @param fileInputStream
      * @return
      */
-    public void uploadFile(String sessionId, CloudPath path, InputStream fileInputStream);
+    public FileMetadata uploadFile(String sessionId, CloudPath path, InputStream fileInputStream) throws ExecutionException, InterruptedException;
 
     /**
      *
