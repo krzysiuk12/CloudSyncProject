@@ -3,7 +3,6 @@ package pl.edu.agh.iosr.cloud.googledrive.services;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -77,6 +76,7 @@ public class GoogleDriveCloudSessionService implements ICloudSessionService {
         return googleDriveCloudSessions.get(sessionId);
     }
 
+    @Override
     public String getAuthorizationUrl() throws GeneralSecurityException, IOException {
         GoogleAuthorizationCodeFlow flow = getFlow();
         return flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();

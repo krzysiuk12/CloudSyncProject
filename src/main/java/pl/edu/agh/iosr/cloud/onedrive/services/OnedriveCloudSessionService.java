@@ -76,6 +76,11 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
     }
 
     @Override
+    public String getAuthorizationUrl() throws Exception {
+        return null;
+    }
+
+    @Override
     public CloudSession getSession(String sessionId) {
         return sessions.get(sessionId);
     }

@@ -12,8 +12,6 @@ import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 import pl.edu.agh.iosr.cloud.dropbox.configuration.DropboxCloudConfiguration;
 import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -31,6 +29,11 @@ public class DropboxCloudSessionService implements ICloudSessionService {
     public DropboxCloudSessionService(DropboxCloudConfiguration dropboxCloudConfiguration) {
         this.dropboxCloudConfiguration = dropboxCloudConfiguration;
         this.dropboxCloudSessions = new HashMap<String, DropboxCloudSession>();
+    }
+
+    @Override
+    public String getAuthorizationUrl() {
+        return dropboxCloudConfiguration.getWebAuth().start();
     }
 
     @Override
@@ -54,10 +57,6 @@ public class DropboxCloudSessionService implements ICloudSessionService {
     @Override
     public DropboxCloudSession getSession(String sessionId) {
         return dropboxCloudSessions.get(sessionId);
-    }
-
-    public String getAuthorizationUrl() throws GeneralSecurityException, IOException {
-        return dropboxCloudConfiguration.getWebAuth().start();
     }
 
 }

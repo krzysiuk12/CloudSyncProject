@@ -10,6 +10,8 @@ import pl.edu.agh.iosr.cloud.common.session.CloudSession;
  */
 public interface ICloudSessionService {
 
+    public String getAuthorizationUrl() throws Exception;
+
     /**
      * Implementation of this method is obliged to create session (connection) with provider being target of method
      * invocation.

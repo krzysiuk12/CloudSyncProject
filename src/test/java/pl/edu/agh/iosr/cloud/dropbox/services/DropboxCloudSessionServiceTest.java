@@ -1,20 +1,8 @@
 package pl.edu.agh.iosr.cloud.dropbox.services;
 
-import co.freeside.betamax.Betamax;
-import co.freeside.betamax.Recorder;
-import com.dropbox.core.DbxException;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import pl.edu.agh.iosr.cloud.common.session.BasicSession;
-import pl.edu.agh.iosr.cloud.dropbox.configuration.DropboxCloudConfiguration;
-
-import static org.fest.assertions.Assertions.assertThat;
-
 public class DropboxCloudSessionServiceTest {
 
-    @Rule
+/*    @Rule
     public Recorder recorder = new Recorder();
 
     private DropboxCloudSessionService underTest;
@@ -51,5 +39,5 @@ public class DropboxCloudSessionServiceTest {
 
         // then
         // expect exception
-    }
+    }*/
 }

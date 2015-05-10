@@ -3,8 +3,10 @@ package pl.edu.agh.iosr.cloud.dropbox.configuration;
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuthNoRedirect;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.iosr.cloud.common.interfaces.ICloudConfiguration;
+import pl.edu.agh.iosr.cloud.common.CloudConfiguration;
 
 import java.util.Locale;
 
@@ -12,29 +14,28 @@ import java.util.Locale;
  * Created by Krzysztof Kicinger on 2015-04-09.
  */
 @Component
-public class DropboxCloudConfiguration extends ICloudConfiguration {
+public class DropboxCloudConfiguration {
 
-    private static final String APP_NAME = "CloudSyncIosrProject";
-    private static final String APP_KEY = "nlsu5a4n7jcr3il";
-    private static final String APP_KEY_SECRET = "c1tufi0cm9vjoh0";
-
+    private CloudConfiguration cloudConfiguration;
     private DbxAppInfo appInfo;
     private DbxRequestConfig requestConfig;
     private DbxWebAuthNoRedirect webAuth;
 
-    @Override
+    @Autowired
+    public DropboxCloudConfiguration(@Value("${dropbox.appName}") String appName, @Value("${dropbox.appKey}") String appKey, @Value("${dropbox.appKeySecret}") String appKeySecret) {
+        this.cloudConfiguration = new CloudConfiguration(appName, appKey, appKeySecret);
+    }
+
     protected String getAppName() {
-        return APP_NAME;
+        return cloudConfiguration.getAppName();
     }
 
-    @Override
     protected String getAppKey() {
-        return APP_KEY;
+        return cloudConfiguration.getAppKey();
     }
 
-    @Override
     protected String getAppKeySecret() {
-        return APP_KEY_SECRET;
+        return cloudConfiguration.getAppKeySecret();
     }
 
     public DbxAppInfo getAppInfo() {

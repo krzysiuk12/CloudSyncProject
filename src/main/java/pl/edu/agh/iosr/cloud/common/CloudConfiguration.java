@@ -1,6 +1,8 @@
 package pl.edu.agh.iosr.cloud.common;
 
-public class CloudConfiguration {
+import pl.edu.agh.iosr.cloud.common.interfaces.ICloudConfiguration;
+
+public class CloudConfiguration implements ICloudConfiguration {
 
     private final String appName;
     private final String appKey;
@@ -12,15 +14,19 @@ public class CloudConfiguration {
         this.appKeySecret = appKeySecret;
     }
 
+    @Override
     public String getAppName() {
         return appName;
     }
 
+    @Override
     public String getAppKey() {
         return appKey;
     }
 
+    @Override
     public String getAppKeySecret() {
         return appKeySecret;
     }
+
 }
