@@ -25,7 +25,7 @@ public interface ICloudManagementService {
      * @param outputStream
      * @return
      */
-    public void downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
+    public Boolean downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
 
     /**
      *
@@ -42,6 +42,6 @@ public interface ICloudManagementService {
      * @param path
      * @return
      */
-    public Boolean deleteFile(String sessionId, CloudPath path);
+    public Boolean deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException;
 
 }

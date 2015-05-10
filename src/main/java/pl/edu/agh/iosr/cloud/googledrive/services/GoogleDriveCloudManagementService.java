@@ -32,7 +32,8 @@ public class GoogleDriveCloudManagementService implements ICloudManagementServic
     }
 
     @Override
-    public void downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+    public Boolean downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+        return false;
     }
 
     @Override

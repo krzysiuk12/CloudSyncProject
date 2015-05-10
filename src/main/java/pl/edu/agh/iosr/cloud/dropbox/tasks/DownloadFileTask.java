@@ -1,13 +1,15 @@
 package pl.edu.agh.iosr.cloud.dropbox.tasks;
 
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 
-public class DownloadTask extends CloudTask<CloudPath> {
+/**
+ * Created by Krzysztof Kicinger on 2015-05-10.
+ */
+public class DownloadFileTask extends CloudTask<Boolean> {
 
-    private DropboxCallable<CloudPath> callable;
+    private DropboxCallable<Boolean> callable;
 
-    public DownloadTask(DropboxCallable<CloudPath> callable) {
+    public DownloadFileTask(DropboxCallable<Boolean> callable) {
         super(callable);
         this.callable = callable;
     }

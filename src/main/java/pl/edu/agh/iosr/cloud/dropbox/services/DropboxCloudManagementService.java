@@ -6,7 +6,11 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.DeleteFileTask;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.DownloadFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.ListAllDirectoryFilesTask;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.DeleteFileTaskFactory;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.DownloadFileTaskFactory;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.ListAllDirectoryFilesTaskFactory;
 
 import java.io.InputStream;
@@ -36,17 +40,28 @@ public class DropboxCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public void downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+    public Boolean downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+        DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
+        DownloadFileTask task = new DownloadFileTaskFactory().create(dropboxCloudSession.getClient(), path, outputStream);
+        executorService.execute(task);
+        return task.get();
     }
 
     @Override
-    public FileMetadata uploadFile(String sessionId, CloudPath path, InputStream fileInputStream) {
+    public FileMetadata uploadFile(String sessionId, CloudPath path, InputStream inputStream) {
+        DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
+        // UploadFileTask task = new UploadFileTaskFactory().create(dropboxCloudSession.getClient(), path, inputStream);
+        // executorService.execute(task);
+        //return task.get();
         return null;
     }
 
     @Override
-    public Boolean deleteFile(String sessionId, CloudPath path) {
-        return null;
+    public Boolean deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException {
+        DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
+        DeleteFileTask task = new DeleteFileTaskFactory().create(dropboxCloudSession.getClient(), path);
+        executorService.execute(task);
+        return task.get();
     }
 
 }

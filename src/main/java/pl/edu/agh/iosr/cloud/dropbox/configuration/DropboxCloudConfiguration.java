@@ -26,18 +26,6 @@ public class DropboxCloudConfiguration {
         this.cloudConfiguration = new CloudConfiguration(appName, appKey, appKeySecret);
     }
 
-    protected String getAppName() {
-        return cloudConfiguration.getAppName();
-    }
-
-    protected String getAppKey() {
-        return cloudConfiguration.getAppKey();
-    }
-
-    protected String getAppKeySecret() {
-        return cloudConfiguration.getAppKeySecret();
-    }
-
     public DbxAppInfo getAppInfo() {
         if (appInfo == null) {
             appInfo = new DbxAppInfo(getAppKey(), getAppKeySecret());
@@ -58,4 +46,17 @@ public class DropboxCloudConfiguration {
         }
         return webAuth;
     }
+
+    private String getAppName() {
+        return cloudConfiguration.getAppName();
+    }
+
+    private String getAppKey() {
+        return cloudConfiguration.getAppKey();
+    }
+
+    private String getAppKeySecret() {
+        return cloudConfiguration.getAppKeySecret();
+    }
+
 }

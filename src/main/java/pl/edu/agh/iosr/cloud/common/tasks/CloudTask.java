@@ -21,4 +21,5 @@ public abstract class CloudTask<T> extends FutureTask<T> {
      * @return Ratio that is [0.0, 1.0]
      */
     public abstract float getProgress();
+
 }

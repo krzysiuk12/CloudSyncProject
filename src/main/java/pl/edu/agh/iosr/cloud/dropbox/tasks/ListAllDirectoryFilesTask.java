@@ -14,7 +14,6 @@ public class ListAllDirectoryFilesTask extends CloudTask<List<FileMetadata>> {
         this.callable = callable;
     }
 
-    @Override
     public float getProgress() {
         return callable.getProgress();
     }
