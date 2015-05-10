@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.GoogleDriveCallable;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.ListAllDirectoryFilesTask;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.params.ListAllDirectoryFilesTaskParams;
@@ -24,7 +25,7 @@ public class ListAllDirectoryFilesTaskFactory {
     public ListAllDirectoryFilesTask create(final Drive service, CloudPath directory) {
         ListAllDirectoryFilesTaskParams params = new ListAllDirectoryFilesTaskParams(directory);
         GoogleDriveCallable<List<FileMetadata>> callable = getTask(service, params);
-        return new ListAllDirectoryFilesTask(callable);
+        return new ListAllDirectoryFilesTask(new ProgressMonitor(), callable);
     }
 
     private GoogleDriveCallable<List<FileMetadata>> getTask(final Drive service, final ListAllDirectoryFilesTaskParams params) {

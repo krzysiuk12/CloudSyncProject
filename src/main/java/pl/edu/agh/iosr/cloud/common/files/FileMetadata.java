@@ -11,7 +11,7 @@ public class FileMetadata {
     private final long size;
     private final DateTime lastModificationTime;
 
-    FileMetadata(CloudPath path, FileType type, String fileName, String extension, long size, DateTime lastModificationTime) {
+    public FileMetadata(CloudPath path, FileType type, String fileName, String extension, long size, DateTime lastModificationTime) {
         this.path = path;
         this.type = type;
         this.fileName = fileName;

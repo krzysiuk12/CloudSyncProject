@@ -9,9 +9,11 @@ import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DeleteFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DownloadFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.ListAllDirectoryFilesTask;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.UploadFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.DeleteFileTaskFactory;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.DownloadFileTaskFactory;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.ListAllDirectoryFilesTaskFactory;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.UploadFileTaskFactory;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,12 +50,11 @@ public class DropboxCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public FileMetadata uploadFile(String sessionId, CloudPath path, InputStream inputStream) {
+    public FileMetadata uploadFile(String sessionId, CloudPath directory, String fileName, Integer fileSize, InputStream inputStream) throws ExecutionException, InterruptedException {
         DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
-        // UploadFileTask task = new UploadFileTaskFactory().create(dropboxCloudSession.getClient(), path, inputStream);
-        // executorService.execute(task);
-        //return task.get();
-        return null;
+        UploadFileTask task = new UploadFileTaskFactory().create(dropboxCloudSession.getClient(), directory, fileName, fileSize, inputStream);
+        executorService.execute(task);
+        return new FileMetadata(task.get(), null, null, null, 0L, null);
     }
 
     @Override

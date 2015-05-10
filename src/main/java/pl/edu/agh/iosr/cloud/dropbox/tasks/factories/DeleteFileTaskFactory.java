@@ -4,6 +4,8 @@ import com.dropbox.core.DbxClient;
 import com.dropbox.core.DbxException;
 import org.apache.log4j.Logger;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.tasks.Progress;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DeleteFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DropboxCallable;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.params.DeleteFileTaskParams;
@@ -17,25 +19,25 @@ public class DeleteFileTaskFactory {
 
     public DeleteFileTask create(final DbxClient dbxClient, CloudPath filePath) {
         DeleteFileTaskParams deleteFileTaskParams = new DeleteFileTaskParams(filePath);
-        DropboxCallable<Boolean> callable = getTask(dbxClient, deleteFileTaskParams);
-        return new DeleteFileTask(callable);
+        return getTask(dbxClient, deleteFileTaskParams);
     }
 
-    private DropboxCallable<Boolean> getTask(final DbxClient dbxClient, final DeleteFileTaskParams params) {
-        return new DropboxCallable<Boolean>() {
+    private DeleteFileTask getTask(final DbxClient dbxClient, final DeleteFileTaskParams params) {
+        final ProgressMonitor progressMonitor = new ProgressMonitor();
+        return new DeleteFileTask(progressMonitor, new DropboxCallable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 try {
-                    setProgress(0.1f);
+                    progressMonitor.setProgress(new Progress(0.1f));
                     dbxClient.delete(params.getPath().getPath());
-                    setProgress(1.0f);
+                    progressMonitor.setProgress(new Progress(1.0f));
                     return true;
                 } catch(DbxException ex) {
                     logger.error("Problem during file downloading.", ex);
                 }
                 return false;
             }
-        };
+        });
     }
 
 }

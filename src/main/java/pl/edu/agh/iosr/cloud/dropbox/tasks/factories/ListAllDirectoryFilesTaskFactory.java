@@ -8,6 +8,8 @@ import org.joda.time.DateTime;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
+import pl.edu.agh.iosr.cloud.common.tasks.Progress;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DropboxCallable;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.ListAllDirectoryFilesTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.params.ListAllDirectoryFilesTaskParams;
@@ -25,25 +27,25 @@ public class ListAllDirectoryFilesTaskFactory {
 
     public ListAllDirectoryFilesTask create(final DbxClient dbxClient, CloudPath directory) {
         ListAllDirectoryFilesTaskParams listAllDirectoryFilesTaskParams = new ListAllDirectoryFilesTaskParams(directory);
-        DropboxCallable<List<FileMetadata>> callable = getTask(dbxClient, listAllDirectoryFilesTaskParams);
-        return new ListAllDirectoryFilesTask(callable);
+        return getTask(dbxClient, listAllDirectoryFilesTaskParams);
     }
 
-    private DropboxCallable<List<FileMetadata>> getTask(final DbxClient dbxClient, final ListAllDirectoryFilesTaskParams params) {
-        return new DropboxCallable<List<FileMetadata>>() {
+    private ListAllDirectoryFilesTask getTask(final DbxClient dbxClient, final ListAllDirectoryFilesTaskParams params) {
+        final ProgressMonitor progressMonitor = new ProgressMonitor();
+        return new ListAllDirectoryFilesTask(progressMonitor, new DropboxCallable<List<FileMetadata>>() {
             @Override
             public List<FileMetadata> call() throws Exception {
                 try {
-                    setProgress(0.1f);
+                    progressMonitor.setProgress(new Progress(0.1f));
                     List<FileMetadata> paths = getResult(dbxClient, params.getDirectory().getPath());
-                    setProgress(1.0f);
+                    progressMonitor.setProgress(new Progress(1.0f));
                     return paths;
                 } catch(DbxException ex) {
                     logger.error("Problem during files listing.", ex);
                 }
                 return new LinkedList<>();
             }
-        };
+        });
     }
 
     private List<FileMetadata> getResult(final DbxClient dbxClient, String directory) throws DbxException {

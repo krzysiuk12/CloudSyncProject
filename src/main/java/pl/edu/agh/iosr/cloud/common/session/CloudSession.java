@@ -3,7 +3,8 @@ package pl.edu.agh.iosr.cloud.common.session;
 import pl.edu.agh.iosr.cloud.common.CloudType;
 
 /**
- * Class represents session object connected with cloud service.
+ * Class represents session object connected with cloud service. It contains cloud access information connected with
+ * OAuth2 protocol.
  *
  * Created by Krzysztof Kicinger on 2015-04-11.
  */

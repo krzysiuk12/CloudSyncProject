@@ -96,7 +96,7 @@ public class OnedriveCloudManagementServiceTest {
         outputStream.close();
 
         // when
-        FileMetadata file = underTest.uploadFile(sessionId, path, givenContentStream);
+        FileMetadata file = underTest.uploadFile(sessionId, path, null, null, givenContentStream);
 
         // then
         //TODO: more fancy check - some unified hash stored in file metadata

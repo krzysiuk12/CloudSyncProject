@@ -37,7 +37,7 @@ public class GoogleDriveCloudManagementService implements ICloudManagementServic
     }
 
     @Override
-    public FileMetadata uploadFile(String sessionId, CloudPath path, InputStream fileInputStream) {
+    public FileMetadata uploadFile(String sessionId, CloudPath path, String fileName, Integer fileSize, InputStream inputStream) throws ExecutionException, InterruptedException {
         return null;
     }
 

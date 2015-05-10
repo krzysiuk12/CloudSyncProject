@@ -1,7 +1,7 @@
 package pl.edu.agh.iosr.cloud.common.interfaces;
 
 /**
- * Class should be used as common root for all classes responsible for connectivity between application and cloud
+ * Interface should be used as common root for all classes responsible for connectivity between application and cloud
  * providers.
  *
  * Created by Krzysztof Kicinger on 2015-04-09.

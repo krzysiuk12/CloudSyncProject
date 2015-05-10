@@ -5,6 +5,8 @@ import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import org.apache.log4j.Logger;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
+import pl.edu.agh.iosr.cloud.common.tasks.Progress;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DownloadFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DropboxCallable;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.params.DownloadFileTaskParams;
@@ -20,29 +22,29 @@ public class DownloadFileTaskFactory {
 
     public DownloadFileTask create(final DbxClient dbxClient, CloudPath filePath, OutputStream outputStream) {
         DownloadFileTaskParams downloadFileTaskParams = new DownloadFileTaskParams(filePath, outputStream);
-        DropboxCallable<Boolean> callable = getTask(dbxClient, downloadFileTaskParams);
-        return new DownloadFileTask(callable);
+        return getTask(dbxClient, downloadFileTaskParams);
     }
 
-    private DropboxCallable<Boolean> getTask(final DbxClient dbxClient, final DownloadFileTaskParams params) {
-        return new DropboxCallable<Boolean>() {
+    private DownloadFileTask getTask(final DbxClient dbxClient, final DownloadFileTaskParams params) {
+        final ProgressMonitor progressMonitor = new ProgressMonitor();
+        return new DownloadFileTask(progressMonitor, new DropboxCallable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 try {
-                    setProgress(0.1f);
+                    progressMonitor.setProgress(new Progress(0.1f));
                     DbxEntry.File file = dbxClient.getMetadata(params.getCloudPath().getPath()).asFile();
-                    setProgress(0.3f);
+                    progressMonitor.setProgress(new Progress(0.3f));
                     if(file.numBytes > 0) {
                         dbxClient.getFile(params.getCloudPath().getPath(), null, params.getOutputStream());
                     }
-                    setProgress(1.0f);
+                    progressMonitor.setProgress(new Progress(1.0f));
                     return true;
                 } catch(DbxException ex) {
                     logger.error("Problem during file downloading.", ex);
                 }
                 return false;
             }
-        };
+        });
     }
 
 }

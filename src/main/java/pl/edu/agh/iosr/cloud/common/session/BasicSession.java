@@ -1,7 +1,8 @@
 package pl.edu.agh.iosr.cloud.common.session;
 
 /**
- * Class represents session object which is typica
+ * Class represents session object which is common for each session, contains only necessary information for
+ * authentication functionality.
  *
  * Created by Krzysztof Kicinger on 2015-04-11.
  */

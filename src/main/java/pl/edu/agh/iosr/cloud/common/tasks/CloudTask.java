@@ -12,14 +12,15 @@ import java.util.concurrent.FutureTask;
  */
 public abstract class CloudTask<T> extends FutureTask<T> {
 
-    protected CloudTask(Callable<T> callable) {
+    protected ProgressMonitor progressMonitor;
+
+    protected CloudTask(ProgressMonitor progressMonitor, Callable<T> callable) {
         super(callable);
+        this.progressMonitor = progressMonitor;
     }
 
-    /**
-     *
-     * @return Ratio that is [0.0, 1.0]
-     */
-    public abstract float getProgress();
+    public ProgressMonitor getProgressMonitor() {
+        return progressMonitor;
+    }
 
 }

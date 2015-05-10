@@ -2,6 +2,10 @@ package pl.edu.agh.iosr.cloud.common;
 
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudConfiguration;
 
+/**
+ * Cloud configuration class is used for encapsulation of all parameters required for connectivity between application
+ * and cloud (connected with OAuth2 protocol).
+ */
 public class CloudConfiguration implements ICloudConfiguration {
 
     private final String appName;

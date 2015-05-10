@@ -4,13 +4,16 @@ public class ProgressMonitor {
 
     private Progress progress;
 
-    //TODO: make this thread-safe (volatile or lock?)
+    public ProgressMonitor() {
+        this.progress = new Progress(0.0f);
+    }
 
-    public Progress getProgress() {
+    public synchronized Progress getProgress() {
         return progress;
     }
 
-    public void setProgress(Progress progress) {
+    public synchronized void setProgress(Progress progress) {
         this.progress = progress;
     }
+
 }
