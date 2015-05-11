@@ -64,6 +64,7 @@ public class ListAllDirectoryFilesTaskFactory {
                     } else {
                         fileBuilder.setType(FileType.SIMPLE_FILE);
                     }
+                    fileBuilder.setPath(new CloudPath(file.getId()));
                     result.add(fileBuilder.build());
                 }
                 request.setPageToken(files.getNextPageToken());

@@ -13,6 +13,7 @@
 
 
         function init() {
+            console.log("GoogleLoginController: init()");
             googleLoginFactory.getAuthenticationUrl()
                 .success(function (response) {
                     $scope.authenticationUrl = response.result;
