@@ -14,9 +14,6 @@ public class DropboxCloudSession extends CloudSession {
     @JsonIgnore
     private DbxClient client;
 
-    public DropboxCloudSession() {
-    }
-
     public DropboxCloudSession(String sessionId, String authorizationCode, String accessToken, CloudSessionStatus status, DbxClient client) {
         super(sessionId, authorizationCode, accessToken, CloudType.DROPBOX, status);
         this.client = client;
