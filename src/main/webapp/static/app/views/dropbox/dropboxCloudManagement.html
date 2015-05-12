@@ -7,7 +7,7 @@
         <li class="list-group-item" ng-click="goBack()">
             <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
         </li>
-        <li class="list-group-item" ng-repeat="file in files" ng-click="listFiles(file.path.path)">
+        <li class="list-group-item" ng-repeat="file in files" ng-click="goTo(file)">
             <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true"></span>
             <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
             {{file.fileName}}

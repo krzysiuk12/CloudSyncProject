@@ -23,9 +23,16 @@
                 })
                 .error(function (error) {
                     console.log('DropboxCloudManagementController - listFiles - error.');
-                    $scope.errors = error
+                    $scope.errors = error;
                     $log.log(error);
                 });
+            };
+
+            $scope.goTo = function (file) {
+                if (file.type == "DIRECTORY") {
+                    console.log("go to: " + file.path.path);
+                    $scope.listFiles(file.path.path);
+                }
             };
 
 
