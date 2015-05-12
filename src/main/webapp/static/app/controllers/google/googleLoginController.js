@@ -22,7 +22,7 @@
                     // handle error
                     $log.log(data.error + ' ' + status);
                 });
-        };
+        }
 
         init();
 

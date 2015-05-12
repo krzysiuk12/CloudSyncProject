@@ -13,11 +13,11 @@
             })
             .when('/googlelogin', {
                 controller: 'GoogleLoginController',
-                templateUrl: '/static/app/views/googleLogin.html'
+                templateUrl: '/static/app/views/google/googleLogin.html'
             })
             .when('/googlecloud', {
                 controller: 'GoogleCloudController',
-                templateUrl: '/static/app/views/googleCloud.html'
+                templateUrl: '/static/app/views/google/googleCloud.html'
             })
             .when('/dropboxsession', {
                 controller: 'DropboxSessionController',
