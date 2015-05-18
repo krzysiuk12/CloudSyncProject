@@ -26,7 +26,7 @@ public class UploadFileTaskFactory {
     }
 
     private UploadFileTask getTask(final DbxClient client, final UploadFileTaskParams uploadTaskParams) {
-        final String targetPath = (uploadTaskParams.getDirectory() + uploadTaskParams.getFileName()).replaceAll("//", "/");
+        final String targetPath = (uploadTaskParams.getDirectory().getPath() + uploadTaskParams.getFileName()).replaceAll("//", "/");
         final ProgressMonitor progressMonitor = new ProgressMonitor();
         return new UploadFileTask(progressMonitor, new Callable<CloudPath>() {
             @Override

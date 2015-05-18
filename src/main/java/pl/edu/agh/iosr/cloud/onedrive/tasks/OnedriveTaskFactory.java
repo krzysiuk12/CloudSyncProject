@@ -29,4 +29,8 @@ public class OnedriveTaskFactory {
     public OnedriveUploadTask createUploadTask(CloudPath path, ProgressMonitor progressMonitor, InputStream stream) {
         return new OnedriveUploadTask(client, session, path, progressMonitor, stream);
     }
+
+    public OnedriveDeleteTask createDeleteTask(CloudPath path, ProgressMonitor progressMonitor) {
+        return new OnedriveDeleteTask(client, session, path, progressMonitor);
+    }
 }

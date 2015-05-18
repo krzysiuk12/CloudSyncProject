@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="jacksonObjectMapper" primary="true" class="pl.edu.agh.iosr.config.MyObjectMapperFactory" factory-method="createWithJodaModule"/>
+
+    <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.configuration" />
+    <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.services" />
+    <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.configuration" />
+    <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.services" />
+
+    <bean id="onedriveConfig" class="pl.edu.agh.iosr.cloud.common.CloudConfiguration">
+        <constructor-arg name="appKey" value="000000004015302A"/>
+        <constructor-arg name="appKeySecret" value="3nbUeQnDqrFLSZwPKpjLBrYubFelq7TL"/>
+        <constructor-arg name="appName" value="burak"/>
+    </bean>
+
+    <bean id="client" class="com.sun.jersey.api.client.Client"/>
+    <bean id="executorService" class="java.util.concurrent.Executors" factory-method="newSingleThreadExecutor"/>
+
+    <context:component-scan base-package="pl.edu.agh.iosr.cloud.onedrive.services" />
+
+</beans>

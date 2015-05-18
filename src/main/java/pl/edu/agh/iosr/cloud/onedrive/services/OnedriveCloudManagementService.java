@@ -67,7 +67,13 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public Boolean deleteFile(String sessionId, CloudPath path) {
-        return null;
+    public Boolean deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException {
+        CloudSession session = onedriveSessionService.getSession(sessionId);
+        OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
+        ProgressMonitor progressMonitor = new ProgressMonitor();
+        FutureTask<Boolean> task = new FutureTask<>(taskFactory.createDeleteTask(path, progressMonitor));
+
+        executorService.execute(task);
+        return task.get();
     }
 }
