@@ -7,11 +7,11 @@ import org.apache.log4j.Logger;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.tasks.Progress;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
-import pl.edu.agh.iosr.cloud.dropbox.tasks.DropboxCallable;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.UploadFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.params.UploadFileTaskParams;
 
 import java.io.InputStream;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Krzysztof Kicinger on 2015-05-10.
@@ -28,7 +28,7 @@ public class UploadFileTaskFactory {
     private UploadFileTask getTask(final DbxClient client, final UploadFileTaskParams uploadTaskParams) {
         final String targetPath = (uploadTaskParams.getDirectory() + uploadTaskParams.getFileName()).replaceAll("//", "/");
         final ProgressMonitor progressMonitor = new ProgressMonitor();
-        return new UploadFileTask(progressMonitor, new DropboxCallable<CloudPath>() {
+        return new UploadFileTask(progressMonitor, new Callable<CloudPath>() {
             @Override
             public CloudPath call() throws Exception {
                 try {

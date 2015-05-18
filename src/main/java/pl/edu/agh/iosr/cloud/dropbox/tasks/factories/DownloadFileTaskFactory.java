@@ -8,10 +8,10 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.tasks.Progress;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DownloadFileTask;
-import pl.edu.agh.iosr.cloud.dropbox.tasks.DropboxCallable;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.params.DownloadFileTaskParams;
 
 import java.io.OutputStream;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Krzysztof Kicinger on 2015-05-10.
@@ -27,7 +27,7 @@ public class DownloadFileTaskFactory {
 
     private DownloadFileTask getTask(final DbxClient dbxClient, final DownloadFileTaskParams params) {
         final ProgressMonitor progressMonitor = new ProgressMonitor();
-        return new DownloadFileTask(progressMonitor, new DropboxCallable<Boolean>() {
+        return new DownloadFileTask(progressMonitor, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 try {

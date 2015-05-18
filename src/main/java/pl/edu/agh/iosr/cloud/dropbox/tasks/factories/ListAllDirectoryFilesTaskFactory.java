@@ -10,13 +10,13 @@ import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
 import pl.edu.agh.iosr.cloud.common.tasks.Progress;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
-import pl.edu.agh.iosr.cloud.dropbox.tasks.DropboxCallable;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.ListAllDirectoryFilesTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.params.ListAllDirectoryFilesTaskParams;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Krzysztof Kicinger on 2015-04-13.
@@ -32,7 +32,7 @@ public class ListAllDirectoryFilesTaskFactory {
 
     private ListAllDirectoryFilesTask getTask(final DbxClient dbxClient, final ListAllDirectoryFilesTaskParams params) {
         final ProgressMonitor progressMonitor = new ProgressMonitor();
-        return new ListAllDirectoryFilesTask(progressMonitor, new DropboxCallable<List<FileMetadata>>() {
+        return new ListAllDirectoryFilesTask(progressMonitor, new Callable<List<FileMetadata>>() {
             @Override
             public List<FileMetadata> call() throws Exception {
                 try {

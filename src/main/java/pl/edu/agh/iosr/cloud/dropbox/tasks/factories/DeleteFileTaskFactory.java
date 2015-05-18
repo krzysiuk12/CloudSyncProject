@@ -7,8 +7,9 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.tasks.Progress;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DeleteFileTask;
-import pl.edu.agh.iosr.cloud.dropbox.tasks.DropboxCallable;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.params.DeleteTaskParams;
+
+import java.util.concurrent.Callable;
 
 /**
  * Created by Krzysztof Kicinger on 2015-05-10.
@@ -24,7 +25,7 @@ public class DeleteFileTaskFactory {
 
     private DeleteFileTask getTask(final DbxClient dbxClient, final DeleteTaskParams params) {
         final ProgressMonitor progressMonitor = new ProgressMonitor();
-        return new DeleteFileTask(progressMonitor, new DropboxCallable<Boolean>() {
+        return new DeleteFileTask(progressMonitor, new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 try {
