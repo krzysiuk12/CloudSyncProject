@@ -16,3 +16,10 @@ angular.module('cloudSyncApp').value('dropboxSession', {
     id: 'DropboxId',
     sessionId: 'DropboxSessionId'
 });
+
+angular.module('cloudSyncApp').value('oneDriveSession', {
+    id: '',
+    sessionId: ''
+});
+
+angular.module('cloudSyncApp').constant('initialDirectoryPath', '/');

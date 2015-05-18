@@ -29,6 +29,19 @@ public class OnedriveController {
         this.onedriveCloudManagementService = onedriveCloudManagementService;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "authUrl")
+    public ResponseSerializer<String> getAuthorizationUrl() {
+        System.out.println("ONEDRIVE AUTHORIZATION URL");
+        try {
+            String url = onedriveCloudSessionService.getAuthorizationUrl();
+            return  new ResponseSerializer<>(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+        }
+
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "login")
     public ResponseSerializer<BasicSession> loginUser(@RequestBody LoginCloudSerializer loginCloudSerializer) {
         System.out.println("HERE I AM - LOGIN!!!");
@@ -49,10 +62,10 @@ public class OnedriveController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
-    public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId) {
+    public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         System.out.println("HERE I AM - LIST ALL FILES!!!");
         try {
-            List<FileMetadata> paths = onedriveCloudManagementService.listAllDirectoryFiles(sessionId, new CloudPath("/"));
+            List<FileMetadata> paths = onedriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
             return new ResponseSerializer<>(paths);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

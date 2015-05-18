@@ -8,7 +8,8 @@
 
         $scope.logins = [
             {name: 'Google Drive', url: '#/googlelogin'},
-            {name: 'Dropbox', url: '#/dropboxsession'}
+            {name: 'Dropbox', url: '#/dropboxsession'},
+            {name: 'OneDrive', url: '#/onedrivelogin'}
         ];
     };
 

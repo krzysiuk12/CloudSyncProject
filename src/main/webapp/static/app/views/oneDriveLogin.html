@@ -1,0 +1,21 @@
+<div>
+    <h2>Log in with OneDrive</h2>
+    <p>Follow the link below to authorize in OneDrive and copy authorization code.</p>
+    <p class="text-center">
+        <a href="{{ authenticationUrl }}" target="_blank">
+            <button class="btn btn-primary" type="button">Login with OneDrive</button>
+        </a>
+    </p>
+</div>
+<div>
+    <h2>Paste authorization code</h2>
+    <div class="input-group">
+        <span class="input-group-addon">Authorization Code</span>
+        <input type="text" class="form-control" ng-model="authenticationCode" aria-label="Authorization Code provided by OneDrive"/>
+    </div>
+</div>
+<div>
+    <p class="text-center">
+        <button class="btn btn-success" type="button" ng-click="logIn('/onedrivecloud')">Go to OneDrive Management Page</button>
+    </p>
+</div>

@@ -27,6 +27,14 @@
                 controller: 'DropboxCloudManagementController',
                 templateUrl: '/static/app/views/dropbox/dropboxCloudManagement.html'
             })
+            .when('/onedrivelogin', {
+                controller: 'OneDriveLoginController',
+                templateUrl: '/static/app/views/oneDriveLogin.html'
+            })
+            .when('/onedrivecloud', {
+                controller: 'OneDriveCloudController',
+                templateUrl: '/static/app/views/oneDriveCloud.html'
+            })
             .otherwise( { redirectTo: '/' });
     });
 

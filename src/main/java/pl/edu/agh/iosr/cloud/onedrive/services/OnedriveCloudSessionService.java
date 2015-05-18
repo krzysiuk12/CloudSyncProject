@@ -21,12 +21,15 @@ import java.util.UUID;
 @Service
 public class OnedriveCloudSessionService implements ICloudSessionService {
 
+    private static final String AUTHORIZATION_RESPONSE_CODE = "code";
+    private static final String AUTHORIZATION_SCOPE = "wl.signin wl.offline_access onedrive.readwrite";
     private final static String REDIRECT_URI = "https://login.live.com/oauth20_desktop.srf";
     private static final String GRANT_TYPE = "authorization_code";
 
     private final CloudConfiguration cloudConfiguration;
     private final Map<String, CloudSession> sessions = new HashMap<>();
     private final Client client;
+
 
     @Autowired
     public OnedriveCloudSessionService(CloudConfiguration cloudConfiguration, Client client) {
@@ -77,7 +80,12 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
 
     @Override
     public String getAuthorizationUrl() throws Exception {
-        return null;
+        return client.resource("https://login.live.com/oauth20_authorize.srf")
+                .queryParam("client_id", cloudConfiguration.getAppKey())
+                .queryParam("client_secret", cloudConfiguration.getAppKeySecret())
+                .queryParam("scope", AUTHORIZATION_SCOPE)
+                .queryParam("response_type", AUTHORIZATION_RESPONSE_CODE)
+                .queryParam("redirect_uri", REDIRECT_URI).toString();
     }
 
     @Override

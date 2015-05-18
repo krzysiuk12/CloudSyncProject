@@ -57,7 +57,7 @@ public class OnedriveListChildrenTask implements Callable<List<FileMetadata>> {
 
     private FileMetadata fileFromJson(JSONObject file) {
         FileMetadata.Builder fileBuilder = FileMetadata.newBuilder();
-        fileBuilder.setPath(new CloudPath(rootPath + file.getString("name")));
+        fileBuilder.setPath(new CloudPath(rootPath.getPath() + file.getString("name")));
         fileBuilder.setFileName(file.getString("name"));
         fileBuilder.setSize(file.getInt("size"));
         fileBuilder.setType(file.has("folder") ? FileType.DIRECTORY : FileType.SIMPLE_FILE);
