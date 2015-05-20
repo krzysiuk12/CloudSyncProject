@@ -2,6 +2,7 @@ package pl.edu.agh.iosr.cloud.common.interfaces;
 
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
+import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,7 +33,7 @@ public interface ICloudManagementService {
      * @param outputStream File output stream
      * @return
      */
-    public Boolean downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
+    public CloudTask<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
 
     /**
      * Impelemtation of this method should provide functionality of uploading file, which is pointed from input stream.
@@ -42,7 +43,7 @@ public interface ICloudManagementService {
      * @param inputStream File stream
      * @return
      */
-    public FileMetadata uploadFile(String sessionId, CloudPath directory, String fileName, Integer fileSize,  InputStream inputStream) throws ExecutionException, InterruptedException;
+    public CloudTask<FileMetadata> uploadFile(String sessionId, CloudPath directory, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException;
 
     /**
      * Implementation of this method should delete file from the cloud.

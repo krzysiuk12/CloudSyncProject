@@ -1,7 +1,5 @@
 package pl.edu.agh.iosr.synchronization;
 
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
-
 import java.util.List;
 
 /**
@@ -9,30 +7,41 @@ import java.util.List;
  */
 public class SynchronizationEntry {
 
-    private CloudPath sourcePath;
-    private List<CloudPath> destinationPaths;
+    private SynchronizationSingleCloudEntry source;
+    private List<SynchronizationSingleCloudEntry> destination;
+    private SynchronizationType type;
 
     public SynchronizationEntry() {
     }
 
-    public SynchronizationEntry(CloudPath sourcePath, List<CloudPath> destinationPaths) {
-        this.sourcePath = sourcePath;
-        this.destinationPaths = destinationPaths;
+    public SynchronizationEntry(SynchronizationSingleCloudEntry source, List<SynchronizationSingleCloudEntry> destination, SynchronizationType type) {
+        this.source = source;
+        this.destination = destination;
+        this.type = type;
     }
 
-    public CloudPath getSourcePath() {
-        return sourcePath;
+    public SynchronizationSingleCloudEntry getSource() {
+        return source;
     }
 
-    public void setSourcePath(CloudPath sourcePath) {
-        this.sourcePath = sourcePath;
+    public void setSource(SynchronizationSingleCloudEntry source) {
+        this.source = source;
     }
 
-    public List<CloudPath> getDestinationPaths() {
-        return destinationPaths;
+    public List<SynchronizationSingleCloudEntry> getDestination() {
+        return destination;
     }
 
-    public void setDestinationPaths(List<CloudPath> destinationPaths) {
-        this.destinationPaths = destinationPaths;
+    public void setDestination(List<SynchronizationSingleCloudEntry> destination) {
+        this.destination = destination;
     }
+
+    public SynchronizationType getType() {
+        return type;
+    }
+
+    public void setType(SynchronizationType type) {
+        this.type = type;
+    }
+
 }

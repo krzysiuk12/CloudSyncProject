@@ -13,9 +13,9 @@
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.configuration" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.services" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.onedrive.services" />
+    <context:component-scan base-package="pl.edu.agh.iosr.execution" />
     <context:component-scan base-package="pl.edu.agh.iosr.synchronization" />
 
     <bean id="client" class="com.sun.jersey.api.client.Client"/>
-    <bean id="executorService" class="java.util.concurrent.Executors" factory-method="newSingleThreadExecutor"/>
 
 </beans>

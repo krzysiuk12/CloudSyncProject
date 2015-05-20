@@ -7,27 +7,28 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
+import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.onedrive.tasks.OnedriveTaskFactory;
+import pl.edu.agh.iosr.execution.IExecutionService;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
 
 @Service
 public class OnedriveCloudManagementService implements ICloudManagementService {
 
     private final OnedriveCloudSessionService onedriveSessionService;
-    private final Executor executorService;
+    private final IExecutionService executionService;
     private final Client client;
 
     @Autowired
-    public OnedriveCloudManagementService(OnedriveCloudSessionService onedriveSessionService, Executor executorService, Client client) {
+    public OnedriveCloudManagementService(OnedriveCloudSessionService onedriveSessionService, Client client, IExecutionService executionService) {
         this.onedriveSessionService = onedriveSessionService;
-        this.executorService = executorService;
+        this.executionService = executionService;
         this.client = client;
     }
 
@@ -39,31 +40,33 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         ProgressMonitor progressMonitor = new ProgressMonitor();
         FutureTask<List<FileMetadata>> task = new FutureTask<>(taskFactory.createListChildrenTask(cloudDirectory, progressMonitor));
 
-        executorService.execute(task);
-        return task.get();
+/*        executorService.execute(task);
+        return task.get();*/
+        return null;
     }
 
     @Override
-    public Boolean downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+    public CloudTask<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
         FutureTask<Object> task = new FutureTask<>(taskFactory.createDownloadTask(path, progressMonitor, outputStream));
 
-        executorService.execute(task);
-        task.get();
-        return true;
+/*        executorService.execute(task);
+        task.get();*/
+        return null;
     }
 
     @Override
-    public FileMetadata uploadFile(String sessionId, CloudPath directory, String fileName, Integer fileSize,  InputStream inputStream) throws ExecutionException, InterruptedException {
+    public CloudTask<FileMetadata> uploadFile(String sessionId, CloudPath directory, String fileName,  InputStream inputStream) throws ExecutionException, InterruptedException {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
         FutureTask<FileMetadata> task = new FutureTask<>(taskFactory.createUploadTask(directory, progressMonitor, inputStream));
 
-        executorService.execute(task);
-        return task.get();
+/*        executorService.execute(task);
+        // return task.get();*/
+        return null;
     }
 
     @Override
@@ -73,7 +76,8 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         ProgressMonitor progressMonitor = new ProgressMonitor();
         FutureTask<Boolean> task = new FutureTask<>(taskFactory.createDeleteTask(path, progressMonitor));
 
-        executorService.execute(task);
-        return task.get();
+/*        executorService.execute(task);
+        return task.get();*/
+        return null;
     }
 }

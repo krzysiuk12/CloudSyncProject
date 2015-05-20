@@ -51,7 +51,7 @@ public class DropboxIT {
             assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
         }
 
-        managementService.uploadFile(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX), "__E2E_TEST_FILE", 11, createInputStream());
+        managementService.uploadFile(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX), "__E2E_TEST_FILE", createInputStream());
 
         List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX));
         assertThat(FluentIterable.from(listedAfterUpload).transform(metadataIntoFilename())).contains("__E2E_TEST_FILE");

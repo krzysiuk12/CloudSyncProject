@@ -5,39 +5,45 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
+import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 import pl.edu.agh.iosr.cloud.googledrive.session.GoogleDriveCloudSession;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.ListAllDirectoryFilesTask;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.factories.ListAllDirectoryFilesTaskFactory;
+import pl.edu.agh.iosr.execution.IExecutionService;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Service
 public class GoogleDriveCloudManagementService implements ICloudManagementService {
 
     @Autowired
     private GoogleDriveCloudSessionService cloudSessionService;
-    private ExecutorService executorService = Executors.newFixedThreadPool(5);
+    private IExecutionService executionService;
+
+    @Autowired
+    public GoogleDriveCloudManagementService(GoogleDriveCloudSessionService cloudSessionService, IExecutionService executionService) {
+        this.cloudSessionService = cloudSessionService;
+        this.executionService = executionService;
+    }
 
     @Override
     public List<FileMetadata> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
         GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
         ListAllDirectoryFilesTask task = new ListAllDirectoryFilesTaskFactory().create(cloudSession.getDrive(), cloudDirectory);
-        executorService.execute(task);
+        executionService.execute(task);
         return task.get();
     }
 
     @Override
-    public Boolean downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
-        return false;
+    public CloudTask<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+        return null;
     }
 
     @Override
-    public FileMetadata uploadFile(String sessionId, CloudPath path, String fileName, Integer fileSize, InputStream inputStream) throws ExecutionException, InterruptedException {
+    public CloudTask<FileMetadata> uploadFile(String sessionId, CloudPath path, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException {
         return null;
     }
 

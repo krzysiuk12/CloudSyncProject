@@ -68,4 +68,15 @@ public class DropboxController {
         return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "delete")
+    public ResponseSerializer<Boolean> deleteFile(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath file) {
+        try {
+            Boolean deletionComplete = dropboxCloudManagementService.deleteFile(sessionId, file);
+            return new ResponseSerializer<>(deletionComplete);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+    }
+
 }

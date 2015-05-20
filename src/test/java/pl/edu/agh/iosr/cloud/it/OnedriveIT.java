@@ -51,7 +51,7 @@ public class OnedriveIT {
             assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
         }
 
-        managementService.uploadFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE), "", 11, createInputStream());
+        managementService.uploadFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE), "", createInputStream());
 
         List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE));
         assertThat(FluentIterable.from(listedAfterUpload).transform(metadataIntoFilename())).contains("__E2E_TEST_FILE", CloudType.ONE_DRIVE);
