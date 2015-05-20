@@ -6,8 +6,8 @@ import com.sun.jersey.api.client.Client;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import pl.edu.agh.iosr.cloud.common.CloudConfiguration;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
+import pl.edu.agh.iosr.repository.CloudSessionRepository;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -20,11 +20,7 @@ public class OnedriveCloudSessionServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        underTest = new OnedriveCloudSessionService(createConfiguration(), new Client());
-    }
-
-    private CloudConfiguration createConfiguration() {
-        return new CloudConfiguration("testApp", "THE_CLIENT_ID", "THE_CLIENT_SECRET");
+        underTest = new OnedriveCloudSessionService("testApp", "THE_CLIENT_ID", "THE_CLIENT_SECRET", new Client(), new CloudSessionRepository("-", 4, 5));
     }
 
     @Betamax(tape="onedrive_validLogin")

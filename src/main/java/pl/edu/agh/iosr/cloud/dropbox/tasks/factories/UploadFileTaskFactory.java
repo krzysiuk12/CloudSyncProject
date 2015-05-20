@@ -4,6 +4,7 @@ import com.dropbox.core.DbxClient;
 import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxWriteMode;
 import org.apache.log4j.Logger;
+import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.tasks.Progress;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
@@ -35,7 +36,7 @@ public class UploadFileTaskFactory {
                     progressMonitor.setProgress(new Progress(0.1f));
                     DbxEntry.File uploadedFile = client.uploadFile(targetPath, DbxWriteMode.add(), uploadTaskParams.getFileSize(), uploadTaskParams.getInputStream());
                     progressMonitor.setProgress(new Progress(0.8f));
-                    CloudPath path = new CloudPath(uploadedFile.path);
+                    CloudPath path = new CloudPath(uploadedFile.path, CloudType.DROPBOX);
                     progressMonitor.setProgress(new Progress(1.0f));
                     return path;
                 } catch (Exception ex) {

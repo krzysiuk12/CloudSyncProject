@@ -5,6 +5,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.CloudConfiguration;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
@@ -12,11 +13,9 @@ import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 import pl.edu.agh.iosr.cloud.onedrive.sessionswtf.OnedriveCloudSession;
+import pl.edu.agh.iosr.repository.ICloudSessionRepository;
 
 import javax.ws.rs.core.MediaType;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class OnedriveCloudSessionService implements ICloudSessionService {
@@ -27,22 +26,23 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
     private static final String GRANT_TYPE = "authorization_code";
 
     private final CloudConfiguration cloudConfiguration;
-    private final Map<String, CloudSession> sessions = new HashMap<>();
+    private final ICloudSessionRepository cloudSessionRepository;
     private final Client client;
 
 
     @Autowired
-    public OnedriveCloudSessionService(CloudConfiguration cloudConfiguration, Client client) {
-        this.cloudConfiguration = cloudConfiguration;
+    public OnedriveCloudSessionService(@Value("${oneDrive.appName}") String appName, @Value("${oneDrive.appKey}") String appKey, @Value("${oneDrive.appKeySecret}") String appKeySecret, Client client, ICloudSessionRepository cloudSessionRepository) {
+        this.cloudConfiguration = new CloudConfiguration(appName, appKey, appKeySecret);
         this.client = client;
+        this.cloudSessionRepository = cloudSessionRepository;
     }
 
     @Override
     public BasicSession loginUser(String login, String authorizationCode) throws Exception {
         String accessToken = redeemCodeForToken(authorizationCode);
 
-        OnedriveCloudSession theSession = new OnedriveCloudSession(UUID.randomUUID().toString(), authorizationCode, accessToken, CloudSessionStatus.ACTIVE);
-        sessions.put(theSession.getSessionId(), theSession);
+        OnedriveCloudSession theSession = new OnedriveCloudSession(authorizationCode, accessToken, CloudSessionStatus.ACTIVE);
+        cloudSessionRepository.addCloudSession(theSession);
 
         return theSession;
     }
@@ -75,7 +75,7 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
 
     @Override
     public void logoutUser(String sessionId) {
-        sessions.remove(sessionId);
+        cloudSessionRepository.removeCloudSession(sessionId);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
 
     @Override
     public CloudSession getSession(String sessionId) {
-        return sessions.get(sessionId);
+        return cloudSessionRepository.getCloudSessionById(sessionId);
     }
 
 }

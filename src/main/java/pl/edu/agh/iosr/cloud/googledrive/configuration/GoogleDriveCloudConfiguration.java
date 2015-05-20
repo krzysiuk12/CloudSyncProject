@@ -1,6 +1,9 @@
 package pl.edu.agh.iosr.cloud.googledrive.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.iosr.cloud.common.CloudConfiguration;
 
 /**
  * Created by Mateusz Drożdż on 18.04.15.
@@ -8,23 +11,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class GoogleDriveCloudConfiguration { //extends ICloudConfiguration {
 
-    private static final String APP_NAME = "CloudSyncIosrProject";
-    private static final String APP_KEY = "2828043487-aepcph91ibr6vurdij6qo2nckv2dmgt7.apps.googleusercontent.com";
-    private static final String APP_KEY_SECRET = "s4CWlPWyq4n0-rMmRosqnUxt";
+    private CloudConfiguration cloudConfiguration;
 
-    //@Override
+    @Autowired
+    public GoogleDriveCloudConfiguration(@Value("${googleDrive.appName}") String appName, @Value("${googleDrive.appKey}") String appKey, @Value("${googleDrive.appKeySecret}") String appKeySecret) {
+        this.cloudConfiguration = new CloudConfiguration(appName, appKey, appKeySecret);
+    }
+
     public String getAppName() {
-        return APP_NAME;
+        return cloudConfiguration.getAppName();
     }
 
-    //@Override
     public String getAppKey() {
-        return APP_KEY;
+        return cloudConfiguration.getAppKey();
     }
 
-    //@Override
     public String getAppKeySecret() {
-        return APP_KEY_SECRET;
+        return cloudConfiguration.getAppKeySecret();
     }
 
 }

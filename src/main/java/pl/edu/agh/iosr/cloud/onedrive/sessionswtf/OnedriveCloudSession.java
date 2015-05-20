@@ -6,8 +6,8 @@ import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 
 public class OnedriveCloudSession extends CloudSession {
 
-    public OnedriveCloudSession(String sessionId, String authorizationCode, String accessToken, CloudSessionStatus status) {
-        super(sessionId, authorizationCode, accessToken, CloudType.ONE_DRIVE, status);
+    public OnedriveCloudSession(String authorizationCode, String accessToken, CloudSessionStatus status) {
+        super(authorizationCode, accessToken, CloudType.ONE_DRIVE, status);
     }
 
 }

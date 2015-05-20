@@ -1,5 +1,6 @@
 package pl.edu.agh.iosr.cloud.dropbox.tasks.params;
 
+import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 
 import java.io.InputStream;
@@ -15,7 +16,7 @@ public class UploadFileTaskParams {
     private final InputStream inputStream;
 
     public UploadFileTaskParams(CloudPath directory, String fileName, Integer fileSize, InputStream inputStream) {
-        this.directory = new CloudPath(directory != null ? directory.getPath() + "/" : "/");
+        this.directory = new CloudPath(directory != null ? directory.getPath() + "/" : "/", CloudType.DROPBOX);
         this.fileName = fileName;
         this.fileSize = fileSize;
         this.inputStream = inputStream;

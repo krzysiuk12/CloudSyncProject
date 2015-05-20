@@ -17,8 +17,8 @@ public class GoogleDriveCloudSession extends CloudSession {
     public GoogleDriveCloudSession() {
     }
 
-    public GoogleDriveCloudSession(String sessionId, String authorizationCode, String accessToken, CloudSessionStatus status, Drive drive) {
-        super(sessionId, authorizationCode, accessToken, CloudType.GOOGLE_DRIVE, status);
+    public GoogleDriveCloudSession(String authorizationCode, String accessToken, CloudSessionStatus status, Drive drive) {
+        super(authorizationCode, accessToken, CloudType.GOOGLE_DRIVE, status);
         this.drive = drive;
     }
 

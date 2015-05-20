@@ -5,6 +5,7 @@ import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
@@ -58,7 +59,7 @@ public class ListAllDirectoryFilesTaskFactory {
             FileMetadata.Builder fileBuilder = FileMetadata.newBuilder();
 
             fileBuilder.setFileName(entry.name);
-            fileBuilder.setPath(new CloudPath(entry.path));
+            fileBuilder.setPath(new CloudPath(entry.path, CloudType.DROPBOX));
             if(entry.isFile()) {
                 fileBuilder.setType(FileType.SIMPLE_FILE);
                 fileBuilder.setSize(((DbxEntry.File) entry).numBytes);

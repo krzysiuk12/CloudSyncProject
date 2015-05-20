@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
@@ -54,7 +55,7 @@ public class OnedriveCloudManagementServiceTest {
     @Test
     public void testListRootDir() throws Exception {
         // given
-        CloudPath rootPath = new CloudPath("/");
+        CloudPath rootPath = new CloudPath("/", CloudType.ONE_DRIVE);
 
         // when
         List<FileMetadata> paths = underTest.listAllDirectoryFiles(sessionId, rootPath);
@@ -70,7 +71,7 @@ public class OnedriveCloudManagementServiceTest {
     @Test
     public void testDownload() throws Exception {
         // given
-        CloudPath path = new CloudPath("/some_note.txt");
+        CloudPath path = new CloudPath("/some_note.txt", CloudType.ONE_DRIVE);
         PipedInputStream grabbedContentStream = new PipedInputStream();
         PipedOutputStream outputStream = new PipedOutputStream(grabbedContentStream);
 
@@ -89,7 +90,7 @@ public class OnedriveCloudManagementServiceTest {
     @Test
     public void testUpload() throws Exception {
         // given
-        CloudPath path = new CloudPath("/uploaded.txt");
+        CloudPath path = new CloudPath("/uploaded.txt", CloudType.ONE_DRIVE);
         PipedInputStream givenContentStream = new PipedInputStream();
         PipedOutputStream outputStream = new PipedOutputStream(givenContentStream);
         outputStream.write("hello world".getBytes(StandardCharsets.US_ASCII));

@@ -7,20 +7,15 @@
 
     <bean id="jacksonObjectMapper" primary="true" class="pl.edu.agh.iosr.config.MyObjectMapperFactory" factory-method="createWithJodaModule"/>
 
+    <context:component-scan base-package="pl.edu.agh.iosr.repository" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.configuration" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.services" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.configuration" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.services" />
-
-    <bean id="onedriveConfig" class="pl.edu.agh.iosr.cloud.common.CloudConfiguration">
-        <constructor-arg name="appKey" value="000000004015302A"/>
-        <constructor-arg name="appKeySecret" value="3nbUeQnDqrFLSZwPKpjLBrYubFelq7TL"/>
-        <constructor-arg name="appName" value="burak"/>
-    </bean>
+    <context:component-scan base-package="pl.edu.agh.iosr.cloud.onedrive.services" />
+    <context:component-scan base-package="pl.edu.agh.iosr.synchronization" />
 
     <bean id="client" class="com.sun.jersey.api.client.Client"/>
     <bean id="executorService" class="java.util.concurrent.Executors" factory-method="newSingleThreadExecutor"/>
-
-    <context:component-scan base-package="pl.edu.agh.iosr.cloud.onedrive.services" />
 
 </beans>

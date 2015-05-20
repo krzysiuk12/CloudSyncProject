@@ -5,6 +5,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.files.FileType;
@@ -64,7 +65,7 @@ public class ListAllDirectoryFilesTaskFactory {
                     } else {
                         fileBuilder.setType(FileType.SIMPLE_FILE);
                     }
-                    fileBuilder.setPath(new CloudPath(file.getId()));
+                    fileBuilder.setPath(new CloudPath(file.getId(), CloudType.GOOGLE_DRIVE));
                     result.add(fileBuilder.build());
                 }
                 request.setPageToken(files.getNextPageToken());

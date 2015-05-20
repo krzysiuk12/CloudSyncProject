@@ -18,8 +18,7 @@ public abstract class CloudSession extends BasicSession {
     protected CloudSession() {
     }
 
-    protected CloudSession(String sessionId, String authorizationCode, String accessToken, CloudType cloudType, CloudSessionStatus status) {
-        super(sessionId);
+    protected CloudSession(String authorizationCode, String accessToken, CloudType cloudType, CloudSessionStatus status) {
         this.authorizationCode = authorizationCode;
         this.accessToken = accessToken;
         this.cloudType = cloudType;

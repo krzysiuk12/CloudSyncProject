@@ -11,10 +11,7 @@ import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 import pl.edu.agh.iosr.cloud.dropbox.configuration.DropboxCloudConfiguration;
 import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import pl.edu.agh.iosr.repository.ICloudSessionRepository;
 
 /**
  * Created by Krzysztof Kicinger on 2015-04-11.
@@ -23,12 +20,12 @@ import java.util.UUID;
 public class DropboxCloudSessionService implements ICloudSessionService {
 
     private DropboxCloudConfiguration dropboxCloudConfiguration;
-    private Map<String, DropboxCloudSession> dropboxCloudSessions;
+    private ICloudSessionRepository cloudSessionRepository;
 
     @Autowired
-    public DropboxCloudSessionService(DropboxCloudConfiguration dropboxCloudConfiguration) {
+    public DropboxCloudSessionService(DropboxCloudConfiguration dropboxCloudConfiguration, ICloudSessionRepository cloudSessionRepository) {
         this.dropboxCloudConfiguration = dropboxCloudConfiguration;
-        this.dropboxCloudSessions = new HashMap<String, DropboxCloudSession>();
+        this.cloudSessionRepository = cloudSessionRepository;
     }
 
     @Override
@@ -43,20 +40,19 @@ public class DropboxCloudSessionService implements ICloudSessionService {
         String authorizationUrl = getAuthorizationUrl();
         DbxAuthFinish authFinish = webAuth.finish(authorizationCode);
         DbxClient dbxClient = new DbxClient(dbxRequestConfig, authFinish.accessToken);
-        DropboxCloudSession dropboxCloudSession = new DropboxCloudSession(UUID.randomUUID().toString(), authorizationCode, authFinish.accessToken, CloudSessionStatus.ACTIVE, dbxClient);
-        //TODO: Persistence
-        dropboxCloudSessions.put(dropboxCloudSession.getSessionId(), dropboxCloudSession);
+        DropboxCloudSession dropboxCloudSession = new DropboxCloudSession(authorizationCode, authFinish.accessToken, CloudSessionStatus.ACTIVE, dbxClient);
+        cloudSessionRepository.addCloudSession(dropboxCloudSession);
         return dropboxCloudSession;
     }
 
     @Override
     public void logoutUser(String sessionId) {
-        dropboxCloudSessions.remove(sessionId);
+        cloudSessionRepository.removeCloudSession(sessionId);
     }
 
     @Override
     public DropboxCloudSession getSession(String sessionId) {
-        return dropboxCloudSessions.get(sessionId);
+        return (DropboxCloudSession) cloudSessionRepository.getCloudSessionById(sessionId);
     }
 
 }

@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
@@ -43,22 +44,22 @@ public class OnedriveIT {
 
     @Test
     public void testEndToEnd() throws Exception {
-        managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE"));
+        managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE));
 
-        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/"));
+        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE));
         for (FileMetadata fileMetadata : listed) {
             assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
         }
 
-        managementService.uploadFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE"), "", 11, createInputStream());
+        managementService.uploadFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE), "", 11, createInputStream());
 
-        List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/"));
-        assertThat(FluentIterable.from(listedAfterUpload).transform(metadataIntoFilename())).contains("__E2E_TEST_FILE");
+        List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE));
+        assertThat(FluentIterable.from(listedAfterUpload).transform(metadataIntoFilename())).contains("__E2E_TEST_FILE", CloudType.ONE_DRIVE);
 
-        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE"));
+        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE));
         assertThat(deleted).isTrue();
 
-        List<FileMetadata> listedAfterDelete = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/"));
+        List<FileMetadata> listedAfterDelete = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE));
         for (FileMetadata fileMetadata : listedAfterDelete) {
             assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
         }

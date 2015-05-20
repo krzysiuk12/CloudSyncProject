@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
@@ -37,8 +38,8 @@ public class GoogleDriveIT {
     @Ignore
     @Test
     public void testEndToEnd() throws Exception {
-        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST"));
-        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("root"));
+        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST", CloudType.GOOGLE_DRIVE));
+        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("root", CloudType.GOOGLE_DRIVE));
         assertThat(true).isTrue();
     }
 
