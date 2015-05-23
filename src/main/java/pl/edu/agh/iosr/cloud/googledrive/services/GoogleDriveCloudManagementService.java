@@ -7,8 +7,12 @@ import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 import pl.edu.agh.iosr.cloud.googledrive.session.GoogleDriveCloudSession;
+import pl.edu.agh.iosr.cloud.googledrive.tasks.DownloadFileTask;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.ListAllDirectoryFilesTask;
+import pl.edu.agh.iosr.cloud.googledrive.tasks.UploadFileTask;
+import pl.edu.agh.iosr.cloud.googledrive.tasks.factories.DownloadFileTaskFactory;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.factories.ListAllDirectoryFilesTaskFactory;
+import pl.edu.agh.iosr.cloud.googledrive.tasks.factories.UploadFileTaskFactory;
 import pl.edu.agh.iosr.execution.IExecutionService;
 
 import java.io.InputStream;
@@ -39,12 +43,16 @@ public class GoogleDriveCloudManagementService implements ICloudManagementServic
 
     @Override
     public CloudTask<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
-        return null;
+        GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
+        DownloadFileTask task = new DownloadFileTaskFactory().create(cloudSession.getDrive(), path, outputStream);
+        return task;
     }
 
     @Override
     public CloudTask<FileMetadata> uploadFile(String sessionId, CloudPath path, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException {
-        return null;
+        GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
+        UploadFileTask task = new UploadFileTaskFactory().create(cloudSession.getDrive(), path, fileName, inputStream);
+        return task;
     }
 
     @Override

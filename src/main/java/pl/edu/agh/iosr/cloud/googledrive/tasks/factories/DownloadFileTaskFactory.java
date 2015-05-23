@@ -37,12 +37,15 @@ public class DownloadFileTaskFactory {
                 try {
                     progressMonitor.setProgress(new Progress(0.1f));
                     // get requesting file metadata
+                    System.out.println("Downloading file witd Id: " + params.getFilePath().getPath());
                     File file = service.files().get(params.getFilePath().getPath()).execute();
                     progressMonitor.setProgress(new Progress(0.3f));
                     // download
                     MediaHttpDownloader downloader = new MediaHttpDownloader(new NetHttpTransport(), service.getRequestFactory().getInitializer());
 //                todo: set progresslistener: downloader.setProgressListener(FileDownloadProgressListener);
+                    System.out.println("File DownloadUrl: " + file.getDownloadUrl());
                     downloader.download(new GenericUrl(file.getDownloadUrl()), params.getOutputStream());
+                    System.out.println("File downloaded.");
                     progressMonitor.setProgress(new Progress(1.0f));
                     return true;
 

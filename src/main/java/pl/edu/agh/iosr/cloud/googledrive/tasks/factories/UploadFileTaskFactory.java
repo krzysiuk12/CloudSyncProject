@@ -36,6 +36,12 @@ public class UploadFileTaskFactory {
 
     }
 
+    public UploadFileTask create(final Drive service, CloudPath directory, String fileName, InputStream inputStream) {
+        UploadFileTaskParams taskParams = new UploadFileTaskParams(directory, fileName, 0L, inputStream);
+        return getTask(service, taskParams);
+
+    }
+
     private UploadFileTask getTask(final Drive service, final UploadFileTaskParams params) {
 
         final ProgressMonitor progressMonitor = new ProgressMonitor();
@@ -54,6 +60,8 @@ public class UploadFileTaskFactory {
                     body.setParents(
                             Arrays.asList(new ParentReference().setId(parentId)));
                 }
+                System.out.println("Uploading file with name: " + params.getFileName());
+                System.out.println("Uploading file with parentId: " + parentId);
 
                 // File's content.
                 // todo: mimeType hardcoded
@@ -61,6 +69,7 @@ public class UploadFileTaskFactory {
                 FileContent mediaContent = new FileContent("image/jpeg", fileContent);
                 try {
                     File file = service.files().insert(body, mediaContent).execute();
+                    System.out.println("File uploaded");
                     progressMonitor.setProgress(new Progress(0.8f));
                     // MediaHttpUploader uploader = insert.getMediaHttpUploader();
                     // todo: set progress listener like: MediaHttpUploader uploader = insert.getMediaHttpUploader();

@@ -1,5 +1,6 @@
 package pl.edu.agh.iosr.synchronization;
 
+import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 
 /**
@@ -35,10 +36,18 @@ public class SynchronizationSingleCloudEntry {
     }
 
     public String getFileName() {
-        return cloudPath.getPath().substring(cloudPath.getPath().lastIndexOf("/"));
+        if (CloudType.GOOGLE_DRIVE.equals(cloudPath.getType())) {
+            return cloudPath.getPath();
+        } else {
+            return cloudPath.getPath().substring(cloudPath.getPath().lastIndexOf("/"));
+        }
     }
 
     public CloudPath getDirectory() {
-        return new CloudPath(cloudPath.getPath().substring(0, cloudPath.getPath().lastIndexOf("/")), cloudPath.getType());
+        if (CloudType.GOOGLE_DRIVE.equals(cloudPath.getType())) {
+            return new CloudPath("root", CloudType.GOOGLE_DRIVE);
+        } else {
+            return new CloudPath(cloudPath.getPath().substring(0, cloudPath.getPath().lastIndexOf("/")), cloudPath.getType());
+        }
     }
 }
