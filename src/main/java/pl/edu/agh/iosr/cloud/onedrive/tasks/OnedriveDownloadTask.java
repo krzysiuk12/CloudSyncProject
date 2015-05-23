@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.OutputStream;
 import java.util.concurrent.Callable;
 
-public class OnedriveDownloadTask implements Callable<Object> {
+public class OnedriveDownloadTask implements Callable<Boolean> {
 
     private final Client client;
     private final CloudSession session;
@@ -29,7 +29,7 @@ public class OnedriveDownloadTask implements Callable<Object> {
     }
 
     @Override
-    public Object call() throws Exception {
+    public Boolean call() throws Exception {
         WebResource webResource = queryDownloadFile(path, session.getAccessToken());
         ClientResponse clientResponse = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         updateProgress(1.0);
@@ -37,7 +37,7 @@ public class OnedriveDownloadTask implements Callable<Object> {
 
         stream.write(rawResponse.getBytes());
 
-        return new Object();
+        return true;
     }
 
     private WebResource queryDownloadFile(CloudPath path, String accessToken) {

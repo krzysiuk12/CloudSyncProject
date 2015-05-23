@@ -19,6 +19,7 @@ import java.io.PipedOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -27,19 +28,18 @@ import static org.mockito.Mockito.mock;
 
 public class OnedriveCloudManagementServiceTest {
 
+    //TODO: make this 4 tests of tasks
+
     @Rule
     public Recorder recorder = new Recorder();
 
     private OnedriveCloudManagementService underTest;
     private final String sessionId = "VALID_SESSION_ID";
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Before
     public void setUp() throws Exception {
         underTest = new OnedriveCloudManagementService(createSessionService(), new Client(), new AsynchronousExecutionService(1));
-    }
-
-    private Executor createExecutor() {
-        return Executors.newSingleThreadExecutor();
     }
 
     private OnedriveCloudSessionService createSessionService() {
@@ -76,9 +76,12 @@ public class OnedriveCloudManagementServiceTest {
         CloudPath path = new CloudPath("/some_note.txt", CloudType.ONE_DRIVE);
         PipedInputStream grabbedContentStream = new PipedInputStream();
         PipedOutputStream outputStream = new PipedOutputStream(grabbedContentStream);
+        CloudTask<Boolean> task = underTest.downloadFile(sessionId, path, outputStream);
 
         // when
-        underTest.downloadFile(sessionId, path, outputStream);
+        executorService.execute(task);
+        task.get();
+        //TODO: close stream in download task
         outputStream.close();
         String downloadedContent = IOUtils.toString(grabbedContentStream);
 
@@ -97,12 +100,14 @@ public class OnedriveCloudManagementServiceTest {
         PipedOutputStream outputStream = new PipedOutputStream(givenContentStream);
         outputStream.write("hello world".getBytes(StandardCharsets.US_ASCII));
         outputStream.close();
+        CloudTask<FileMetadata> task = underTest.uploadFile(sessionId, path, null, givenContentStream);
 
         // when
-        CloudTask<FileMetadata> file = underTest.uploadFile(sessionId, path, null, givenContentStream);
+        executorService.execute(task);
+        FileMetadata file = task.get();
 
         // then
         //TODO: more fancy check - some unified hash stored in file metadata
-        // assertThat(file.getSize()).isEqualTo(11);
+        assertThat(file.getSize()).isEqualTo(11);
     }
 }

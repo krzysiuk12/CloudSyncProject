@@ -9,6 +9,7 @@ import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
+import pl.edu.agh.iosr.cloud.onedrive.tasks.GenericCloudTask;
 import pl.edu.agh.iosr.cloud.onedrive.tasks.OnedriveTaskFactory;
 import pl.edu.agh.iosr.execution.IExecutionService;
 
@@ -38,11 +39,9 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         //TODO: sooooooooooo cool. TaskFactory as session-scoped bean
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        FutureTask<List<FileMetadata>> task = new FutureTask<>(taskFactory.createListChildrenTask(cloudDirectory, progressMonitor));
+        GenericCloudTask<List<FileMetadata>> cloudTask = new GenericCloudTask<>(progressMonitor, taskFactory.createListChildrenTask(cloudDirectory, progressMonitor));
 
-/*        executorService.execute(task);
-        return task.get();*/
-        return null;
+        return executionService.execute(cloudTask);
     }
 
     @Override
@@ -50,11 +49,8 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        FutureTask<Object> task = new FutureTask<>(taskFactory.createDownloadTask(path, progressMonitor, outputStream));
 
-/*        executorService.execute(task);
-        task.get();*/
-        return null;
+        return new GenericCloudTask<>(progressMonitor, taskFactory.createDownloadTask(path, progressMonitor, outputStream));
     }
 
     @Override
@@ -62,11 +58,8 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        FutureTask<FileMetadata> task = new FutureTask<>(taskFactory.createUploadTask(directory, progressMonitor, inputStream));
 
-/*        executorService.execute(task);
-        // return task.get();*/
-        return null;
+        return new GenericCloudTask<>(progressMonitor, taskFactory.createUploadTask(directory, progressMonitor, inputStream));
     }
 
     @Override
@@ -74,10 +67,8 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        FutureTask<Boolean> task = new FutureTask<>(taskFactory.createDeleteTask(path, progressMonitor));
+        GenericCloudTask<Boolean> cloudTask = new GenericCloudTask<>(progressMonitor, taskFactory.createDeleteTask(path, progressMonitor));
 
-/*        executorService.execute(task);
-        return task.get();*/
-        return null;
+        return executionService.execute(cloudTask);
     }
 }
