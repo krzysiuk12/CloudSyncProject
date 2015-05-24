@@ -22,4 +22,10 @@ angular.module('cloudSyncApp').value('oneDriveSession', {
     sessionId: ''
 });
 
+angular.module('cloudSyncApp').value('synchroConf', {
+    "source" : {},
+    "destination" : [],
+    "type" : "FORWARD_PROPAGATION"
+});
+
 angular.module('cloudSyncApp').constant('initialDirectoryPath', '/');

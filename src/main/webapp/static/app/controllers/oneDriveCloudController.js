@@ -3,7 +3,7 @@
  */
 (function () {
 
-    var OneDriveCloudController = function ($scope, $log, oneDriveCloudFactory, initialDirectoryPath) {
+    var OneDriveCloudController = function ($scope, $log, oneDriveCloudFactory, initialDirectoryPath, oneDriveSession, synchroConf) {
         $scope.files = null;
         $scope.currentDirectoryPath = initialDirectoryPath;
         $scope.parentsPaths = [];
@@ -55,13 +55,33 @@
             }
         };
 
+        $scope.asSource = function (file) {
+            synchroConf.source = {
+                "sessionId" : oneDriveSession.sessionId,
+                "cloudPath" : {
+                    "path" : $scope.currentDirectoryPath + '/' + file.fileName,
+                    "type" : "ONE_DRIVE"
+                }
+            }
+        };
+        $scope.asDestination = function (file) {
+            synchroConf.destination.push({
+                "sessionId" : oneDriveSession.sessionId,
+                "cloudPath" : {
+                    "path" : $scope.currentDirectoryPath + '/' + file.fileName,
+                    "type" : "ONE_DRIVE"
+                }
+            }
+            );
+        };
+
 
         if ($scope.files === null) {
             $scope.listFiles(initialDirectoryPath);
         }
     };
 
-    OneDriveCloudController.$inject = ['$scope', '$log', 'oneDriveCloudFactory', 'initialDirectoryPath'];
+    OneDriveCloudController.$inject = ['$scope', '$log', 'oneDriveCloudFactory', 'initialDirectoryPath', 'oneDriveSession', 'synchroConf'];
 
     angular.module('cloudSyncApp').controller('OneDriveCloudController', OneDriveCloudController);
 

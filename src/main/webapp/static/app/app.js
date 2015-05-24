@@ -35,6 +35,10 @@
                 controller: 'OneDriveCloudController',
                 templateUrl: '/static/app/views/oneDriveCloud.html'
             })
+            .when('/synchronization', {
+                controller: 'SynchronizationController',
+                templateUrl: '/static/app/views/synchronization.html'
+            })
             .otherwise( { redirectTo: '/' });
     });
 

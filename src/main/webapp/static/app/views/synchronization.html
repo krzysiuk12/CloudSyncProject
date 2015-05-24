@@ -1,0 +1,16 @@
+
+<h2>Source</h2>
+<br/>
+<p>{{ source.cloudPath.type }} : {{ source.cloudPath.path }}</p>
+
+
+<h2>Destination</h2>
+<br/>
+<p ng-repeat="dest in destinations">{{ dest.cloudPath.type }} : {{ dest.cloudPath.path }}</p>
+
+<h2>Type</h2>
+<p>{{ type }}</p>
+<br/>
+<p class="text-center">
+    <button class="btn btn-success" type="button" ng-click="synchronize()">Synchronize</button>
+</p>

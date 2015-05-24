@@ -76,12 +76,13 @@ public class SynchronizationService implements ISynchronizationService {
         }, downloadTask, uploadTasks);
 
         executionService.execute(downloadTask);
-        for(CloudTask<FileMetadata> task : uploadTasks) {
-            executionService.execute(task);
-        }
-        executionService.execute(mergedTask);
+//        for(CloudTask<FileMetadata> task : uploadTasks) {
+//            executionService.execute(task);
+//        }
+//        executionService.execute(mergedTask);
 
-        return mergedTask.get();
+//        return mergedTask.get();
+        return null;
     }
 
     private ICloudManagementService getCloudManagementService(CloudType type) {
