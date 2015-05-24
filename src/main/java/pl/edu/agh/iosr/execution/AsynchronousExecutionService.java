@@ -25,6 +25,6 @@ public class AsynchronousExecutionService implements IExecutionService {
     @Override
     public <T> T execute(CloudTask<T> cloudTask) throws InterruptedException, ExecutionException {
         executorService.execute(cloudTask);
-        return (T) cloudTask.get();
+        return null;
     }
 }

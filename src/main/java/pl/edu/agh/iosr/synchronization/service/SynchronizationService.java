@@ -45,14 +45,14 @@ public class SynchronizationService implements ISynchronizationService {
     public List<FileMetadata> synchronize(SynchronizationEntry synchronizationEntry) throws Exception {
         ICloudManagementService sourceManagementService = getCloudManagementService(synchronizationEntry.getSource().getCloudPath().getType());
 
-        PipedOutputStream outputStream = new PipedOutputStream();
+        final PipedOutputStream outputStream = new PipedOutputStream();
         PipedInputStream inputStream = new PipedInputStream(outputStream);
 
         final CloudTask<Boolean> downloadTask = sourceManagementService.downloadFile(synchronizationEntry.getSource().getSessionId(), synchronizationEntry.getSource().getCloudPath(), outputStream);
         final List<CloudTask<FileMetadata>> uploadTasks = new ArrayList<>();
         for(SynchronizationSingleCloudEntry entry : synchronizationEntry.getDestination()) {
             ICloudManagementService destinationCloudManagementService = getCloudManagementService(entry.getCloudPath().getType());
-            uploadTasks.add(destinationCloudManagementService.uploadFile(entry.getSessionId(), entry.getDirectory(), entry.getFileName(), inputStream));
+            uploadTasks.add(destinationCloudManagementService.uploadFile(entry.getSessionId(), entry.getCloudPath(), "pupa", inputStream));
         }
 
         final ProgressMonitor progressMonitor = new ProgressMonitor();
@@ -63,6 +63,7 @@ public class SynchronizationService implements ISynchronizationService {
                 List<FileMetadata> fileMetadataList = new ArrayList<>();
                 progressMonitor.setProgress(new Progress(0.3));
                 if(downloadTask.get()) {
+                    outputStream.close();
                     for(CloudTask<FileMetadata> task : uploadTasks) {
                         fileMetadataList.add(task.get());
                     }

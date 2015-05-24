@@ -41,7 +41,8 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         ProgressMonitor progressMonitor = new ProgressMonitor();
         GenericCloudTask<List<FileMetadata>> cloudTask = new GenericCloudTask<>(progressMonitor, taskFactory.createListChildrenTask(cloudDirectory, progressMonitor));
 
-        return executionService.execute(cloudTask);
+        executionService.execute(cloudTask);
+        return cloudTask.get();
     }
 
     @Override
@@ -69,6 +70,7 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
         ProgressMonitor progressMonitor = new ProgressMonitor();
         GenericCloudTask<Boolean> cloudTask = new GenericCloudTask<>(progressMonitor, taskFactory.createDeleteTask(path, progressMonitor));
 
-        return executionService.execute(cloudTask);
+        executionService.execute(cloudTask);
+        return cloudTask.get();
     }
 }
