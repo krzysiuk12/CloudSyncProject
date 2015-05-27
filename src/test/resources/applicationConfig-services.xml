@@ -13,14 +13,12 @@
         <constructor-arg name="appName" value="${dropbox.appName}"/>
     </bean>
 
-    <bean id="dropboxConnector" class="pl.edu.agh.iosr.cloud.util.BetamaxProxyAwareDropboxConnector">
-        <constructor-arg name="configuration" ref="dropboxConfiguration"/>
-        <constructor-arg name="proxyAddress" ref="betamaxProxyAddress"/>
+    <bean id="dropboxConnector" class="pl.edu.agh.iosr.cloud.dropbox.configuration.DefaultDropboxConnector">
+        <constructor-arg name="cloudConfiguration" ref="dropboxConfiguration"/>
     </bean>
 
-    <bean id="betamaxProxyAddress" class="java.net.InetSocketAddress">
-        <constructor-arg name="hostname" value="localhost"/>
-        <constructor-arg name="port" value="${betamax.proxyPort}"/>
+    <bean id="executorService" factory-method="newFixedThreadPool" class="java.util.concurrent.Executors" >
+        <constructor-arg value="${executors.poolSize}"/>
     </bean>
 
     <context:component-scan base-package="pl.edu.agh.iosr.repository" />

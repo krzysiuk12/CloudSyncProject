@@ -1,6 +1,7 @@
 package pl.edu.agh.iosr.cloud.onedrive.services;
 
 import com.sun.jersey.api.client.Client;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
@@ -24,6 +25,7 @@ public class OnedriveCloudManagementService implements ICloudManagementService {
     private final ExecutorService executorService;
     private final Client client;
 
+    @Autowired
     public OnedriveCloudManagementService(OnedriveCloudSessionService onedriveSessionService, ExecutorService executorService, Client client) {
         this.onedriveSessionService = onedriveSessionService;
         this.executorService = executorService;

@@ -17,6 +17,10 @@
         <constructor-arg name="cloudConfiguration" ref="dropboxConfiguration"/>
     </bean>
 
+    <bean id="executorService" factory-method="newFixedThreadPool" class="java.util.concurrent.Executors" >
+        <constructor-arg value="${executors.poolSize}"/>
+    </bean>
+
     <context:component-scan base-package="pl.edu.agh.iosr.repository" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.configuration" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.services" />

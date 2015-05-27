@@ -11,7 +11,6 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
-import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagementService;
 import pl.edu.agh.iosr.repository.ICloudSessionRepository;
 
 import java.io.PipedInputStream;
@@ -28,7 +27,7 @@ public abstract class AbstractCloudManagementServiceTest {
     @Rule
     public Recorder recorder = new Recorder();
 
-    private OnedriveCloudManagementService underTest;
+    private ICloudManagementService underTest;
     private final String sessionId = "VALID_SESSION_ID";
 
     @Before
@@ -36,7 +35,7 @@ public abstract class AbstractCloudManagementServiceTest {
         underTest = createCloudManagementService(createSessionRepository());
     }
 
-    protected abstract OnedriveCloudManagementService createCloudManagementService(ICloudSessionRepository sessionRepository);
+    protected abstract ICloudManagementService createCloudManagementService(ICloudSessionRepository sessionRepository);
 
     private ICloudSessionRepository createSessionRepository() {
         ICloudSessionRepository repository = mock(ICloudSessionRepository.class);

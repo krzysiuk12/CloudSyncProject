@@ -13,6 +13,7 @@ import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagementService;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudSessionService;
 
@@ -30,7 +31,7 @@ import static org.fest.assertions.Assertions.assertThat;
 @ContextConfiguration(locations = { "classpath*:**/applicationConfig.xml" })
 public class OnedriveIT {
 
-    private final String authorizationCode = System.getProperty("test.onedrive.code");
+    private final String authorizationCode = "M33dd0035-bba7-8dde-9229-897d0b9d9338";
 
     @Autowired
     private OnedriveCloudSessionService sessionService;
@@ -43,30 +44,29 @@ public class OnedriveIT {
         session = sessionService.loginUser("santiago", authorizationCode);
     }
 
-    @Ignore
     @Test
     public void testEndToEnd() throws Exception {
-//        managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE));
-//
-//        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE));
-//        for (FileMetadata fileMetadata : listed) {
-//            assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
-//        }
-//
-//        managementService.uploadFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE), "", createInputStream());
-//
-//        List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE));
-//        assertThat(FluentIterable.from(listedAfterUpload).transform(metadataIntoFilename())).contains("__E2E_TEST_FILE", CloudType.ONE_DRIVE);
-//
-//        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE));
-//        assertThat(deleted).isTrue();
-//
-//        List<FileMetadata> listedAfterDelete = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE));
-//        for (FileMetadata fileMetadata : listedAfterDelete) {
-//            assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
-//        }
-//
-//        assertThat(true).isTrue();
+        managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE)).get();
+
+        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE)).get();
+        for (FileMetadata fileMetadata : listed) {
+            assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
+        }
+
+        managementService.uploadFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE), "", createInputStream()).get();
+
+        List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE)).get();
+        assertThat(FluentIterable.from(listedAfterUpload).transform(metadataIntoFilename())).contains("__E2E_TEST_FILE", CloudType.ONE_DRIVE);
+
+        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE)).get();
+        assertThat(deleted).isTrue();
+
+        List<FileMetadata> listedAfterDelete = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.ONE_DRIVE)).get();
+        for (FileMetadata fileMetadata : listedAfterDelete) {
+            assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
+        }
+
+        assertThat(true).isTrue();
     }
 
     private Function<FileMetadata, String> metadataIntoFilename() {
