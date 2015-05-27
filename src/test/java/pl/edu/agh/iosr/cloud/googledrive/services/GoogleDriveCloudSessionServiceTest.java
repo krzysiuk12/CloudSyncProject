@@ -4,6 +4,7 @@ import co.freeside.betamax.Betamax;
 import co.freeside.betamax.Recorder;
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
@@ -24,6 +25,22 @@ public class GoogleDriveCloudSessionServiceTest {
         // underTest.setGoogleDriveCloudConfiguration(new GoogleDriveCloudConfiguration());
     }
 
+    @Ignore
+    @Betamax(tape="googledrive_invalidLogin")
+    //TODO: more cool exception
+    @Test(expected = TokenResponseException.class)
+    public void testForCodeThatIsInvalid() throws Exception {
+        // given
+        String authorizationCode = "bubu";
+
+        // when
+        underTest.loginUser("some login", authorizationCode);
+
+        // then
+        // expect exception
+    }
+
+    @Ignore
     @Betamax(tape="googledrive_validLogin")
     @Test
     public void testForValidCode() throws Exception {
@@ -37,19 +54,5 @@ public class GoogleDriveCloudSessionServiceTest {
         // then
         //TODO: assertion over the access token so session need to store that
         assertThat(session).isNotNull();
-    }
-
-    @Betamax(tape="googledrive_invalidLogin")
-    //TODO: more cool exception
-    @Test(expected = TokenResponseException.class)
-    public void testForCodeThatIsInvalid() throws Exception {
-        // given
-        String authorizationCode = "bubu";
-
-        // when
-        underTest.loginUser("some login", authorizationCode);
-
-        // then
-        // expect exception
     }
 }

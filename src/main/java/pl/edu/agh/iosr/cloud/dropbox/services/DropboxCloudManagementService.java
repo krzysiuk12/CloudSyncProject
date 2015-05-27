@@ -36,7 +36,9 @@ public class DropboxCloudManagementService implements ICloudManagementService {
     public List<FileMetadata> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
         DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
         ListAllDirectoryFilesTask task = new ListAllDirectoryFilesTaskFactory().create(dropboxCloudSession.getClient(), cloudDirectory);
-        return executionService.execute(task);
+        executionService.execute(task);
+
+        return task.get();
     }
 
     @Override
@@ -55,7 +57,9 @@ public class DropboxCloudManagementService implements ICloudManagementService {
     public Boolean deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException {
         DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
         DeleteFileTask task = new DeleteFileTaskFactory().create(dropboxCloudSession.getClient(), path);
-        return executionService.execute(task);
+        executionService.execute(task);
+
+        return task.get();
     }
 
 }

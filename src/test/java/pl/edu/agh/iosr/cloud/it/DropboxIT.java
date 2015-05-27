@@ -3,6 +3,7 @@ package pl.edu.agh.iosr.cloud.it;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ public class DropboxIT {
         session = sessionService.loginUser("santiago", authorizationCode);
     }
 
+    @Ignore
     @Test
     public void testEndToEnd() throws Exception {
         managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.DROPBOX));

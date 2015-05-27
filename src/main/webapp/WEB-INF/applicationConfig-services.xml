@@ -7,6 +7,16 @@
 
     <bean id="jacksonObjectMapper" primary="true" class="pl.edu.agh.iosr.config.MyObjectMapperFactory" factory-method="createWithJodaModule"/>
 
+    <bean id="dropboxConfiguration" class="pl.edu.agh.iosr.cloud.common.CloudConfiguration">
+        <constructor-arg name="appKey" value="${dropbox.appKey}"/>
+        <constructor-arg name="appKeySecret" value="${dropbox.appKeySecret}"/>
+        <constructor-arg name="appName" value="${dropbox.appName}"/>
+    </bean>
+
+    <bean id="dropboxConnector" class="pl.edu.agh.iosr.cloud.dropbox.configuration.DefaultDropboxConnector">
+        <constructor-arg name="cloudConfiguration" ref="dropboxConfiguration"/>
+    </bean>
+
     <context:component-scan base-package="pl.edu.agh.iosr.repository" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.configuration" />
     <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.services" />
