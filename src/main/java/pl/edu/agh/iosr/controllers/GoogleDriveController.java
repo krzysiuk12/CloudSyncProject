@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudManagementService;
 import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudSessionService;
 import pl.edu.agh.iosr.exceptions.ErrorMessages;
@@ -62,7 +63,8 @@ public class GoogleDriveController {
     public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         System.out.println("GOOGLE - LIST ALL FILES!!!");
         try {
-            List<FileMetadata> files = googleDriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
+            ProgressAwareFuture<List<FileMetadata>> future = googleDriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
+            List<FileMetadata> files = future.get();
             return new ResponseSerializer<>(files);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

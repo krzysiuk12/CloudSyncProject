@@ -48,40 +48,40 @@ public class SynchronizationService implements ISynchronizationService {
         final PipedOutputStream outputStream = new PipedOutputStream();
         PipedInputStream inputStream = new PipedInputStream(outputStream);
 
-        final CloudTask<Boolean> downloadTask = sourceManagementService.downloadFile(synchronizationEntry.getSource().getSessionId(), synchronizationEntry.getSource().getCloudPath(), outputStream);
-        final List<CloudTask<FileMetadata>> uploadTasks = new ArrayList<>();
-        for(SynchronizationSingleCloudEntry entry : synchronizationEntry.getDestination()) {
-            ICloudManagementService destinationCloudManagementService = getCloudManagementService(entry.getCloudPath().getType());
-            uploadTasks.add(destinationCloudManagementService.uploadFile(entry.getSessionId(), entry.getCloudPath(), "pupa", inputStream));
-        }
-
-        final ProgressMonitor progressMonitor = new ProgressMonitor();
-        CloudTask<List<FileMetadata>> mergedTask = new SynchronizationCloudTask<>(progressMonitor, new Callable<List<FileMetadata>>() {
-            @Override
-            public List<FileMetadata> call() throws Exception {
-                progressMonitor.setProgress(new Progress(0.0));
-                List<FileMetadata> fileMetadataList = new ArrayList<>();
-                progressMonitor.setProgress(new Progress(0.3));
-                if(downloadTask.get()) {
-                    outputStream.close();
-                    for(CloudTask<FileMetadata> task : uploadTasks) {
-                        fileMetadataList.add(task.get());
-                    }
-                    progressMonitor.setProgress(new Progress(1.0));
-                    return fileMetadataList;
-                } else {
-                    return Collections.emptyList();
-                }
-            }
-        }, downloadTask, uploadTasks);
-
-        executionService.execute(downloadTask);
-//        for(CloudTask<FileMetadata> task : uploadTasks) {
-//            executionService.execute(task);
+//        final CloudTask<Boolean> downloadTask = sourceManagementService.downloadFile(synchronizationEntry.getSource().getSessionId(), synchronizationEntry.getSource().getCloudPath(), outputStream);
+//        final List<CloudTask<FileMetadata>> uploadTasks = new ArrayList<>();
+//        for(SynchronizationSingleCloudEntry entry : synchronizationEntry.getDestination()) {
+//            ICloudManagementService destinationCloudManagementService = getCloudManagementService(entry.getCloudPath().getType());
+//            uploadTasks.add(destinationCloudManagementService.uploadFile(entry.getSessionId(), entry.getCloudPath(), "pupa", inputStream));
 //        }
-//        executionService.execute(mergedTask);
-
-//        return mergedTask.get();
+//
+//        final ProgressMonitor progressMonitor = new ProgressMonitor();
+//        CloudTask<List<FileMetadata>> mergedTask = new SynchronizationCloudTask<>(progressMonitor, new Callable<List<FileMetadata>>() {
+//            @Override
+//            public List<FileMetadata> call() throws Exception {
+//                progressMonitor.setProgress(new Progress(0.0));
+//                List<FileMetadata> fileMetadataList = new ArrayList<>();
+//                progressMonitor.setProgress(new Progress(0.3));
+//                if(downloadTask.get()) {
+//                    outputStream.close();
+//                    for(CloudTask<FileMetadata> task : uploadTasks) {
+//                        fileMetadataList.add(task.get());
+//                    }
+//                    progressMonitor.setProgress(new Progress(1.0));
+//                    return fileMetadataList;
+//                } else {
+//                    return Collections.emptyList();
+//                }
+//            }
+//        }, downloadTask, uploadTasks);
+//
+//        executionService.execute(downloadTask);
+////        for(CloudTask<FileMetadata> task : uploadTasks) {
+////            executionService.execute(task);
+////        }
+////        executionService.execute(mergedTask);
+//
+////        return mergedTask.get();
         return null;
     }
 

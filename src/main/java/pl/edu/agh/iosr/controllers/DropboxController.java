@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.dropbox.services.DropboxCloudManagementService;
 import pl.edu.agh.iosr.cloud.dropbox.services.DropboxCloudSessionService;
 import pl.edu.agh.iosr.exceptions.ErrorMessages;
@@ -60,8 +61,9 @@ public class DropboxController {
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
     public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         try {
-            List<FileMetadata> paths = dropboxCloudManagementService.listAllDirectoryFiles(sessionId, directory);
-            return new ResponseSerializer<>(paths);
+            ProgressAwareFuture<List<FileMetadata>> future = dropboxCloudManagementService.listAllDirectoryFiles(sessionId, directory);
+            List<FileMetadata> files = future.get();
+            return new ResponseSerializer<>(files);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -71,8 +73,9 @@ public class DropboxController {
     @RequestMapping(method = RequestMethod.POST, value = "delete")
     public ResponseSerializer<Boolean> deleteFile(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath file) {
         try {
-            Boolean deletionComplete = dropboxCloudManagementService.deleteFile(sessionId, file);
-            return new ResponseSerializer<>(deletionComplete);
+            ProgressAwareFuture<Boolean> future = dropboxCloudManagementService.deleteFile(sessionId, file);
+            future.get();
+            return new ResponseSerializer<>();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }

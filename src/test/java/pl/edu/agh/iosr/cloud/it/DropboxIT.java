@@ -46,27 +46,27 @@ public class DropboxIT {
     @Ignore
     @Test
     public void testEndToEnd() throws Exception {
-        managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.DROPBOX));
-
-        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX));
-        for (FileMetadata fileMetadata : listed) {
-            assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
-        }
-
-        managementService.uploadFile(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX), "__E2E_TEST_FILE", createInputStream());
-
-        List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX));
-        assertThat(FluentIterable.from(listedAfterUpload).transform(metadataIntoFilename())).contains("__E2E_TEST_FILE");
-
-        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.DROPBOX));
-        assertThat(deleted).isTrue();
-
-        List<FileMetadata> listedAfterDelete = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX));
-        for (FileMetadata fileMetadata : listedAfterDelete) {
-            assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
-        }
-
-        assertThat(true).isTrue();
+//        managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.DROPBOX));
+//
+//        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX));
+//        for (FileMetadata fileMetadata : listed) {
+//            assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
+//        }
+//
+//        managementService.uploadFile(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX), "__E2E_TEST_FILE", createInputStream());
+//
+//        List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX));
+//        assertThat(FluentIterable.from(listedAfterUpload).transform(metadataIntoFilename())).contains("__E2E_TEST_FILE");
+//
+//        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.DROPBOX));
+//        assertThat(deleted).isTrue();
+//
+//        List<FileMetadata> listedAfterDelete = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("/", CloudType.DROPBOX));
+//        for (FileMetadata fileMetadata : listedAfterDelete) {
+//            assertThat(fileMetadata.getFileName()).isNotEqualTo("__E2E_TEST_FILE");
+//        }
+//
+//        assertThat(true).isTrue();
     }
 
     private Function<FileMetadata, String> metadataIntoFilename() {

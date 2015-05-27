@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagementService;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudSessionService;
 import pl.edu.agh.iosr.exceptions.ErrorMessages;
@@ -65,8 +66,9 @@ public class OnedriveController {
     public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         System.out.println("HERE I AM - LIST ALL FILES!!!");
         try {
-            List<FileMetadata> paths = onedriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
-            return new ResponseSerializer<>(paths);
+            ProgressAwareFuture<List<FileMetadata>> future = onedriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
+            List<FileMetadata> files = future.get();
+            return new ResponseSerializer<>(files);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }

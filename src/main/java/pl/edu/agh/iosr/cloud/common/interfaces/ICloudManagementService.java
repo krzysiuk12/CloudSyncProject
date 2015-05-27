@@ -2,7 +2,7 @@ package pl.edu.agh.iosr.cloud.common.interfaces;
 
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
-import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,7 +22,7 @@ public interface ICloudManagementService {
      * @param cloudDirectory Path to the directory in the cloud.
      * @return
      */
-    public List<FileMetadata> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException;
+    public ProgressAwareFuture<List<FileMetadata>> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException;
 
     /**
      * Implementation of this method is obliged to provide functionality of downloading file from the cloud and
@@ -33,7 +33,7 @@ public interface ICloudManagementService {
      * @param outputStream File output stream
      * @return
      */
-    public CloudTask<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
+    public ProgressAwareFuture<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException;
 
     /**
      * Impelemtation of this method should provide functionality of uploading file, which is pointed from input stream.
@@ -43,7 +43,7 @@ public interface ICloudManagementService {
      * @param inputStream File stream
      * @return
      */
-    public CloudTask<FileMetadata> uploadFile(String sessionId, CloudPath directory, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException;
+    public ProgressAwareFuture<FileMetadata> uploadFile(String sessionId, CloudPath directory, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException;
 
     /**
      * Implementation of this method should delete file from the cloud.
@@ -52,6 +52,6 @@ public interface ICloudManagementService {
      * @param path Path to the file in the cloud
      * @return
      */
-    public Boolean deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException;
+    public ProgressAwareFuture<Boolean> deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException;
 
 }

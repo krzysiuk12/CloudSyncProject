@@ -10,7 +10,7 @@ import pl.edu.agh.iosr.cloud.common.CloudType;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
-import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagementService;
 import pl.edu.agh.iosr.repository.ICloudSessionRepository;
 
@@ -18,8 +18,6 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -58,13 +56,14 @@ public abstract class AbstractCloudManagementServiceTest {
         CloudPath rootPath = new CloudPath("/", CloudType.ONE_DRIVE);
 
         // when
-        List<FileMetadata> paths = underTest.listAllDirectoryFiles(sessionId, rootPath);
+        ProgressAwareFuture<List<FileMetadata>> future = underTest.listAllDirectoryFiles(sessionId, rootPath);
+        List<FileMetadata> files = future.get();
 
         // then
-        assertThat(paths).hasSize(3);
-        assertThat(paths.get(0).getFileName()).isEqualTo("Dokumenty");
-        assertThat(paths.get(1).getFileName()).isEqualTo("Obrazy");
-        assertThat(paths.get(2).getFileName()).isEqualTo("Bez nazwy.txt");
+        assertThat(files).hasSize(3);
+        assertThat(files.get(0).getFileName()).isEqualTo("Dokumenty");
+        assertThat(files.get(1).getFileName()).isEqualTo("Obrazy");
+        assertThat(files.get(2).getFileName()).isEqualTo("Bez nazwy.txt");
     }
 
     @Betamax(tape = "onedrive_download")
@@ -74,22 +73,19 @@ public abstract class AbstractCloudManagementServiceTest {
         CloudPath path = new CloudPath("/some_note.txt", CloudType.ONE_DRIVE);
         PipedInputStream grabbedContentStream = new PipedInputStream();
         PipedOutputStream outputStream = new PipedOutputStream(grabbedContentStream);
-        CloudTask<Boolean> task = underTest.downloadFile(sessionId, path, outputStream);
 
         // when
-        //TODO: inject the executor service into mgmtservice so that it executes that
-        Executor executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(task);
-        task.get();
+        ProgressAwareFuture<Boolean> future = underTest.downloadFile(sessionId, path, outputStream);
+        Boolean success = future.get();
         //TODO: close stream in download task
         outputStream.close();
         String downloadedContent = IOUtils.toString(grabbedContentStream);
 
         // then
+        assertThat(success).isTrue();
         assertThat(downloadedContent).contains("litwo ojczyzno moja");
         assertThat(downloadedContent).contains("blablabla");
     }
-
 
     @Betamax(tape = "onedrive_upload")
     @Test
@@ -100,12 +96,10 @@ public abstract class AbstractCloudManagementServiceTest {
         PipedOutputStream outputStream = new PipedOutputStream(givenContentStream);
         outputStream.write("hello world".getBytes(StandardCharsets.US_ASCII));
         outputStream.close();
-        CloudTask<FileMetadata> task = underTest.uploadFile(sessionId, path, null, givenContentStream);
 
         // when
-        Executor executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(task);
-        FileMetadata file = task.get();
+        ProgressAwareFuture<FileMetadata> future = underTest.uploadFile(sessionId, path, null, givenContentStream);
+        FileMetadata file = future.get();
 
         // then
         //TODO: more fancy check - some unified hash stored in file metadata

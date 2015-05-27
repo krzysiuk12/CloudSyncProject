@@ -1,76 +1,77 @@
 package pl.edu.agh.iosr.cloud.onedrive.services;
 
 import com.sun.jersey.api.client.Client;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
-import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
-import pl.edu.agh.iosr.cloud.onedrive.tasks.GenericCloudTask;
-import pl.edu.agh.iosr.cloud.onedrive.tasks.OnedriveTaskFactory;
-import pl.edu.agh.iosr.execution.IExecutionService;
+import pl.edu.agh.iosr.cloud.onedrive.tasks.*;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 @Service
 public class OnedriveCloudManagementService implements ICloudManagementService {
 
     private final OnedriveCloudSessionService onedriveSessionService;
-    private final IExecutionService executionService;
+    private final ExecutorService executorService;
     private final Client client;
 
-    @Autowired
-    public OnedriveCloudManagementService(OnedriveCloudSessionService onedriveSessionService, Client client, IExecutionService executionService) {
+    public OnedriveCloudManagementService(OnedriveCloudSessionService onedriveSessionService, ExecutorService executorService, Client client) {
         this.onedriveSessionService = onedriveSessionService;
-        this.executionService = executionService;
+        this.executorService = executorService;
         this.client = client;
     }
 
     @Override
-    public List<FileMetadata> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<List<FileMetadata>> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         //TODO: sooooooooooo cool. TaskFactory as session-scoped bean
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        GenericCloudTask<List<FileMetadata>> cloudTask = new GenericCloudTask<>(progressMonitor, taskFactory.createListChildrenTask(cloudDirectory, progressMonitor));
+        OnedriveListChildrenTask listChildrenTask = taskFactory.createListChildrenTask(cloudDirectory, progressMonitor);
+        Future<List<FileMetadata>> future = executorService.submit(listChildrenTask);
 
-        executionService.execute(cloudTask);
-        return cloudTask.get();
+        return new ProgressAwareFuture<>(future, progressMonitor);
     }
 
     @Override
-    public CloudTask<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
+        OnedriveDownloadTask downloadTask = taskFactory.createDownloadTask(path, progressMonitor, outputStream);
+        Future<Boolean> future = executorService.submit(downloadTask);
 
-        return new GenericCloudTask<>(progressMonitor, taskFactory.createDownloadTask(path, progressMonitor, outputStream));
+        return new ProgressAwareFuture<>(future, progressMonitor);
     }
 
     @Override
-    public CloudTask<FileMetadata> uploadFile(String sessionId, CloudPath directory, String fileName,  InputStream inputStream) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<FileMetadata> uploadFile(String sessionId, CloudPath directory, String fileName,  InputStream inputStream) throws ExecutionException, InterruptedException {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
+        OnedriveUploadTask uploadTask = taskFactory.createUploadTask(directory, progressMonitor, inputStream);
+        Future<FileMetadata> future = executorService.submit(uploadTask);
 
-        return new GenericCloudTask<>(progressMonitor, taskFactory.createUploadTask(directory, progressMonitor, inputStream));
+        return new ProgressAwareFuture<>(future, progressMonitor);
     }
 
     @Override
-    public Boolean deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<Boolean> deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException {
         CloudSession session = onedriveSessionService.getSession(sessionId);
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        GenericCloudTask<Boolean> cloudTask = new GenericCloudTask<>(progressMonitor, taskFactory.createDeleteTask(path, progressMonitor));
+        OnedriveDeleteTask deleteTask = taskFactory.createDeleteTask(path, progressMonitor);
+        Future<Boolean> future = executorService.submit(deleteTask);
 
-        executionService.execute(cloudTask);
-        return cloudTask.get();
+        return new ProgressAwareFuture<>(future, progressMonitor);
     }
 }

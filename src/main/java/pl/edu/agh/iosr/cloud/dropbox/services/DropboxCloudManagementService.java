@@ -6,9 +6,12 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.DeleteFileTask;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.DownloadFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.ListAllDirectoryFilesTask;
+import pl.edu.agh.iosr.cloud.dropbox.tasks.UploadFileTask;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.DeleteFileTaskFactory;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.DownloadFileTaskFactory;
 import pl.edu.agh.iosr.cloud.dropbox.tasks.factories.ListAllDirectoryFilesTaskFactory;
@@ -33,33 +36,36 @@ public class DropboxCloudManagementService implements ICloudManagementService {
     }
 
     @Override
-    public List<FileMetadata> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<List<FileMetadata>> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
         DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
         ListAllDirectoryFilesTask task = new ListAllDirectoryFilesTaskFactory().create(dropboxCloudSession.getClient(), cloudDirectory);
         executionService.execute(task);
 
-        return task.get();
+        return null;
     }
 
     @Override
-    public CloudTask<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
         DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
-        return new DownloadFileTaskFactory().create(dropboxCloudSession.getClient(), path, outputStream);
+        DownloadFileTask downloadFileTask = new DownloadFileTaskFactory().create(dropboxCloudSession.getClient(), path, outputStream);
+
+        return null;
     }
 
     @Override
-    public CloudTask<FileMetadata> uploadFile(String sessionId, CloudPath directory, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<FileMetadata> uploadFile(String sessionId, CloudPath directory, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException {
         DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
-        return new UploadFileTaskFactory().create(dropboxCloudSession.getClient(), directory, fileName, -1, inputStream);
+        UploadFileTask uploadFileTask = new UploadFileTaskFactory().create(dropboxCloudSession.getClient(), directory, fileName, -1, inputStream);
+        return null;
     }
 
     @Override
-    public Boolean deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<Boolean> deleteFile(String sessionId, CloudPath path) throws ExecutionException, InterruptedException {
         DropboxCloudSession dropboxCloudSession = cloudSessionService.getSession(sessionId);
         DeleteFileTask task = new DeleteFileTaskFactory().create(dropboxCloudSession.getClient(), path);
         executionService.execute(task);
 
-        return task.get();
+        return null;
     }
 
 }

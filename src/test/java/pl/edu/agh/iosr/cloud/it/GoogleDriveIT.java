@@ -38,9 +38,9 @@ public class GoogleDriveIT {
     @Ignore
     @Test
     public void testEndToEnd() throws Exception {
-        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST", CloudType.GOOGLE_DRIVE));
-        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("root", CloudType.GOOGLE_DRIVE));
-        assertThat(true).isTrue();
+//        Boolean deleted = managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST", CloudType.GOOGLE_DRIVE));
+//        List<FileMetadata> listed = managementService.listAllDirectoryFiles(session.getSessionId(), new CloudPath("root", CloudType.GOOGLE_DRIVE));
+//        assertThat(true).isTrue();
     }
 
 }

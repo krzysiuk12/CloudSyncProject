@@ -6,6 +6,7 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.googledrive.session.GoogleDriveCloudSession;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.DownloadFileTask;
 import pl.edu.agh.iosr.cloud.googledrive.tasks.ListAllDirectoryFilesTask;
@@ -34,29 +35,29 @@ public class GoogleDriveCloudManagementService implements ICloudManagementServic
     }
 
     @Override
-    public List<FileMetadata> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<List<FileMetadata>> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
         GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
         ListAllDirectoryFilesTask task = new ListAllDirectoryFilesTaskFactory().create(cloudSession.getDrive(), cloudDirectory);
         executionService.execute(task);
-        return task.get();
+        return null;
     }
 
     @Override
-    public CloudTask<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
         GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
         DownloadFileTask task = new DownloadFileTaskFactory().create(cloudSession.getDrive(), path, outputStream);
-        return task;
+        return null;
     }
 
     @Override
-    public CloudTask<FileMetadata> uploadFile(String sessionId, CloudPath path, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException {
+    public ProgressAwareFuture<FileMetadata> uploadFile(String sessionId, CloudPath path, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException {
         GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
         UploadFileTask task = new UploadFileTaskFactory().create(cloudSession.getDrive(), path, fileName, inputStream);
-        return task;
+        return null;
     }
 
     @Override
-    public Boolean deleteFile(String sessionId, CloudPath path) {
+    public ProgressAwareFuture<Boolean> deleteFile(String sessionId, CloudPath path) {
         return null;
     }
 }
