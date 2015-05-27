@@ -38,7 +38,7 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
     }
 
     @Override
-    public BasicSession loginUser(String login, String authorizationCode) throws Exception {
+    public BasicSession loginUser(String login, String authorizationCode) {
         String accessToken = redeemCodeForToken(authorizationCode);
 
         OnedriveCloudSession theSession = new OnedriveCloudSession(authorizationCode, accessToken, CloudSessionStatus.ACTIVE);

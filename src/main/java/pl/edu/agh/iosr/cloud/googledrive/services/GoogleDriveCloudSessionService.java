@@ -22,9 +22,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
-/**
- * Created by Mateusz Drożdż on 18.04.15.
- */
 @Service
 public class GoogleDriveCloudSessionService implements ICloudSessionService {
 
@@ -50,19 +47,23 @@ public class GoogleDriveCloudSessionService implements ICloudSessionService {
     }
 
     @Override
-    public BasicSession loginUser(String login, String authorizationCode) throws Exception {
-        Credential credential = exchangeCode(authorizationCode);
-        drive = new Drive.Builder(
-                HTTP_TRANSPORT,
-                JSON_FACTORY,
-                credential)
-                .build();
+    public BasicSession loginUser(String login, String authorizationCode) {
+        try {
+            Credential credential = exchangeCode(authorizationCode);
+            drive = new Drive.Builder(
+                    HTTP_TRANSPORT,
+                    JSON_FACTORY,
+                    credential)
+                    .build();
 
 
-        GoogleDriveCloudSession googleDriveCloudSession = new GoogleDriveCloudSession(authorizationCode, credential.getAccessToken(), CloudSessionStatus.ACTIVE, drive);
-        cloudSessionRepository.addCloudSession(googleDriveCloudSession);
+            GoogleDriveCloudSession googleDriveCloudSession = new GoogleDriveCloudSession(authorizationCode, credential.getAccessToken(), CloudSessionStatus.ACTIVE, drive);
+            cloudSessionRepository.addCloudSession(googleDriveCloudSession);
 
-        return googleDriveCloudSession;
+            return googleDriveCloudSession;
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Entered invalid authorization code: " + authorizationCode, e);
+        }
     }
 
     @Override

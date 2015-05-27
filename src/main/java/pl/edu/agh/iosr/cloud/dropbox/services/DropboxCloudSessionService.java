@@ -1,9 +1,6 @@
 package pl.edu.agh.iosr.cloud.dropbox.services;
 
-import com.dropbox.core.DbxAuthFinish;
-import com.dropbox.core.DbxClient;
-import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
@@ -31,15 +28,19 @@ public class DropboxCloudSessionService implements ICloudSessionService {
     }
 
     @Override
-    public BasicSession loginUser(String login, String authorizationCode) throws Exception {
-        DbxRequestConfig dbxRequestConfig = dropboxConnector.getRequestConfig();
-        DbxWebAuthNoRedirect webAuth = dropboxConnector.getWebAuth();
-        getAuthorizationUrl();
-        DbxAuthFinish authFinish = webAuth.finish(authorizationCode);
-        DbxClient dbxClient = new DbxClient(dbxRequestConfig, authFinish.accessToken);
-        DropboxCloudSession dropboxCloudSession = new DropboxCloudSession(authorizationCode, authFinish.accessToken, CloudSessionStatus.ACTIVE, dbxClient);
-        cloudSessionRepository.addCloudSession(dropboxCloudSession);
-        return dropboxCloudSession;
+    public BasicSession loginUser(String login, String authorizationCode) {
+        try {
+            DbxRequestConfig dbxRequestConfig = dropboxConnector.getRequestConfig();
+            DbxWebAuthNoRedirect webAuth = dropboxConnector.getWebAuth();
+            getAuthorizationUrl();
+            DbxAuthFinish authFinish = webAuth.finish(authorizationCode);
+            DbxClient dbxClient = new DbxClient(dbxRequestConfig, authFinish.accessToken);
+            DropboxCloudSession dropboxCloudSession = new DropboxCloudSession(authorizationCode, authFinish.accessToken, CloudSessionStatus.ACTIVE, dbxClient);
+            cloudSessionRepository.addCloudSession(dropboxCloudSession);
+            return dropboxCloudSession;
+        } catch (DbxException e) {
+            throw new IllegalArgumentException("Entered invalid authorization code: " + authorizationCode, e);
+        }
     }
 
     @Override

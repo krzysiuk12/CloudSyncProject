@@ -1,0 +1,82 @@
+!tape
+name: validLogin
+interactions:
+- recorded: 2015-05-27T19:29:50.631Z
+  request:
+    method: POST
+    uri: https://api.dropbox.com/1/oauth2/token
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Authorization: Basic bmxzdTVhNG43amNyM2lsOmMxdHVmaTBjbTl2am9oMA==
+      Cache-Control: no-cache
+      Connection: keep-alive
+      Content-Length: '104'
+      Content-Type: application/x-www-form-urlencoded; charset=utf-8
+      Host: api.dropbox.com
+      Pragma: no-cache
+      User-Agent: CloudSyncIosrProject Dropbox-Java-SDK/dev
+    body: locale=en_US&grant_type=authorization_code&code=THE_VALID_CODE&locale=en_US
+  response:
+    status: 200
+    headers:
+      Content-Type: text/javascript
+      Date: Wed, 27 May 2015 19:29:50 GMT
+      Server: nginx
+      cache-control: no-cache
+      pragma: no-cache
+      x-content-type-options: nosniff
+      x-dropbox-http-protocol: None
+      x-dropbox-request-id: 0e4cbf12b089cf5e538ce4c57cfefd9c
+      x-frame-options: SAMEORIGIN
+      x-server-response-time: '263'
+    body: '{"access_token": "s9KNb-J7l-AAAAAAAAAAaPYBXVMplG-owEcHyqkzzYxTGAszVnEGtOp6kEscWZrH", "token_type": "bearer", "uid": "418982012"}'
+- recorded: 2015-04-25T19:06:49.255Z
+  request:
+    method: GET
+    uri: https://login.live.com/oauth20_token.srf?client_id=THE_CLIENT_ID&client_secret=THE_CLIENT_SECRET&grant_type=authorization_code&redirect_uri=https://login.live.com/oauth20_desktop.srf&code=THE_VALID_CODE
+    headers:
+      Accept: application/json
+      Connection: keep-alive
+      Host: login.live.com
+      User-Agent: Java/1.7.0_40
+    body: ''
+  response:
+    status: 200
+    headers:
+      Cache-Control: no-store
+      Content-Type: application/json
+      Date: Sat, 25 Apr 2015 19:06:48 GMT
+      PPServer: 'PPV: 30 H: BAYIDSLGN2G057 V: 0'
+      Pragma: no-cache
+      Server: Microsoft-IIS/8.5
+    body: '{"token_type":"bearer","expires_in":3600,"scope":"wl.signin wl.offline_access onedrive.readwrite","access_token":"EwBoAq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAanL4NWTYboRbCrfzwDK6oiz0qapau8Wmci7iQkMNGSQ7nGY+ihhDRuXevrAtG9IZX2wtzofkD86fjjbq1i/aJ6AFqAlZNpGP+Y9JYdTDlFOcjeJ4WZ/6beGlmZ9Wcz5UxiCnGlX2TVlyA3jBLm9U32vIjuTbiVzVZyBtRekbXbXyXX23rgsl8S5d18uytZQv4g0jVgaOQOs/wMNgens7lYYXIsommHyz6r1+YHE+GTKRe5zWasxj0PgD6yEuBh7a5VotfS/Q3jZgGsdb6RETA6MKCdzuxer0McXCQbVa5gxa3LGl9PpRMoykNlgt0qHFZp90MWAgCZrCMux03wlLWkDZgAACF2OkvD0cyvsOAE6bHfQPUNNDs6bD89jxj+7vguqKraeTQtc4dvOkmA5FMWwLmwdb0wMkwnC/Jgx7HZOCQFBYvEjHdvyiTcbaqvb0IcsfhOg/6I33a+4lSGYUp878MKmAqwXk0ytCcXnIhXqlhj9m3iEEWS+2ClR03uWlV7kLuS3E/8jPJKBxVmDl3XQzkVLhH5ng2xH4fjrQx6t7XtCnW7PHgvKyBzqBOgsm/33NWBnk9ES9fUyjuNRRN3G9i5yiu3lQAfu3ugdstTPsEPU2EsGbNKkvCXTY8G5hdOOq8m/WHHVwIafQJoemkeCAMECk3Ubf2SmID2NBQaacXGjsWouR0pjptlJIIsusTug0wNUFp7iR8Ym7t69qSNA+WsJTPRfsMqxoDb8muLwlKnhcsCzlDU4SKAhiLWRzAEdUuEIM3FYAQ==","refresh_token":"CnXXuViYdZIX5lCpXnJy0qnLBcZoYy4LvnzOAkhyBF4zJlgO6jeM0CcfOKYDXH*KIHMdtzj3J8nPIPF4YnyYABrCFjzcTCrJl7yT6l0NUvUjL6ic1NaKznf!yEiM6f6R8yBflj8Gdgv0qLHQku1x*UhwZsic!ZLRPSnqoWiq5!qz2FF9b1KYxNaRGAmsCV9cZ!tnxitfw8j7tKkFty5F!S!OdpxgntllvnBprEaxN5Y359LuFqlh2ZRU8df0IPRrEyebAQPUw9TBilGOBD7ibPz65!KReJSHhVzl1lkWu2DK!a!x5VMoAYIBSRlEk2JLJYh77GF2Kn48ImyanN*gt5B2rGPjKE5sEbEU2G1uOnilhSRwUIpU*f!MLTZqCAJqL7jVo7xoaQjYCBzYoTGIE9g$","user_id":"90281a4fe5503e6352fdb12d38083511"}'
+- recorded: 2015-05-04T19:28:30.183Z
+  request:
+    method: POST
+    uri: https://accounts.google.com/o/oauth2/token
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Connection: keep-alive
+      Content-Length: '337'
+      Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+      Host: accounts.google.com
+      User-Agent: Google-HTTP-Java-Client/1.19.0 (gzip)
+    body: code=THE_VALID_CODE&grant_type=authorization_code&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&client_id=someAppKey&client_secret=someKeySecret
+  response:
+    status: 200
+    headers:
+      Alternate-Protocol: 443:quic,p=1
+      Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+      Content-Disposition: attachment; filename="json.txt"; filename*=UTF-8''json.txt
+      Content-Encoding: gzip
+      Content-Type: application/json; charset=utf-8
+      Date: Mon, 04 May 2015 19:28:29 GMT
+      Expires: Fri, 01 Jan 1990 00:00:00 GMT
+      Pragma: no-cache
+      Server: GSE
+      X-Content-Type-Options: nosniff
+      X-Frame-Options: SAMEORIGIN
+      X-XSS-Protection: 1; mode=block
+    body: !!binary |-
+      H4sIAAAAAAAAAEyOsXKCMABAd7+Cy6xtJGeq3UDUFioWUsFz4WJIKrWFkIQT2vPftXTp+t7w3s/AsgBljGudmerES2A9WqCj9uyORivBpSAwRi56OJmCjrGdhwmbvHlprGwdOlM9PdT7zcEzQeqREu3mX1XENvPRefn8kri+8b3XWdUulHLA8LfUJzLTSd53XE4VV3+Kt7JQXGdFv4AwhD1WXNzo8d/c+H5LjqHT1Yy4bfcZNGsZhBg/4VUT2cYfveepuNkaloXQ60WTJyqYfBBZxQh+s3hZYzC4XAEAAP//AwB/jyN5+AAAAA==
