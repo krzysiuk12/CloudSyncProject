@@ -8,6 +8,7 @@ import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagementService;
 import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudSessionService;
+import pl.edu.agh.iosr.cloud.onedrive.sessionswtf.OnedriveCloudSession;
 import pl.edu.agh.iosr.exceptions.ErrorMessages;
 import pl.edu.agh.iosr.serializers.LoginCloudSerializer;
 import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
@@ -66,7 +67,8 @@ public class OnedriveController {
     public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         System.out.println("HERE I AM - LIST ALL FILES!!!");
         try {
-            ProgressAwareFuture<List<FileMetadata>> future = onedriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
+            OnedriveCloudSession session = onedriveCloudSessionService.getSession(sessionId);
+            ProgressAwareFuture<List<FileMetadata>> future = onedriveCloudManagementService.listAllDirectoryFiles(session, directory);
             List<FileMetadata> files = future.get();
             return new ResponseSerializer<>(files);
         } catch (ExecutionException | InterruptedException e) {

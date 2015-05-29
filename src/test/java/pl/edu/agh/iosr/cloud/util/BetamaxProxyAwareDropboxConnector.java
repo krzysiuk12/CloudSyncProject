@@ -1,5 +1,6 @@
 package pl.edu.agh.iosr.cloud.util;
 
+import co.freeside.betamax.Recorder;
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuthNoRedirect;
@@ -12,6 +13,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.SocketAddress;
 import java.security.KeyManagementException;
@@ -26,6 +28,13 @@ public class BetamaxProxyAwareDropboxConnector implements DropboxConnector {
     private final SocketAddress proxyAddress;
     private DbxRequestConfig requestConfig;
     private DbxWebAuthNoRedirect webAuth;
+
+    public static BetamaxProxyAwareDropboxConnector fromRecorder(Recorder recorder) {
+        CloudConfiguration configuration = new CloudConfiguration("testApp", "someKey", "someKeySecret");
+        InetSocketAddress proxyAddress = new InetSocketAddress(recorder.getProxyHost(), recorder.getHttpsProxyPort());
+
+        return new BetamaxProxyAwareDropboxConnector(configuration, proxyAddress);
+    }
 
     public BetamaxProxyAwareDropboxConnector(CloudConfiguration configuration, SocketAddress proxyAddress) {
         this.configuration = configuration;

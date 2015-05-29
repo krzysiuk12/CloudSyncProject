@@ -22,46 +22,41 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 @Service
-public class GoogleDriveCloudManagementService implements ICloudManagementService {
+public class GoogleDriveCloudManagementService implements ICloudManagementService<GoogleDriveCloudSession> {
 
-    private final GoogleDriveCloudSessionService cloudSessionService;
     private final ExecutorService executorService;
 
     @Autowired
-    public GoogleDriveCloudManagementService(GoogleDriveCloudSessionService cloudSessionService, ExecutorService executorService) {
-        this.cloudSessionService = cloudSessionService;
+    public GoogleDriveCloudManagementService(ExecutorService executorService) {
         this.executorService = executorService;
     }
 
     @Override
-    public ProgressAwareFuture<List<FileMetadata>> listAllDirectoryFiles(String sessionId, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
-        GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
-        ListAllDirectoryFilesTask task = new ListAllDirectoryFilesTaskFactory().create(cloudSession.getDrive(), cloudDirectory);
+    public ProgressAwareFuture<List<FileMetadata>> listAllDirectoryFiles(GoogleDriveCloudSession session, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
+        ListAllDirectoryFilesTask task = new ListAllDirectoryFilesTaskFactory().create(session.getDrive(), cloudDirectory);
         Future<List<FileMetadata>> future = executorService.submit(task.getCallable());
 
         return new ProgressAwareFuture<>(future, task.getProgressMonitor());
     }
 
     @Override
-    public ProgressAwareFuture<Boolean> downloadFile(String sessionId, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
-        GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
-        DownloadFileTask task = new DownloadFileTaskFactory().create(cloudSession.getDrive(), path, outputStream);
+    public ProgressAwareFuture<Boolean> downloadFile(GoogleDriveCloudSession session, CloudPath path, OutputStream outputStream) throws ExecutionException, InterruptedException {
+        DownloadFileTask task = new DownloadFileTaskFactory().create(session.getDrive(), path, outputStream);
         Future<Boolean> future = executorService.submit(task.getCallable());
 
         return new ProgressAwareFuture<>(future, task.getProgressMonitor());
     }
 
     @Override
-    public ProgressAwareFuture<FileMetadata> uploadFile(String sessionId, CloudPath path, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException {
-        GoogleDriveCloudSession cloudSession = cloudSessionService.getSession(sessionId);
-        UploadFileTask task = new UploadFileTaskFactory().create(cloudSession.getDrive(), path, fileName, inputStream);
+    public ProgressAwareFuture<FileMetadata> uploadFile(GoogleDriveCloudSession session, CloudPath path, String fileName, InputStream inputStream) throws ExecutionException, InterruptedException {
+        UploadFileTask task = new UploadFileTaskFactory().create(session.getDrive(), path, fileName, inputStream);
         Future<FileMetadata> future = executorService.submit(task.getCallable());
 
         return new ProgressAwareFuture<>(future, task.getProgressMonitor());
     }
 
     @Override
-    public ProgressAwareFuture<Boolean> deleteFile(String sessionId, CloudPath path) {
+    public ProgressAwareFuture<Boolean> deleteFile(GoogleDriveCloudSession sessionId, CloudPath path) {
         return null;
     }
 }

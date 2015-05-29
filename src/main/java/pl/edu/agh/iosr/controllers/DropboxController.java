@@ -8,6 +8,7 @@ import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.dropbox.services.DropboxCloudManagementService;
 import pl.edu.agh.iosr.cloud.dropbox.services.DropboxCloudSessionService;
+import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
 import pl.edu.agh.iosr.exceptions.ErrorMessages;
 import pl.edu.agh.iosr.serializers.LoginCloudSerializer;
 import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
@@ -61,7 +62,8 @@ public class DropboxController {
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
     public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         try {
-            ProgressAwareFuture<List<FileMetadata>> future = dropboxCloudManagementService.listAllDirectoryFiles(sessionId, directory);
+            DropboxCloudSession session = dropboxCloudSessionService.getSession(sessionId);
+            ProgressAwareFuture<List<FileMetadata>> future = dropboxCloudManagementService.listAllDirectoryFiles(session, directory);
             List<FileMetadata> files = future.get();
             return new ResponseSerializer<>(files);
         } catch (ExecutionException | InterruptedException e) {
@@ -73,7 +75,8 @@ public class DropboxController {
     @RequestMapping(method = RequestMethod.POST, value = "delete")
     public ResponseSerializer<Boolean> deleteFile(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath file) {
         try {
-            ProgressAwareFuture<Boolean> future = dropboxCloudManagementService.deleteFile(sessionId, file);
+            DropboxCloudSession session = dropboxCloudSessionService.getSession(sessionId);
+            ProgressAwareFuture<Boolean> future = dropboxCloudManagementService.deleteFile(session, file);
             future.get();
             return new ResponseSerializer<>();
         } catch (ExecutionException | InterruptedException e) {

@@ -1,6 +1,5 @@
 package pl.edu.agh.iosr.cloud.common.interfaces;
 
-import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 
 /**
@@ -8,7 +7,7 @@ import pl.edu.agh.iosr.cloud.common.session.CloudSession;
  *
  * Created by Krzysztof Kicinger on 2015-04-11.
  */
-public interface ICloudSessionService {
+public interface ICloudSessionService<Session extends CloudSession> {
 
     public String getAuthorizationUrl() throws Exception;
 
@@ -20,7 +19,7 @@ public interface ICloudSessionService {
      * @param authorizationCode Code received from provider
      * @return BasicSession with sessionId being not null
      */
-    public BasicSession loginUser(String login, String authorizationCode) throws Exception ;
+    public Session loginUser(String login, String authorizationCode) throws Exception ;
 
     /**
      * Implementation of this method must shutdown connection with provider and remove Session object from pool.

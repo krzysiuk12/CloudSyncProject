@@ -1,0 +1,36 @@
+!tape
+name: dropbox_listDirs
+interactions:
+- recorded: 2015-05-28T22:58:07.918Z
+  request:
+    method: GET
+    uri: https://api.dropbox.com/1/metadata/auto/?locale=en_US&list=true&file_limit=25000
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Authorization: Bearer s9KNb-J7l-AAAAAAAAAAax44r3KDwOJpV-_m5DIXiGiRnOmyIRtYcawJklm9dJKN
+      Cache-Control: no-cache
+      Connection: keep-alive
+      Host: api.dropbox.com
+      Pragma: no-cache
+      User-Agent: testApp Dropbox-Java-SDK/dev
+  response:
+    status: 200
+    headers:
+      Content-Type: text/javascript
+      Date: Thu, 28 May 2015 22:58:07 GMT
+      Server: nginx
+      cache-control: no-cache
+      pragma: no-cache
+      set-cookie: gvc=Mjg1NjIwMDU4MDI1NDU3NDEwMTE4MDY3MDY4NDkzNzQyODA4NzIw; expires=Tue, 26 May 2020 22:58:07 GMT; httponly; Path=/; secure
+      x-content-type-options: nosniff
+      x-dropbox-http-protocol: None
+      x-dropbox-request-id: f1e02340bca3992fc50d22e0f953ec62
+      x-frame-options: SAMEORIGIN
+      x-server-response-time: '63'
+    body: '{"hash": "dc13efd54e67ff55979a17be365c4d53", "thumb_exists": false, "bytes": 0, "path": "/", "is_dir": true, "icon": "folder", "root": "dropbox", "contents": [{"rev": "135c15fb3", "thumb_exists": false, "path": "/Get Started with Dropbox.pdf", "is_dir":
+      false, "client_mtime": "Mon, 04 May 2015 20:37:42 +0000", "icon": "page_white_acrobat", "read_only": false, "modifier": null, "bytes": 912303, "modified": "Mon, 04 May 2015 20:37:41 +0000", "size": "890.9 KB", "root": "dropbox", "mime_type": "application/pdf",
+      "revision": 1}, {"rev": "1735c15fb3", "thumb_exists": false, "path": "/some_note.txt", "is_dir": false, "client_mtime": "Sat, 23 May 2015 21:41:28 +0000", "icon": "page_white_text", "read_only": false, "modifier": null, "bytes": 4, "modified": "Sat, 23
+      May 2015 21:41:28 +0000", "size": "4 bytes", "root": "dropbox", "mime_type": "text/plain", "revision": 23}, {"rev": "235c15fb3", "thumb_exists": false, "path": "/src", "is_dir": true, "icon": "folder", "read_only": false, "modifier": null, "bytes": 0,
+      "modified": "Tue, 12 May 2015 08:08:30 +0000", "size": "0 bytes", "root": "dropbox", "revision": 2}, {"rev": "1435c15fb3", "thumb_exists": false, "path": "/test1", "is_dir": true, "icon": "folder", "read_only": false, "modifier": null, "bytes": 0, "modified":
+      "Sat, 23 May 2015 14:31:56 +0000", "size": "0 bytes", "root": "dropbox", "revision": 20}, {"rev": "1535c15fb3", "thumb_exists": false, "path": "/test2", "is_dir": true, "icon": "folder", "read_only": false, "modifier": null, "bytes": 0, "modified": "Sat,
+      23 May 2015 14:32:00 +0000", "size": "0 bytes", "root": "dropbox", "revision": 21}], "size": "0 bytes"}'

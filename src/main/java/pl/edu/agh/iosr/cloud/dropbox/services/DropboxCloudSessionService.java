@@ -4,14 +4,13 @@ import com.dropbox.core.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
-import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 import pl.edu.agh.iosr.cloud.dropbox.configuration.DropboxConnector;
 import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
 import pl.edu.agh.iosr.repository.ICloudSessionRepository;
 
 @Service
-public class DropboxCloudSessionService implements ICloudSessionService {
+public class DropboxCloudSessionService implements ICloudSessionService<DropboxCloudSession> {
 
     private final DropboxConnector dropboxConnector;
     private final ICloudSessionRepository cloudSessionRepository;
@@ -28,7 +27,7 @@ public class DropboxCloudSessionService implements ICloudSessionService {
     }
 
     @Override
-    public BasicSession loginUser(String login, String authorizationCode) {
+    public DropboxCloudSession loginUser(String login, String authorizationCode) {
         try {
             DbxRequestConfig dbxRequestConfig = dropboxConnector.getRequestConfig();
             DbxWebAuthNoRedirect webAuth = dropboxConnector.getWebAuth();

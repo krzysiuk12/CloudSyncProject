@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.CloudConfiguration;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
-import pl.edu.agh.iosr.cloud.common.session.BasicSession;
-import pl.edu.agh.iosr.cloud.common.session.CloudSession;
 import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 import pl.edu.agh.iosr.cloud.onedrive.sessionswtf.OnedriveCloudSession;
 import pl.edu.agh.iosr.repository.ICloudSessionRepository;
@@ -18,7 +16,7 @@ import pl.edu.agh.iosr.repository.ICloudSessionRepository;
 import javax.ws.rs.core.MediaType;
 
 @Service
-public class OnedriveCloudSessionService implements ICloudSessionService {
+public class OnedriveCloudSessionService implements ICloudSessionService<OnedriveCloudSession> {
 
     private static final String AUTHORIZATION_RESPONSE_CODE = "code";
     private static final String AUTHORIZATION_SCOPE = "wl.signin wl.offline_access onedrive.readwrite";
@@ -38,7 +36,7 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
     }
 
     @Override
-    public BasicSession loginUser(String login, String authorizationCode) {
+    public OnedriveCloudSession loginUser(String login, String authorizationCode) {
         String accessToken = redeemCodeForToken(authorizationCode);
 
         OnedriveCloudSession theSession = new OnedriveCloudSession(authorizationCode, accessToken, CloudSessionStatus.ACTIVE);
@@ -89,8 +87,8 @@ public class OnedriveCloudSessionService implements ICloudSessionService {
     }
 
     @Override
-    public CloudSession getSession(String sessionId) {
-        return cloudSessionRepository.getCloudSessionById(sessionId);
+    public OnedriveCloudSession getSession(String sessionId) {
+        return (OnedriveCloudSession) cloudSessionRepository.getCloudSessionById(sessionId);
     }
 
 }

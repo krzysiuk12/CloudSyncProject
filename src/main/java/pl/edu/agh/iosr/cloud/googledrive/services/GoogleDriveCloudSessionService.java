@@ -12,7 +12,6 @@ import com.google.api.services.drive.DriveScopes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
-import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
 import pl.edu.agh.iosr.cloud.googledrive.configuration.GoogleDriveCloudConfiguration;
 import pl.edu.agh.iosr.cloud.googledrive.session.GoogleDriveCloudSession;
@@ -23,7 +22,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 @Service
-public class GoogleDriveCloudSessionService implements ICloudSessionService {
+public class GoogleDriveCloudSessionService implements ICloudSessionService<GoogleDriveCloudSession> {
 
     private GoogleDriveCloudConfiguration googleDriveCloudConfiguration;
     private ICloudSessionRepository cloudSessionRepository;
@@ -47,7 +46,7 @@ public class GoogleDriveCloudSessionService implements ICloudSessionService {
     }
 
     @Override
-    public BasicSession loginUser(String login, String authorizationCode) {
+    public GoogleDriveCloudSession loginUser(String login, String authorizationCode) {
         try {
             Credential credential = exchangeCode(authorizationCode);
             drive = new Drive.Builder(

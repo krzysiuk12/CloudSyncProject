@@ -8,6 +8,7 @@ import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudManagementService;
 import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudSessionService;
+import pl.edu.agh.iosr.cloud.googledrive.session.GoogleDriveCloudSession;
 import pl.edu.agh.iosr.exceptions.ErrorMessages;
 import pl.edu.agh.iosr.serializers.LoginCloudSerializer;
 import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
@@ -63,7 +64,8 @@ public class GoogleDriveController {
     public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
         System.out.println("GOOGLE - LIST ALL FILES!!!");
         try {
-            ProgressAwareFuture<List<FileMetadata>> future = googleDriveCloudManagementService.listAllDirectoryFiles(sessionId, directory);
+            GoogleDriveCloudSession session = googleDriveCloudSessionService.getSession(sessionId);
+            ProgressAwareFuture<List<FileMetadata>> future = googleDriveCloudManagementService.listAllDirectoryFiles(session, directory);
             List<FileMetadata> files = future.get();
             return new ResponseSerializer<>(files);
         } catch (ExecutionException | InterruptedException e) {
