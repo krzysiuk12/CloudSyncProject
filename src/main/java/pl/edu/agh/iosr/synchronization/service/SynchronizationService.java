@@ -8,9 +8,7 @@ import pl.edu.agh.iosr.cloud.common.files.CloudPath;
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
 import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
 import pl.edu.agh.iosr.cloud.common.session.UserSession;
-import pl.edu.agh.iosr.cloud.common.tasks.CloudTask;
 import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
-import pl.edu.agh.iosr.cloud.common.tasks.ProgressMonitor;
 import pl.edu.agh.iosr.cloud.dropbox.services.DropboxCloudManagementService;
 import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
 import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudManagementService;
@@ -30,7 +28,6 @@ import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Created by Krzysztof Kicinger on 2015-05-18.
@@ -86,7 +83,7 @@ public class SynchronizationService implements ISynchronizationService {
         final PipedOutputStream outputStream = new PipedOutputStream();
         PipedInputStream inputStream = new PipedInputStream(outputStream);
         getDownloadProgressAwareFuture(userSession, from.getCloudPath(), outputStream, from.getCloudPath().getType());
-        return getUpdateProgressAwareFuture(userSession, to.getCloudPath(), "test", inputStream, to.getCloudPath().getType());
+        return getUpdateProgressAwareFuture(userSession, to.getCloudPath(), getUploadedFileName(from.getCloudPath().getPath()), inputStream, to.getCloudPath().getType());
     }
 
     private ICloudManagementService getCloudManagementService(CloudType type) {
@@ -116,24 +113,8 @@ public class SynchronizationService implements ISynchronizationService {
         }
     }
 
-    private static class SynchronizationCloudTask<T, U, W> extends CloudTask<W> {
-
-        private final CloudTask<T> source;
-        private final List<CloudTask<U>> destinations;
-
-        SynchronizationCloudTask(ProgressMonitor progressMonitor, Callable<W> callable, CloudTask<T> source, List<CloudTask<U>> destinations) {
-            super(progressMonitor, callable);
-            this.source = source;
-            this.destinations = destinations;
-        }
-
-        public CloudTask<T> getSource() {
-            return source;
-        }
-
-        public List<CloudTask<U>> getDestinations() {
-            return destinations;
-        }
+    private String getUploadedFileName(String downloadedFilePath) {
+        return downloadedFilePath.substring(downloadedFilePath.lastIndexOf("/"), downloadedFilePath.length());
     }
 
 }
