@@ -37,6 +37,7 @@
                     $scope.response = response;
                     $scope.oneDriveSession['sessionId'] = response.result.sessionId;
                     console.log($scope.oneDriveSession.sessionId);
+                    console.log(('OneDrive loggedIn: ' + postData));
                     console.log("go to "+hash);
                     $location.path(hash);
                 })

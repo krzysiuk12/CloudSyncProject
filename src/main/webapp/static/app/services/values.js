@@ -23,6 +23,7 @@ angular.module('cloudSyncApp').value('oneDriveSession', {
 });
 
 angular.module('cloudSyncApp').value('synchroConf', {
+    "login" : '',
     "source" : {},
     "destination" : [],
     "type" : "FORWARD_PROPAGATION"

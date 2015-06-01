@@ -43,11 +43,11 @@ public class CloudSessionRepository implements ICloudSessionRepository {
     @Override
     public CloudSession getCloudSessionById(String sessionId) {
         for(UserSession userSession : cloudSessionMap.values()) {
-            if(userSession.getDropboxCloudSession().getSessionId().equals(sessionId)) {
+            if(userSession.getDropboxCloudSession() != null && sessionId.equals(userSession.getDropboxCloudSession().getSessionId())) {
                 return userSession.getDropboxCloudSession();
-            } else if(userSession.getGoogleDriveCloudSession().getSessionId().equals(sessionId)) {
+            } else if(userSession.getGoogleDriveCloudSession() != null && sessionId.equals(userSession.getGoogleDriveCloudSession().getSessionId())) {
                 return userSession.getGoogleDriveCloudSession();
-            } else if(userSession.getOnedriveCloudSession().getSessionId().equals(sessionId)) {
+            } else if (userSession.getOnedriveCloudSession() != null && sessionId.equals(userSession.getOnedriveCloudSession().getSessionId())) {
                 return userSession.getOnedriveCloudSession();
             }
         }

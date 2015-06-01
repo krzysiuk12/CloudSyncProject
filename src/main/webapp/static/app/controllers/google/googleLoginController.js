@@ -30,12 +30,13 @@
             postData = {
                 "login" : $scope.userName,
                 "authorizationCode" : $scope.authenticationCode
-            }
+            };
             googleLoginFactory.logIn(postData)
                 .success(function (response) {
                     $scope.response = response;
                     $scope.googleSession['sessionId'] = response.result.sessionId;
                     console.log($scope.googleSession.sessionId);
+                    console.log("Google loggedIn: " + postData);
                     console.log("go to "+hash);
                     $location.path(hash);
                 })
