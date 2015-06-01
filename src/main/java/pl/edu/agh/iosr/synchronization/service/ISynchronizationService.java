@@ -1,6 +1,7 @@
 package pl.edu.agh.iosr.synchronization.service;
 
 import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
+import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
 import pl.edu.agh.iosr.synchronization.SynchronizationEntry;
 
 import java.util.List;
@@ -10,6 +11,10 @@ import java.util.List;
  */
 public interface ISynchronizationService {
 
-    public List<FileMetadata> synchronize(SynchronizationEntry synchronizationEntry) throws Exception;
+    public void addSynchronizationRule(String login, SynchronizationEntry entry) throws Exception;
+
+    public void performAutomaticSynchronization() throws Exception;
+
+    public List<ProgressAwareFuture<FileMetadata>> synchronize(SynchronizationEntry synchronizationEntry) throws Exception;
 
 }

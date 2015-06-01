@@ -15,6 +15,10 @@ public class UserAccount {
     public UserAccount() {
     }
 
+    public UserAccount(String login) {
+        this.login = login;
+    }
+
     public UserAccount(String login, Date creationDate) {
         this.login = login;
         this.creationDate = creationDate;
@@ -52,4 +56,20 @@ public class UserAccount {
         this.lastLoginDate = lastLoginDate;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserAccount that = (UserAccount) o;
+
+        if (login != null ? !login.equals(that.login) : that.login != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return login != null ? login.hashCode() : 0;
+    }
 }

@@ -54,6 +54,8 @@ public class UploadFileTaskFactory {
                     return fileBuilder.build();
                 } catch (Exception ex) {
                     logger.error("Problem with uploading: " + ex.getMessage(), ex);
+                } finally {
+                    uploadTaskParams.getInputStream().close();
                 }
                 return null;
             }

@@ -57,7 +57,7 @@ public class GoogleDriveCloudSessionService implements ICloudSessionService<Goog
 
 
             GoogleDriveCloudSession googleDriveCloudSession = new GoogleDriveCloudSession(authorizationCode, credential.getAccessToken(), CloudSessionStatus.ACTIVE, drive);
-            cloudSessionRepository.addCloudSession(googleDriveCloudSession);
+            cloudSessionRepository.addCloudSession(login, googleDriveCloudSession);
 
             return googleDriveCloudSession;
         } catch (IOException e) {

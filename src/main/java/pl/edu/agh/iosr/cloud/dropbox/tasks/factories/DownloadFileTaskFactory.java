@@ -41,6 +41,8 @@ public class DownloadFileTaskFactory {
                     return true;
                 } catch(DbxException ex) {
                     logger.error("Problem during file downloading.", ex);
+                } finally {
+                    params.getOutputStream().close();
                 }
                 return false;
             }

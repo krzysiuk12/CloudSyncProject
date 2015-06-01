@@ -11,7 +11,7 @@
                 url : null,
                 code : null
             }
-            $scope.userName = null;
+            $scope.userName = "Janek";
             $scope.errors = null;
 
             $scope.getAuthorizationUrl = function() {
@@ -32,7 +32,7 @@
                 }
                 dropboxSessionFactory.login(postData)
                     .success(function (response) {
-                        console.log('DropboxSessionController - login.');
+                        console.log('DropboxSessionController - login.' + postData);
                         dropboxSession.sessionId = response.result.sessionId;
                         console.log('DropboxSessionController - login - User: ' + $scope.userName + " logged with sessionId: " + dropboxSession.sessionId)
                     })

@@ -35,7 +35,7 @@ public class DropboxCloudSessionService implements ICloudSessionService<DropboxC
             DbxAuthFinish authFinish = webAuth.finish(authorizationCode);
             DbxClient dbxClient = new DbxClient(dbxRequestConfig, authFinish.accessToken);
             DropboxCloudSession dropboxCloudSession = new DropboxCloudSession(authorizationCode, authFinish.accessToken, CloudSessionStatus.ACTIVE, dbxClient);
-            cloudSessionRepository.addCloudSession(dropboxCloudSession);
+            cloudSessionRepository.addCloudSession(login, dropboxCloudSession);
             return dropboxCloudSession;
         } catch (DbxException e) {
             throw new IllegalArgumentException("Entered invalid authorization code: " + authorizationCode, e);

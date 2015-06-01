@@ -40,7 +40,7 @@ public class OnedriveCloudSessionService implements ICloudSessionService<Onedriv
         String accessToken = redeemCodeForToken(authorizationCode);
 
         OnedriveCloudSession theSession = new OnedriveCloudSession(authorizationCode, accessToken, CloudSessionStatus.ACTIVE);
-        cloudSessionRepository.addCloudSession(theSession);
+        cloudSessionRepository.addCloudSession(login, theSession);
 
         return theSession;
     }
