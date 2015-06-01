@@ -71,59 +71,22 @@ public class SynchronizationService implements ISynchronizationService {
     @Override
     public List<ProgressAwareFuture<FileMetadata>> synchronize(SynchronizationEntry synchronizationEntry) throws Exception {
 
-        final PipedOutputStream outputStream = new PipedOutputStream();
-        PipedInputStream inputStream = new PipedInputStream(outputStream);
-
         final UserSession userSession = cloudSessionRepository.getUserSessionByLogin(synchronizationEntry.getLogin());
-
-        ProgressAwareFuture<Boolean> downloadFuture = getDownloadProgressAwareFuture(userSession, synchronizationEntry.getSource().getCloudPath(), outputStream, synchronizationEntry.getSource().getCloudPath().getType());
-/*
-        while(!downloadFuture.isDone()) {
-            Thread.sleep(100);
-        }
-*/
 
         List<ProgressAwareFuture<FileMetadata>> uploadFutures = new ArrayList<>();
         for(SynchronizationSingleCloudEntry entry : synchronizationEntry.getDestination()) {
-            uploadFutures.add(getUpdateProgressAwareFuture(userSession, entry.getCloudPath(), "test", inputStream, entry.getCloudPath().getType()));
+            uploadFutures.add(synchronize(userSession, synchronizationEntry.getSource(), entry));
         }
 
         return uploadFutures;
 
-//        final CloudTask<Boolean> downloadTask = sourceManagementService.downloadFile(synchronizationEntry.getSource().getSessionId(), synchronizationEntry.getSource().getCloudPath(), outputStream);
-//        final List<CloudTask<FileMetadata>> uploadTasks = new ArrayList<>();
-//        for(SynchronizationSingleCloudEntry entry : synchronizationEntry.getDestination()) {
-//            ICloudManagementService destinationCloudManagementService = getCloudManagementService(entry.getCloudPath().getType());
-//            uploadTasks.add(destinationCloudManagementService.uploadFile(entry.getSessionId(), entry.getCloudPath(), "pupa", inputStream));
-//        }
-//
-//        final ProgressMonitor progressMonitor = new ProgressMonitor();
-//        CloudTask<List<FileMetadata>> mergedTask = new SynchronizationCloudTask<>(progressMonitor, new Callable<List<FileMetadata>>() {
-//            @Override
-//            public List<FileMetadata> call() throws Exception {
-//                progressMonitor.setProgress(new Progress(0.0));
-//                List<FileMetadata> fileMetadataList = new ArrayList<>();
-//                progressMonitor.setProgress(new Progress(0.3));
-//                if(downloadTask.get()) {
-//                    outputStream.close();
-//                    for(CloudTask<FileMetadata> task : uploadTasks) {
-//                        fileMetadataList.add(task.get());
-//                    }
-//                    progressMonitor.setProgress(new Progress(1.0));
-//                    return fileMetadataList;
-//                } else {
-//                    return Collections.emptyList();
-//                }
-//            }
-//        }, downloadTask, uploadTasks);
-//
-//        executionService.execute(downloadTask);
-////        for(CloudTask<FileMetadata> task : uploadTasks) {
-////            executionService.execute(task);
-////        }
-////        executionService.execute(mergedTask);
-//
-////        return mergedTask.get();
+    }
+
+    private ProgressAwareFuture<FileMetadata> synchronize(UserSession userSession, SynchronizationSingleCloudEntry from, SynchronizationSingleCloudEntry to) throws Exception {
+        final PipedOutputStream outputStream = new PipedOutputStream();
+        PipedInputStream inputStream = new PipedInputStream(outputStream);
+        getDownloadProgressAwareFuture(userSession, from.getCloudPath(), outputStream, from.getCloudPath().getType());
+        return getUpdateProgressAwareFuture(userSession, to.getCloudPath(), "test", inputStream, to.getCloudPath().getType());
     }
 
     private ICloudManagementService getCloudManagementService(CloudType type) {

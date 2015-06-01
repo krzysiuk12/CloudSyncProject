@@ -1,10 +1,7 @@
 package pl.edu.agh.iosr.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.iosr.exceptions.ErrorMessages;
 import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
 import pl.edu.agh.iosr.serializers.common.ResponseStatus;
@@ -25,6 +22,17 @@ public class SynchronizationController {
     @Autowired
     public SynchronizationController(ISynchronizationService synchronizationService) {
         this.synchronizationService = synchronizationService;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseSerializer addSynchronizationRule(@RequestHeader String login, @RequestBody SynchronizationEntry synchronizationEntry) {
+        try {
+            synchronizationService.addSynchronizationRule(login, synchronizationEntry);
+            return new ResponseSerializer();
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)
