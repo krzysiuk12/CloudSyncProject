@@ -9,12 +9,14 @@
         <li class="list-group-item" ng-click="goBack()">
             <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
         </li>
-        <li class="list-group-item" ng-repeat="file in files" ng-click="goTo(file)">
-            <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true"></span>
+        <li class="list-group-item" ng-repeat="file in files" >
+            <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true" ng-click="goTo(file)"></span>
             <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
             {{ file.fileName }}
             <span class="pull-right">
-                <span class="badge">{{ file.lastModificationTime | date }}</span>
+                <span class="badge" ng-click="asSource(file)">as source</span>
+                <span class="badge" ng-click="asDestination(file)">as destination</span>
+                <!--<span class="badge">{{ file.lastModificationTime | date }}</span>-->
             </span>
         </li>
     </ul>

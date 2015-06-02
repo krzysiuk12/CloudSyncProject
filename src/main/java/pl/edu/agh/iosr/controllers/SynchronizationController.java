@@ -24,16 +24,16 @@ public class SynchronizationController {
         this.synchronizationService = synchronizationService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseSerializer addSynchronizationRule(@RequestHeader String login, @RequestBody SynchronizationEntry synchronizationEntry) {
-        try {
-            synchronizationService.addSynchronizationRule(login, synchronizationEntry);
-            return new ResponseSerializer();
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
-        }
-    }
+//    @RequestMapping(method = RequestMethod.POST)
+//    public ResponseSerializer addSynchronizationRule(@RequestHeader String login, @RequestBody SynchronizationEntry synchronizationEntry) {
+//        try {
+//            synchronizationService.addSynchronizationRule(login, synchronizationEntry);
+//            return new ResponseSerializer();
+//        } catch(Exception ex) {
+//            ex.printStackTrace();
+//            return new ResponseSerializer<>(ResponseStatus.UNKNOWN_SERVER_ERROR, new ArrayList<ErrorMessages>());
+//        }
+//    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseSerializer synchronize(@RequestBody SynchronizationEntry synchronizationEntry) {

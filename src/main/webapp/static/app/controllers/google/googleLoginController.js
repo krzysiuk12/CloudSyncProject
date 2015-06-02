@@ -6,7 +6,7 @@
     var GoogleLoginController = function ($scope, $log, $location, googleLoginFactory, googleSession) {
         $scope.authenticationUrl = '';
         $scope.authenticationCode = '';
-        $scope.userName = 'wiesiek';
+        $scope.userName = 'Janek';
 
         $scope.googleSession = googleSession;
         $scope.response = {};

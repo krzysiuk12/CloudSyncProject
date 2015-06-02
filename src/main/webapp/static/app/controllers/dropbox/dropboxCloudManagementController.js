@@ -5,7 +5,7 @@
 
     angular.module('cloudSyncApp')
         .constant('initialDirectoryPath', '/')
-        .controller('DropboxCloudManagementController', function ($scope, $log, dropboxCloudManagementFactory, initialDirectoryPath) {
+        .controller('DropboxCloudManagementController', function ($scope, $log, dropboxCloudManagementFactory, initialDirectoryPath, dropboxSession, synchroConf) {
 
             $scope.files = null;
             $scope.currentDirectoryPath = initialDirectoryPath;
@@ -50,12 +50,34 @@
                         })
                         .error(function (error) {
                             console.log('DropboxCloudManagementController - goBack - error.');
-                            $scope.errors = error
+                            $scope.errors = error;
                             $log.log(error);
                         });
                 } else {
                     console.log("Already in the root");
                 }
+            };
+
+            $scope.asSource = function (file) {
+                synchroConf.source = {
+                    "sessionId" : dropboxSession.sessionId,
+                    "cloudPath" : {
+                        "path" : $scope.currentDirectoryPath + '/' + file.fileName,
+                        "type" : "DROPBOX"
+                    }
+                }
+                console.log(synchroConf.source);
+            };
+            $scope.asDestination = function (file) {
+                synchroConf.destination.push({
+                        "sessionId" : dropboxSession.sessionId,
+                        "cloudPath" : {
+                            "path" : $scope.currentDirectoryPath + '/' + file.fileName,
+                            "type" : "DROPBOX"
+                        }
+                    }
+                );
+                console.log(synchroConf.destination);
             };
 
 

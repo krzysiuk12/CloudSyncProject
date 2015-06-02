@@ -21,10 +21,7 @@ import pl.edu.agh.iosr.repository.ISynchronizationRepository;
 import pl.edu.agh.iosr.synchronization.SynchronizationEntry;
 import pl.edu.agh.iosr.synchronization.SynchronizationSingleCloudEntry;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -80,9 +77,14 @@ public class SynchronizationService implements ISynchronizationService {
     }
 
     private ProgressAwareFuture<FileMetadata> synchronize(UserSession userSession, SynchronizationSingleCloudEntry from, SynchronizationSingleCloudEntry to) throws Exception {
-        final PipedOutputStream outputStream = new PipedOutputStream();
-        PipedInputStream inputStream = new PipedInputStream(outputStream);
+        PipedOutputStream outputStream = new PipedOutputStream();
         getDownloadProgressAwareFuture(userSession, from.getCloudPath(), outputStream, from.getCloudPath().getType());
+        PipedInputStream inputStream = null;
+        try {
+            inputStream = new PipedInputStream(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return getUpdateProgressAwareFuture(userSession, to.getCloudPath(), getUploadedFileName(from.getCloudPath().getPath()), inputStream, to.getCloudPath().getType());
     }
 

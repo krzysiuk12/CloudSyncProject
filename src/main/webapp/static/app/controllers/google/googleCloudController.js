@@ -3,7 +3,7 @@
  */
 (function () {
 
-    var GoogleCloudController = function ($scope, $log, googleCloudFactory) {
+    var GoogleCloudController = function ($scope, $log, googleCloudFactory, googleSession, synchroConf) {
         $scope.files = {};
         $scope.currentDirPath = {"path" : "root"};
         $scope.parents = [];
@@ -57,10 +57,30 @@
             }
         };
 
+        $scope.asSource = function (file) {
+            synchroConf.source = {
+                "sessionId" : googleSession.sessionId,
+                "cloudPath" : {
+                    "path" : file.path.path,
+                    "type" : "GOOGLE_DRIVE"
+                }
+            }
+        };
+        $scope.asDestination = function (file) {
+            synchroConf.destination.push({
+                    "sessionId" : googleSession.sessionId,
+                    "cloudPath" : {
+                        "path" : file.path.path,
+                        "type" : "GOOGLE_DRIVE"
+                    }
+                }
+            );
+        };
+
         init();
     };
 
-    GoogleCloudController.$inject = ['$scope', '$log', 'googleCloudFactory'];
+    GoogleCloudController.$inject = ['$scope', '$log', 'googleCloudFactory', 'googleSession', 'synchroConf'];
 
     angular.module('cloudSyncApp').controller('GoogleCloudController', GoogleCloudController);
 

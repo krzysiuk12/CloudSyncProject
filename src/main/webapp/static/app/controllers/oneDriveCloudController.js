@@ -63,6 +63,7 @@
                     "type" : "ONE_DRIVE"
                 }
             }
+            console.log(synchroConf.source);
         };
         $scope.asDestination = function (file) {
             synchroConf.destination.push({
@@ -73,6 +74,7 @@
                 }
             }
             );
+            console.log(synchroConf.destination);
         };
 
 

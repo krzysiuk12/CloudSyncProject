@@ -2,6 +2,7 @@ package pl.edu.agh.iosr.cloud.googledrive.tasks.factories;
 
 import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.http.FileContent;
+import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.ParentReference;
@@ -65,10 +66,9 @@ public class UploadFileTaskFactory {
 
                 // File's content.
                 // todo: mimeType hardcoded
-                java.io.File fileContent = new java.io.File(params.getFileName());
-                FileContent mediaContent = new FileContent("image/jpeg", fileContent);
+                InputStreamContent inputStreamContent = new InputStreamContent(null, params.getInputStream());
                 try {
-                    File file = service.files().insert(body, mediaContent).execute();
+                    File file = service.files().insert(body, inputStreamContent).execute();
                     System.out.println("File uploaded");
                     progressMonitor.setProgress(new Progress(0.8f));
                     // MediaHttpUploader uploader = insert.getMediaHttpUploader();

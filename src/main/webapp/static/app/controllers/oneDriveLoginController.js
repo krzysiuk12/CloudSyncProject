@@ -7,7 +7,7 @@
     var OneDriveLoginController = function ($scope, $log, $location, oneDriveLoginFactory, oneDriveSession) {
         $scope.authenticationUrl = '';
         $scope.authenticationCode = '';
-        $scope.userName = 'wiesiek';
+        $scope.userName = 'Janek';
 
         $scope.oneDriveSession = oneDriveSession;
         $scope.response = {};
