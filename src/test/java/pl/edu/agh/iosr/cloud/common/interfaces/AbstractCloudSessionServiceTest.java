@@ -6,10 +6,9 @@ import co.freeside.betamax.Recorder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
 import pl.edu.agh.iosr.cloud.common.session.BasicSession;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class AbstractCloudSessionServiceTest {
 
@@ -35,7 +34,6 @@ public abstract class AbstractCloudSessionServiceTest {
         BasicSession session = underTest.loginUser("some login", authorizationCode);
 
         // then
-        //TODO: introduce assertJ assertion library
         //TODO: assertion over the access token so session need to store that
         assertThat(session).isNotNull();
     }

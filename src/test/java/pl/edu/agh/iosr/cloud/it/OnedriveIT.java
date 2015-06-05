@@ -25,8 +25,6 @@ import java.io.PipedOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:**/applicationConfig.xml" })
 public class OnedriveIT {
@@ -44,6 +42,7 @@ public class OnedriveIT {
         session = sessionService.loginUser("santiago", authorizationCode);
     }
 
+    @Ignore
     @Test
     public void testEndToEnd() throws Exception {
 //        managementService.deleteFile(session.getSessionId(), new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE)).get();

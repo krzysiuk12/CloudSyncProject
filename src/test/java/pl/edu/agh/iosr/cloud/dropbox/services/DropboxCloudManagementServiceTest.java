@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DropboxCloudManagementServiceTest {
 
