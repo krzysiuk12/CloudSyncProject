@@ -23,10 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DropboxIT {
 
-    static {
-        System.setProperty("test.dropbox.token", "s9KNb-J7l-AAAAAAAAAAr4kaX7D1nsvXt0LH2z0uUlkU-takdVvTtWrG9Y919caZ");
-    }
-
     private final String accessToken = System.getProperty("test.dropbox.token");
 
     private DropboxCloudManagementService managementService;
