@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DropboxIT {
+public class DropboxWithValidTokenIT {
 
     private final String accessToken = System.getProperty("test.dropbox.token");
 

@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class OnedriveIT {
+public class OnedriveWithValidTokenIT {
 
     private final String accessToken = System.getProperty("test.onedrive.token");
 
