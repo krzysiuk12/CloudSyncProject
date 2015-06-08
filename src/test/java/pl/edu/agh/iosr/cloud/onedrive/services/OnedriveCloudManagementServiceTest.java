@@ -7,11 +7,12 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import pl.edu.agh.iosr.cloud.common.CloudType;
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
-import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
-import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
-import pl.edu.agh.iosr.cloud.onedrive.sessionswtf.OnedriveCloudSession;
+import pl.edu.agh.iosr.domain.cloud.CloudType;
+import pl.edu.agh.iosr.domain.cloud.files.CloudPath;
+import pl.edu.agh.iosr.domain.cloud.files.FileMetadata;
+import pl.edu.agh.iosr.domain.cloud.tasks.ProgressAwareFuture;
+import pl.edu.agh.iosr.domain.cloud.session.OnedriveCloudSession;
+import pl.edu.agh.iosr.services.implementation.OnedriveCloudManagementService;
 
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;

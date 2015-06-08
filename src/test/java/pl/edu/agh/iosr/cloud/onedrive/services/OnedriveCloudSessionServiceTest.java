@@ -1,9 +1,10 @@
 package pl.edu.agh.iosr.cloud.onedrive.services;
 
 import com.sun.jersey.api.client.Client;
-import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
+import pl.edu.agh.iosr.services.implementation.OnedriveCloudSessionService;
+import pl.edu.agh.iosr.services.interfaces.ICloudSessionService;
 import pl.edu.agh.iosr.cloud.common.interfaces.AbstractCloudSessionServiceTest;
-import pl.edu.agh.iosr.repository.CloudSessionRepository;
+import pl.edu.agh.iosr.repository.implementation.CloudSessionRepository;
 
 public class OnedriveCloudSessionServiceTest extends AbstractCloudSessionServiceTest {
 

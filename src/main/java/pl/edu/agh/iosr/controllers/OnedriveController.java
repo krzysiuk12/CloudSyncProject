@@ -2,17 +2,17 @@ package pl.edu.agh.iosr.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
-import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
-import pl.edu.agh.iosr.cloud.common.session.BasicSession;
-import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
-import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudManagementService;
-import pl.edu.agh.iosr.cloud.onedrive.services.OnedriveCloudSessionService;
-import pl.edu.agh.iosr.cloud.onedrive.sessionswtf.OnedriveCloudSession;
-import pl.edu.agh.iosr.exceptions.ErrorMessages;
-import pl.edu.agh.iosr.serializers.LoginCloudSerializer;
-import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
-import pl.edu.agh.iosr.serializers.common.ResponseStatus;
+import pl.edu.agh.iosr.domain.cloud.files.CloudPath;
+import pl.edu.agh.iosr.domain.cloud.files.FileMetadata;
+import pl.edu.agh.iosr.domain.cloud.session.BasicSession;
+import pl.edu.agh.iosr.domain.cloud.tasks.ProgressAwareFuture;
+import pl.edu.agh.iosr.services.implementation.OnedriveCloudManagementService;
+import pl.edu.agh.iosr.services.implementation.OnedriveCloudSessionService;
+import pl.edu.agh.iosr.domain.cloud.session.OnedriveCloudSession;
+import pl.edu.agh.iosr.controllers.serializers.common.ErrorMessages;
+import pl.edu.agh.iosr.controllers.serializers.LoginCloudSerializer;
+import pl.edu.agh.iosr.controllers.serializers.common.ResponseSerializer;
+import pl.edu.agh.iosr.controllers.serializers.common.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;

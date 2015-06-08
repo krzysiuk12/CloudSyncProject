@@ -5,8 +5,8 @@ import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuthNoRedirect;
 import com.dropbox.core.http.StandardHttpRequestor;
-import pl.edu.agh.iosr.cloud.common.CloudConfiguration;
-import pl.edu.agh.iosr.cloud.dropbox.configuration.DropboxConnector;
+import pl.edu.agh.iosr.domain.cloud.CloudConfiguration;
+import pl.edu.agh.iosr.configuration.dropbox.DropboxConnector;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;

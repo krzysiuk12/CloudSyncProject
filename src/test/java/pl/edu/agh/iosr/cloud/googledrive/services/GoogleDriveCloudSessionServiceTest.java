@@ -1,9 +1,10 @@
 package pl.edu.agh.iosr.cloud.googledrive.services;
 
-import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
+import pl.edu.agh.iosr.services.implementation.GoogleDriveCloudSessionService;
+import pl.edu.agh.iosr.services.interfaces.ICloudSessionService;
 import pl.edu.agh.iosr.cloud.common.interfaces.AbstractCloudSessionServiceTest;
-import pl.edu.agh.iosr.cloud.googledrive.configuration.GoogleDriveCloudConfiguration;
-import pl.edu.agh.iosr.repository.ICloudSessionRepository;
+import pl.edu.agh.iosr.configuration.googledrive.GoogleDriveCloudConfiguration;
+import pl.edu.agh.iosr.repository.interfaces.ICloudSessionRepository;
 
 import static org.mockito.Mockito.mock;
 

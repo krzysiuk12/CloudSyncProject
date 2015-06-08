@@ -6,7 +6,8 @@ import co.freeside.betamax.Recorder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import pl.edu.agh.iosr.cloud.common.session.BasicSession;
+import pl.edu.agh.iosr.domain.cloud.session.BasicSession;
+import pl.edu.agh.iosr.services.interfaces.ICloudSessionService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

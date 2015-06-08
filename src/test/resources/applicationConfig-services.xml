@@ -5,15 +5,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="jacksonObjectMapper" primary="true" class="pl.edu.agh.iosr.config.MyObjectMapperFactory" factory-method="createWithJodaModule"/>
+    <bean id="jacksonObjectMapper" primary="true" class="pl.edu.agh.iosr.mapper.MyObjectMapperFactory" factory-method="createWithJodaModule"/>
 
-    <bean id="dropboxConfiguration" class="pl.edu.agh.iosr.cloud.common.CloudConfiguration">
+    <bean id="dropboxConfiguration" class="pl.edu.agh.iosr.domain.cloud.CloudConfiguration">
         <constructor-arg name="appKey" value="${dropbox.appKey}"/>
         <constructor-arg name="appKeySecret" value="${dropbox.appKeySecret}"/>
         <constructor-arg name="appName" value="${dropbox.appName}"/>
     </bean>
 
-    <bean id="dropboxConnector" class="pl.edu.agh.iosr.cloud.dropbox.configuration.DefaultDropboxConnector">
+    <bean id="dropboxConnector" class="pl.edu.agh.iosr.configuration.dropbox.DefaultDropboxConnector">
         <constructor-arg name="cloudConfiguration" ref="dropboxConfiguration"/>
     </bean>
 
@@ -21,14 +21,13 @@
         <constructor-arg value="${executors.poolSize}"/>
     </bean>
 
+    <context:component-scan base-package="pl.edu.agh.iosr.controllers" />
     <context:component-scan base-package="pl.edu.agh.iosr.repository" />
-    <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.configuration" />
-    <context:component-scan base-package="pl.edu.agh.iosr.cloud.dropbox.services" />
-    <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.configuration" />
-    <context:component-scan base-package="pl.edu.agh.iosr.cloud.googledrive.services" />
-    <context:component-scan base-package="pl.edu.agh.iosr.cloud.onedrive.services" />
-    <context:component-scan base-package="pl.edu.agh.iosr.execution" />
-    <context:component-scan base-package="pl.edu.agh.iosr.synchronization" />
+    <context:component-scan base-package="pl.edu.agh.iosr.configuration.dropbox" />
+    <context:component-scan base-package="pl.edu.agh.iosr.configuration.googledrive" />
+    <context:component-scan base-package="pl.edu.agh.iosr.domain.cloud.session" />
+    <context:component-scan base-package="pl.edu.agh.iosr.services.implementation" />
+    <context:component-scan base-package="pl.edu.agh.iosr.repository.implementation" />
 
     <bean id="client" class="com.sun.jersey.api.client.Client"/>
 

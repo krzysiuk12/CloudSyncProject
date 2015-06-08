@@ -2,11 +2,11 @@ package pl.edu.agh.iosr.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.iosr.exceptions.ErrorMessages;
-import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
-import pl.edu.agh.iosr.serializers.common.ResponseStatus;
-import pl.edu.agh.iosr.synchronization.SynchronizationEntry;
-import pl.edu.agh.iosr.synchronization.service.ISynchronizationService;
+import pl.edu.agh.iosr.controllers.serializers.common.ErrorMessages;
+import pl.edu.agh.iosr.controllers.serializers.common.ResponseSerializer;
+import pl.edu.agh.iosr.controllers.serializers.common.ResponseStatus;
+import pl.edu.agh.iosr.domain.synchronization.SynchronizationEntry;
+import pl.edu.agh.iosr.services.interfaces.ISynchronizationService;
 
 import java.util.ArrayList;
 

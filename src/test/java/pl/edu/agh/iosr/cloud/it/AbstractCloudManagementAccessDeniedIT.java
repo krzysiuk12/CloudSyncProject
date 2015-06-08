@@ -3,18 +3,10 @@ package pl.edu.agh.iosr.cloud.it;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import pl.edu.agh.iosr.cloud.common.CloudType;
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
-import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
-import pl.edu.agh.iosr.cloud.common.interfaces.ICloudManagementService;
-import pl.edu.agh.iosr.cloud.common.interfaces.ICloudSessionService;
-import pl.edu.agh.iosr.cloud.common.session.CloudSession;
-import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
-import pl.edu.agh.iosr.cloud.dropbox.session.DropboxCloudSession;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import pl.edu.agh.iosr.domain.cloud.CloudType;
+import pl.edu.agh.iosr.domain.cloud.files.CloudPath;
+import pl.edu.agh.iosr.domain.cloud.session.CloudSession;
+import pl.edu.agh.iosr.services.interfaces.ICloudManagementService;
 
 public abstract class AbstractCloudManagementAccessDeniedIT {
 

@@ -3,9 +3,9 @@ package pl.edu.agh.iosr.cloud.it;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import pl.edu.agh.iosr.cloud.common.session.CloudSessionStatus;
-import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudManagementService;
-import pl.edu.agh.iosr.cloud.googledrive.session.GoogleDriveCloudSession;
+import pl.edu.agh.iosr.domain.cloud.session.CloudSessionStatus;
+import pl.edu.agh.iosr.services.implementation.GoogleDriveCloudManagementService;
+import pl.edu.agh.iosr.domain.cloud.session.GoogleDriveCloudSession;
 
 import java.util.concurrent.Executors;
 

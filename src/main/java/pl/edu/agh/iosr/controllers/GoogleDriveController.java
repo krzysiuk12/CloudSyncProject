@@ -2,17 +2,17 @@ package pl.edu.agh.iosr.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.iosr.cloud.common.files.CloudPath;
-import pl.edu.agh.iosr.cloud.common.files.FileMetadata;
-import pl.edu.agh.iosr.cloud.common.session.BasicSession;
-import pl.edu.agh.iosr.cloud.common.tasks.ProgressAwareFuture;
-import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudManagementService;
-import pl.edu.agh.iosr.cloud.googledrive.services.GoogleDriveCloudSessionService;
-import pl.edu.agh.iosr.cloud.googledrive.session.GoogleDriveCloudSession;
-import pl.edu.agh.iosr.exceptions.ErrorMessages;
-import pl.edu.agh.iosr.serializers.LoginCloudSerializer;
-import pl.edu.agh.iosr.serializers.common.ResponseSerializer;
-import pl.edu.agh.iosr.serializers.common.ResponseStatus;
+import pl.edu.agh.iosr.domain.cloud.files.CloudPath;
+import pl.edu.agh.iosr.domain.cloud.files.FileMetadata;
+import pl.edu.agh.iosr.domain.cloud.session.BasicSession;
+import pl.edu.agh.iosr.domain.cloud.tasks.ProgressAwareFuture;
+import pl.edu.agh.iosr.services.implementation.GoogleDriveCloudManagementService;
+import pl.edu.agh.iosr.services.implementation.GoogleDriveCloudSessionService;
+import pl.edu.agh.iosr.domain.cloud.session.GoogleDriveCloudSession;
+import pl.edu.agh.iosr.controllers.serializers.common.ErrorMessages;
+import pl.edu.agh.iosr.controllers.serializers.LoginCloudSerializer;
+import pl.edu.agh.iosr.controllers.serializers.common.ResponseSerializer;
+import pl.edu.agh.iosr.controllers.serializers.common.ResponseStatus;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

@@ -1,6 +1,6 @@
 package pl.edu.agh.iosr.cloud.util;
 
-import pl.edu.agh.iosr.cloud.common.CloudConfiguration;
+import pl.edu.agh.iosr.domain.cloud.CloudConfiguration;
 
 public abstract class CloudConfigurations {
 
