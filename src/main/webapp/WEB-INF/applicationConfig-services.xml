@@ -31,4 +31,28 @@
 
     <bean id="client" class="com.sun.jersey.api.client.Client"/>
 
+    <bean id="simpleJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="synchronizationService" />
+        <property name="targetMethod" value="performAutomaticSynchronization" />
+    </bean>
+
+    <bean id="simpleTrigger"  class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="simpleJobDetail" />
+        <property name="startDelay" value="${quartz.startDelay}" />
+        <property name="repeatInterval" value="${quartz.repeatInterval}" />
+    </bean>
+
+    <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="simpleJobDetail" />
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="simpleTrigger" />
+            </list>
+        </property>
+    </bean>
+
 </beans>

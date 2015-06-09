@@ -36,7 +36,6 @@ public class OnedriveCloudManagementService implements ICloudManagementService<O
 
     @Override
     public ProgressAwareFuture<List<FileMetadata>> listAllDirectoryFiles(OnedriveCloudSession session, CloudPath cloudDirectory) throws ExecutionException, InterruptedException {
-        //TODO: sooooooooooo cool. TaskFactory as session-scoped bean
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
         OnedriveListChildrenTask listChildrenTask = taskFactory.createListChildrenTask(cloudDirectory, progressMonitor);

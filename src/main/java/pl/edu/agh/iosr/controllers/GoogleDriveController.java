@@ -30,7 +30,6 @@ public class GoogleDriveController {
 
     @RequestMapping(method = RequestMethod.GET, value = "authUrl")
     public ResponseSerializer<String> getAuthorizationUrl() {
-        System.out.println("GOOGLE AUTHORIZATION URL");
         try {
             String url = googleDriveCloudSessionService.getAuthorizationUrl();
             return new ResponseSerializer<>(url);
@@ -43,7 +42,6 @@ public class GoogleDriveController {
 
     @RequestMapping(method = RequestMethod.POST, value = "login")
     public ResponseSerializer<BasicSession> loginUser(@RequestBody LoginCloudSerializer loginCloudSerializer) {
-        System.out.println("GOOGLE LOGIN!!!");
         try {
             BasicSession basicSession = googleDriveCloudSessionService.loginUser(loginCloudSerializer.getLogin(), loginCloudSerializer.getAuthorizationCode());
             return new ResponseSerializer<>(basicSession);
@@ -55,14 +53,12 @@ public class GoogleDriveController {
 
     @RequestMapping(method = RequestMethod.POST, value = "logout")
     public ResponseSerializer logout(@RequestHeader("cloudSessionId") String sessionId) {
-        System.out.println("GOOGLE - LOGOUT!!!");
         googleDriveCloudSessionService.logoutUser(sessionId);
         return new ResponseSerializer(ResponseStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
     public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
-        System.out.println("GOOGLE - LIST ALL FILES!!!");
         try {
             GoogleDriveCloudSession session = googleDriveCloudSessionService.getSession(sessionId);
             ProgressAwareFuture<List<FileMetadata>> future = googleDriveCloudManagementService.listAllDirectoryFiles(session, directory);

@@ -33,7 +33,6 @@ public class OnedriveController {
 
     @RequestMapping(method = RequestMethod.GET, value = "authUrl")
     public ResponseSerializer<String> getAuthorizationUrl() {
-        System.out.println("ONEDRIVE AUTHORIZATION URL");
         try {
             String url = onedriveCloudSessionService.getAuthorizationUrl();
             return  new ResponseSerializer<>(url);
@@ -46,7 +45,6 @@ public class OnedriveController {
 
     @RequestMapping(method = RequestMethod.POST, value = "login")
     public ResponseSerializer<BasicSession> loginUser(@RequestBody LoginCloudSerializer loginCloudSerializer) {
-        System.out.println("HERE I AM - LOGIN!!!");
         try {
             BasicSession basicSession = onedriveCloudSessionService.loginUser(loginCloudSerializer.getLogin(), loginCloudSerializer.getAuthorizationCode());
             return new ResponseSerializer<>(basicSession);
@@ -58,14 +56,12 @@ public class OnedriveController {
 
     @RequestMapping(method = RequestMethod.POST, value = "logout")
     public ResponseSerializer logout(@RequestHeader("cloudSessionId") String sessionId) {
-        System.out.println("HERE I AM - LOGOUT!!!");
         onedriveCloudSessionService.logoutUser(sessionId);
         return new ResponseSerializer(ResponseStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "listFiles")
     public ResponseSerializer<List<FileMetadata>> listAllDirectoryFiles(@RequestHeader("cloudSessionId") String sessionId, @RequestBody CloudPath directory) {
-        System.out.println("HERE I AM - LIST ALL FILES!!!");
         try {
             OnedriveCloudSession session = onedriveCloudSessionService.getSession(sessionId);
             ProgressAwareFuture<List<FileMetadata>> future = onedriveCloudManagementService.listAllDirectoryFiles(session, directory);
