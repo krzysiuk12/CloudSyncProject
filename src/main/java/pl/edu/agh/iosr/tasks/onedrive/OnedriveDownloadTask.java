@@ -36,6 +36,7 @@ public class OnedriveDownloadTask implements Callable<Boolean> {
         String rawResponse = clientResponse.getEntity(String.class);
 
         stream.write(rawResponse.getBytes());
+        stream.close();
 
         return true;
     }

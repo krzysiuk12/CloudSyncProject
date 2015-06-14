@@ -73,8 +73,6 @@ public class OnedriveCloudManagementServiceTest {
         // when
         ProgressAwareFuture<Boolean> future = underTest.downloadFile(session, path, outputStream);
         Boolean success = future.get();
-        //TODO: close stream in download task
-        outputStream.close();
         String downloadedContent = IOUtils.toString(grabbedContentStream);
 
         // then

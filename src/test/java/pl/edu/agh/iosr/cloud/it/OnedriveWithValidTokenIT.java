@@ -51,8 +51,6 @@ public class OnedriveWithValidTokenIT {
         PipedOutputStream outputStream = new PipedOutputStream();
         PipedInputStream grabbedDataStream = new PipedInputStream(outputStream);
         managementService.downloadFile(session, new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE), outputStream).get();
-        //TODO: close in task
-        outputStream.close();
         assertThat(IOUtils.toString(grabbedDataStream)).isEqualTo("hello world");
 
         Boolean deleted = managementService.deleteFile(session, new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE)).get();
