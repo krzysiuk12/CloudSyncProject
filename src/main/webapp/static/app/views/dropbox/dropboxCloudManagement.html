@@ -14,8 +14,8 @@
                 {{ file.fileName }}
             </span>
             <span class="pull-right" ng-show="file.type != 'DIRECTORY'">
-                <span class="badge" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">sync -> Google</span>
-                <span class="badge" ng-show="sessions.getOneDrive() != null" aria-hidden="true" ng-click="syncOneDrive(file)">sync -> OneDrive</span>
+                <span class="label label-primary" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">Synchronize with GoogleDrive</span>
+                <span class="label label-primary" ng-show="sessions.getOneDrive() != null" aria-hidden="true" ng-click="syncOneDrive(file)">Synchronize with OneDrive</span>
             </span>
         </li>
     </ul>
