@@ -13,7 +13,7 @@
             <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true" ng-click="goTo(file)"></span>
             <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
             {{ file.fileName }}
-            <span class="pull-right">
+            <span class="pull-right" ng-show="file.type != 'DIRECTORY'">
                 <span class="badge" ng-show="sessions.getDropbox() != null" aria-hidden="true" ng-click="syncDropbox(file)">sync -> Dropbox</span>
                 <span class="badge" ng-show="sessions.getOneDrive() != null" aria-hidden="true" ng-click="syncOneDrive(file)">sync -> OneDrive</span>
             </span>
