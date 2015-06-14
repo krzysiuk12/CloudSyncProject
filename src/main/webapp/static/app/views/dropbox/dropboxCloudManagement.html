@@ -17,6 +17,7 @@
             <span class="pull-right" ng-show="file.type != 'DIRECTORY'">
                 <span class="label label-primary" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">Synchronize with GoogleDrive</span>
                 <span class="label label-primary" ng-show="sessions.getOneDrive() != null" aria-hidden="true" ng-click="syncOneDrive(file)">Synchronize with OneDrive</span>
+                <span class="label label-primary" ng-show="sessions.getGoogle() == null && sessions.getOneDrive() == null" aria-hidden="true">Login to two or more clouds to synchronize</span>
             </span>
         </li>
     </ul>
