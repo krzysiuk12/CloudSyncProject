@@ -11,8 +11,8 @@
             <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
             {{ file.fileName }}
             <span class="pull-right" ng-show="file.type != 'DIRECTORY'">
-                <span class="badge" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">sync -> Google</span>
-                <span class="badge" ng-show="sessions.getDropbox() != null" aria-hidden="true" ng-click="syncDropbox(file)">sync -> Dropbox</span>
+                <span class="label label-primary" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">Synchronize with Google</span>
+                <span class="label label-primary" ng-show="sessions.getOneDrive() != null" aria-hidden="true" ng-click="syncOneDrive(file)">Synchronize with OneDrive</span>
             </span>
         </li>
     </ul>

@@ -1,8 +1,8 @@
-
 <div class="alert alert-warning" ng-show="files == null">
     Please wait... Application is currently listing files from directory {{currentDirectoryPath}}.
 </div>
 <div ng-show="files != null">
+    <img src="/static/app/images/dropboxLogo.png" class="img-responsive" alt="Dropbox"/>
     <ul class="list-group">
         <li class="list-group-item" ng-click="goBack()">
             <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
@@ -11,13 +11,12 @@
             <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true" ng-click="goTo(file)"></span>
             <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
             {{file.fileName}}
-            <span class="pull-right" ng-show="file.type != 'DIRECTORY'">
-                <span class="badge" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">sync -> Google</span>
-                <span class="badge" ng-show="sessions.getOneDrive() != null" aria-hidden="true" ng-click="syncOneDrive(file)">sync -> OneDrive</span>
-            </span>
+            <div class="pull-right" ng-show="file.type != 'DIRECTORY'">
+                <span class="label label-primary" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">Synchronize with GoogleDrive</span>
+                <span class="label label-primary" ng-show="sessions.getOneDrive() != null" aria-hidden="true" ng-click="syncOneDrive(file)">Synchronize with OneDrive</span>
+            </div>
         </li>
     </ul>
 </div>
-<button class="btn btn-default" ng-click="syncGoogle({fileName : 'testName'})">Open me!</button>
 <div ng-show="selected">Selection from a modal: {{ selected }}</div>
 
