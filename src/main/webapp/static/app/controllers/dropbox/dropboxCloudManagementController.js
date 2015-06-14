@@ -5,11 +5,13 @@
 
     angular.module('cloudSyncApp')
         .constant('initialDirectoryPath', '/')
-        .controller('DropboxCloudManagementController', function ($scope, $log, dropboxCloudManagementFactory, initialDirectoryPath, dropboxSession, synchroConf) {
+        .controller('DropboxCloudManagementController', function ($scope, $log, dropboxCloudManagementFactory, initialDirectoryPath, sessionService, $modal) {
 
             $scope.files = null;
             $scope.currentDirectoryPath = initialDirectoryPath;
             $scope.parentsPaths = [];
+
+            $scope.sessions = sessionService;
 
             $scope.listFiles = function (directoryPath) {
                 dropboxCloudManagementFactory.listFiles({
@@ -37,7 +39,7 @@
 
 
             $scope.goBack = function () {
-                console.log("goBack()")
+                console.log("goBack()");
                 if ($scope.parentsPaths.length > 0) {
                     parentPath = $scope.parentsPaths.pop();
                     dropboxCloudManagementFactory.listFiles({
@@ -58,26 +60,65 @@
                 }
             };
 
-            $scope.asSource = function (file) {
-                synchroConf.source = {
-                    "sessionId" : dropboxSession.sessionId,
-                    "cloudPath" : {
-                        "path" : $scope.currentDirectoryPath + '/' + file.fileName,
-                        "type" : "DROPBOX"
-                    }
+            // todo: firstly check session availability
+            $scope.syncGoogle = function (srcFile) {
+                var pathString = '';
+                if ($scope.currentDirectoryPath === '/') {
+                    pathString = '/' + srcFile.fileName;
+                } else {
+                    pathString = $scope.currentDirectoryPath + '/' + srcFile.fileName;
                 }
-                console.log(synchroConf.source);
-            };
-            $scope.asDestination = function (file) {
-                synchroConf.destination.push({
-                        "sessionId" : dropboxSession.sessionId,
-                        "cloudPath" : {
-                            "path" : $scope.currentDirectoryPath + '/' + file.fileName,
-                            "type" : "DROPBOX"
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/static/app/views/modalWindow.html',
+                    controller: 'GoogleModalController',
+                    resolve: {
+                        source : function () {
+                            return {
+                                "sessionId" : sessionService.getDropbox().sessionId,
+                                "fileName" : srcFile.fileName,
+                                "cloudPath" : {
+                                    "path" : pathString,
+                                    "type" : "DROPBOX"
+                                }
+                            };
                         }
                     }
-                );
-                console.log(synchroConf.destination);
+                });
+
+                modalInstance.result.then(function () {}, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            };
+
+            $scope.syncOneDrive = function (srcFile) {
+                var pathString = '';
+                if ($scope.currentDirectoryPath === '/') {
+                    pathString = '/' + srcFile.fileName;
+                } else {
+                    pathString = $scope.currentDirectoryPath + '/' + srcFile.fileName;
+                }
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/static/app/views/modalWindow.html',
+                    controller: 'OneDriveModalController',
+                    resolve: {
+                        source : function () {
+                            return {
+                                "sessionId" : sessionService.getDropbox().sessionId,
+                                "fileName" : srcFile.fileName,
+                                "cloudPath" : {
+                                    "path" : pathString,
+                                    "type" : "DROPBOX"
+                                }
+                            };
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {}, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
             };
 
 

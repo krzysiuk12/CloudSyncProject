@@ -83,7 +83,7 @@ public class SynchronizationService implements ISynchronizationService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return getUpdateProgressAwareFuture(userSession, to.getCloudPath(), getUploadedFileName(from.getCloudPath().getPath()), inputStream, to.getCloudPath().getType());
+        return getUpdateProgressAwareFuture(userSession, to.getCloudPath(), from.getFileName(), inputStream, to.getCloudPath().getType());
     }
 
     private ICloudManagementService getCloudManagementService(CloudType type) {

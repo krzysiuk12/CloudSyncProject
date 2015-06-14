@@ -1,13 +1,27 @@
 /**
- * Created by mateusz on 26.04.15.
+ * Created by mateusz on 14.06.15.
  */
-(function () {
 
-    var GoogleCloudController = function ($scope, $log, googleCloudFactory, synchronizationService, sessionService, $modal) {
+(function () {
+    // Please note that $modalInstance represents a modal window (instance) dependency.
+// It is not the same as the $modal service used above.
+
+    angular.module('cloudSyncApp').controller('GoogleModalController', function ($scope, $log, googleCloudFactory, sessionService, synchronizationService, $modalInstance, source) {
+
         $scope.files = {};
         $scope.currentDirPath = {"path" : "root"};
         $scope.parents = [];
-        $scope.sessions = sessionService;
+
+        $scope.source = source;
+        $scope.destination = {
+            "sessionId" : sessionService.getGoogle().sessionId,
+            "fileName" : "",
+            "cloudPath" : {
+                "path" : "",
+                "type" : "GOOGLE_DRIVE"
+            }
+        };
+        $scope.destinationSelected = false;
 
         function init() {
             console.log("GoogleCloudController: init()");
@@ -58,57 +72,41 @@
             }
         };
 
-        $scope.syncDropbox = function (srcFile) {
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: '/static/app/views/modalWindow.html',
-                controller: 'DropboxModalController',
-                resolve: {
-                    source : function () {
-                        return {
-                            "sessionId" : sessionService.getGoogle().sessionId,
-                            "fileName" : srcFile.fileName,
-                            "cloudPath" : {
-                                "path" : srcFile.path.path,
-                                "type" : "GOOGLE_DRIVE"
-                            }
-                        };
-                    }
-                }
-            });
-
-            modalInstance.result.then(function () {}, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-        };
-        $scope.syncOneDrive = function (srcFile) {
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: '/static/app/views/modalWindow.html',
-                controller: 'OneDriveModalController',
-                resolve: {
-                    source : function () {
-                        return {
-                            "sessionId" : sessionService.getGoogle().sessionId,
-                            "fileName" : srcFile.fileName,
-                            "cloudPath" : {
-                                "path" : srcFile.path.path,
-                                "type" : "GOOGLE_DRIVE"
-                            }
-                        };
-                    }
-                }
-            });
-
-            modalInstance.result.then(function () {}, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
+        $scope.markAsDest = function (destFile) {
+            $scope.destination.cloudPath.path = destFile.path.path;
+            $scope.destination.fileName = destFile.fileName;
+            $scope.destinationSelected = true;
         };
 
+        $scope.synchronize = function () {
+            console.log('SynchronizationController - synchronize()');
+            var syncRule = {
+                "login" : "Janek",
+                "source" : $scope.source,
+                "destination" : [$scope.destination],
+                "type" : "FORWARD_PROPAGATION"
+            };
+            synchronizationService.synchronize(syncRule)
+                .success(function (response) {
+                    synchronizationService.addRule(syncRule);
+                    console.log('SynchronizationController - synchronize - success.');
+                })
+                .error(function (error) {
+                    console.log('SynchronizationController - synchronize - error.');
+                    $scope.errors = error;
+                });
+        };
+
+        $scope.ok = function () {
+            $scope.synchronize();
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
 
         init();
-    };
 
-    angular.module('cloudSyncApp').controller('GoogleCloudController', GoogleCloudController);
-
+    });
 }());

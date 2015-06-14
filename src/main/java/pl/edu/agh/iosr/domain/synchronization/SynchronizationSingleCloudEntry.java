@@ -10,13 +10,19 @@ public class SynchronizationSingleCloudEntry {
 
     private String sessionId;
     private CloudPath cloudPath;
+    private String fileName;
 
     public SynchronizationSingleCloudEntry() {
     }
 
-    public SynchronizationSingleCloudEntry(String sessionId, CloudPath cloudPath) {
+    public SynchronizationSingleCloudEntry(String sessionId, CloudPath cloudPath, String fileName) {
         this.sessionId = sessionId;
         this.cloudPath = cloudPath;
+        this.fileName = fileName;
+    }
+
+    public SynchronizationSingleCloudEntry(String sessionId, CloudPath cloudPath) {
+        this(sessionId, cloudPath, null);
     }
 
     public String getSessionId() {
@@ -36,11 +42,12 @@ public class SynchronizationSingleCloudEntry {
     }
 
     public String getFileName() {
-        if (CloudType.GOOGLE_DRIVE.equals(cloudPath.getType())) {
+/*        if (CloudType.GOOGLE_DRIVE.equals(cloudPath.getType())) {
             return cloudPath.getPath();
         } else {
             return cloudPath.getPath().substring(cloudPath.getPath().lastIndexOf("/"));
-        }
+        }*/
+        return fileName;
     }
 
     public CloudPath getDirectory() {

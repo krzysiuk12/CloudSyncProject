@@ -3,12 +3,11 @@
  */
 (function () {
 
-    var GoogleLoginController = function ($scope, $log, $location, googleLoginFactory, googleSession) {
+    var GoogleLoginController = function ($scope, $log, $location, googleLoginFactory, sessionService) {
         $scope.authenticationUrl = '';
         $scope.authenticationCode = '';
         $scope.userName = 'Janek';
 
-        $scope.googleSession = googleSession;
         $scope.response = {};
 
 
@@ -19,7 +18,6 @@
                     $scope.authenticationUrl = response.result;
                 })
                 .error(function (data, status, headers, config) {
-                    // handle error
                     $log.log(data.error + ' ' + status);
                 });
         }
@@ -34,20 +32,17 @@
             googleLoginFactory.logIn(postData)
                 .success(function (response) {
                     $scope.response = response;
-                    $scope.googleSession['sessionId'] = response.result.sessionId;
-                    console.log($scope.googleSession.sessionId);
+                    sessionService.setGoogle({sessionId : response.result.sessionId});
+                    console.log('googleSessionId: ' + response.result.sessionId);
                     console.log("Google loggedIn: " + postData);
                     console.log("go to "+hash);
                     $location.path(hash);
                 })
                 .error(function (data, status, headers, config) {
-                    // handle error
                     $log.log(data.error + ' ' + status);
                 });
         };
     };
-
-    GoogleLoginController.$inject = ['$scope', '$log', '$location', 'googleLoginFactory', 'googleSession'];
 
     angular.module('cloudSyncApp').controller('GoogleLoginController', GoogleLoginController);
 

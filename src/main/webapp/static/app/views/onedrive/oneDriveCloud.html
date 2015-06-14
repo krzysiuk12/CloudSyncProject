@@ -11,9 +11,8 @@
             <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
             {{ file.fileName }}
             <span class="pull-right">
-                <span class="badge" ng-click="asSource(file)">as source</span>
-                <span class="badge" ng-click="asDestination(file)">as destination</span>
-                <!--<span class="badge">{{ file.lastModificationTime | date }}</span>-->
+                <span class="badge" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">sync -> Google</span>
+                <span class="badge" ng-show="sessions.getDropbox() != null" aria-hidden="true" ng-click="syncDropbox(file)">sync -> Dropbox</span>
             </span>
         </li>
     </ul>

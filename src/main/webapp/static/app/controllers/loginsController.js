@@ -3,17 +3,21 @@
  */
 (function () {
 
-    var LoginsController = function ($scope) {
+    var LoginsController = function ($scope, sessionService) {
         $scope.logins = [];
+        $scope.sessions = sessionService;
 
         $scope.logins = [
-            {name: 'Google Drive', url: '#/googlelogin'},
-            {name: 'Dropbox', url: '#/dropboxsession'},
-            {name: 'OneDrive', url: '#/onedrivelogin'}
+            {name: 'Google Drive', login: '#/googlelogin', cloud: '#/googlecloud'},
+            {name: 'Dropbox', login: '#/dropboxsession', cloud: '#/dropboxmanagement'},
+            {name: 'OneDrive', login: '#/onedrivelogin', cloud: '#/onedrivecloud'}
         ];
+
     };
 
-    LoginsController.$inject = ['$scope'];
+
+
+    //LoginsController.$inject = ['$scope'];
 
     angular.module('cloudSyncApp').controller('LoginsController', LoginsController);
 

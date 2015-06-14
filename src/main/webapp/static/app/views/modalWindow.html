@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h3 class="modal-title">I'm a modal!</h3>
+</div>
+
+<div class="modal-body">
+    <ul class="list-group">
+        <li class="list-group-item" ng-click="goBack()">
+            <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
+        </li>
+        <li class="list-group-item" ng-repeat="file in files" >
+            <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true" ng-click="goTo(file)"></span>
+            <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
+            {{file.fileName}}
+            <span class="pull-right">
+                <span class="badge" ng-show="file.type == 'DIRECTORY'" ng-click="markAsDest(file)">Choose me!</span>
+            </span>
+        </li>
+    </ul>
+    Source : <b>{{ source.fileName }} ({{ source.cloudPath.path }})</b>
+    <br/>
+    Destination: <b>{{ destination.fileName }} ({{ destination.cloudPath.path }})</b>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()" ng-disabled="!destinationSelected">Synchronize</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

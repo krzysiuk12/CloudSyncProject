@@ -4,14 +4,12 @@
 
 (function () {
 
-    var OneDriveLoginController = function ($scope, $log, $location, oneDriveLoginFactory, oneDriveSession) {
+    var OneDriveLoginController = function ($scope, $log, $location, oneDriveLoginFactory, sessionService) {
         $scope.authenticationUrl = '';
         $scope.authenticationCode = '';
         $scope.userName = 'Janek';
 
-        $scope.oneDriveSession = oneDriveSession;
         $scope.response = {};
-
 
         function init() {
             console.log("OneDriveLoginController: init()");
@@ -20,7 +18,6 @@
                     $scope.authenticationUrl = response.result;
                 })
                 .error(function (data, status, headers, config) {
-                    // handle error
                     $log.log(data.error + ' ' + status);
                 });
         }
@@ -35,20 +32,17 @@
             oneDriveLoginFactory.logIn(postData)
                 .success(function (response) {
                     $scope.response = response;
-                    $scope.oneDriveSession['sessionId'] = response.result.sessionId;
-                    console.log($scope.oneDriveSession.sessionId);
+                    sessionService.setOneDrive({sessionId : response.result.sessionId});
+                    console.log('OneDriveSessionId : ' + sessionService.getOneDrive().sessionId);
                     console.log(('OneDrive loggedIn: ' + postData));
                     console.log("go to "+hash);
                     $location.path(hash);
                 })
                 .error(function (data, status, headers, config) {
-                    // handle error
                     $log.log(data.error + ' ' + status);
                 });
         };
     };
-
-    OneDriveLoginController.$inject = ['$scope', '$log', '$location', 'oneDriveLoginFactory', 'oneDriveSession'];
 
     angular.module('cloudSyncApp').controller('OneDriveLoginController', OneDriveLoginController);
 

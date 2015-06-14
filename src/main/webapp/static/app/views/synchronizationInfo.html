@@ -1,0 +1,13 @@
+<h2>Synchronization rules:</h2>
+
+<!--<ul ng-repeat="rule in rules">-->
+    <!--<li><span>{{ rule.source.fileName }} ({{ rule.source.cloudPath.type }}) => {{ rule.destination[0].fileName }} ({{ rule.destination[0].cloudPath.type }})</span></li>-->
+<!--</ul>-->
+
+<div ng-show="rules != null">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="rule in rules" >
+            {{ rule.source.fileName }} ({{ rule.source.cloudPath.type }}) => {{ rule.destination[0].fileName }} ({{ rule.destination[0].cloudPath.type }})
+        </li>
+    </ul>
+</div>

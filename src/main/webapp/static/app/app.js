@@ -3,7 +3,7 @@
  */
 (function() {
 
-    var app = angular.module('cloudSyncApp', ['ngRoute']);
+    var app = angular.module('cloudSyncApp', ['ngRoute', 'ui.bootstrap']);
 
     app.config(function($routeProvider) {
         $routeProvider
@@ -29,15 +29,15 @@
             })
             .when('/onedrivelogin', {
                 controller: 'OneDriveLoginController',
-                templateUrl: '/static/app/views/oneDriveLogin.html'
+                templateUrl: '/static/app/views/onedrive/oneDriveLogin.html'
             })
             .when('/onedrivecloud', {
                 controller: 'OneDriveCloudController',
-                templateUrl: '/static/app/views/oneDriveCloud.html'
+                templateUrl: '/static/app/views/onedrive/oneDriveCloud.html'
             })
             .when('/synchronization', {
-                controller: 'SynchronizationController',
-                templateUrl: '/static/app/views/synchronization.html'
+                controller: 'SynchronizationInfoController',
+                templateUrl: '/static/app/views/synchronizationInfo.html'
             })
             .otherwise( { redirectTo: '/' });
     });

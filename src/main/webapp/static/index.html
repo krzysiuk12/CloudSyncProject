@@ -3,6 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Cloud Sync App</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -21,13 +22,13 @@
             <a class="navbar-brand" href="#/">Cloud Sync App</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse" ng-class="{'in':!navCollapsed}">
-            <ul class="nav navbar-nav">
-                <li><a href="#/googlelogin">Google Login</a></li>
-                <li><a href="#/googlecloud">Google Cloud</a></li>
-                <li><a href="#/dropboxsession">Dropbox Login</a></li>
-                <li><a href="#/dropboxmanagement">Dropbox Cloud</a></li>
-                <li><a href="#/onedrivelogin">OneDrive Login</a></li>
-                <li><a href="#/onedrivecloud">Onedrive Cloud</a></li>
+            <ul class="nav navbar-nav" ng-controller="MenuController">
+                <li ng-show="sessions.getGoogle() == null" aria-hidden="true"><a href="#/googlelogin">Google Login</a></li>
+                <li ng-show="sessions.getGoogle() != null" aria-hidden="true"><a href="#/googlecloud">Google Cloud</a></li>
+                <li ng-show="sessions.getDropbox() == null" aria-hidden="true"><a href="#/dropboxsession">Dropbox Login</a></li>
+                <li ng-show="sessions.getDropbox() != null" aria-hidden="true"><a href="#/dropboxmanagement">Dropbox Cloud</a></li>
+                <li ng-show="sessions.getOneDrive() == null" aria-hidden="true"><a href="#/onedrivelogin">OneDrive Login</a></li>
+                <li ng-show="sessions.getOneDrive() != null" aria-hidden="true"><a href="#/onedrivecloud">Onedrive Cloud</a></li>
                 <li><a href="#/synchronization">Synchronizaton</a></li>
             </ul>
         </div>
@@ -44,24 +45,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js"></script>
 <script src="/static/app/app.js"></script>
 <script src="/static/app/controllers/loginsController.js"></script>
-<script src="/static/app/controllers/synchronizationController.js"></script>
+<script src="/static/app/controllers/synchronizationInfoController.js"></script>
 <script src="/static/app/controllers/google/googleLoginController.js"></script>
 <script src="/static/app/controllers/google/googleCloudController.js"></script>
 <script src="/static/app/controllers/dropbox/dropboxSessionController.js"></script>
 <script src="/static/app/controllers/dropbox/dropboxCloudManagementController.js"></script>
 
 <script src="/static/app/services/values.js"></script>
-<script src="/static/app/services/synchronizationFactory.js"></script>
+<script src="/static/app/services/synchronizationService.js"></script>
+<script src="/static/app/services/sessionService.js"></script>
 <script src="/static/app/services/google/googleLoginFactory.js"></script>
 <script src="/static/app/services/google/googleCloudFactory.js"></script>
 <script src="/static/app/services/dropbox/dropboxSessionFactory.js"></script>
 <script src="/static/app/services/dropbox/dropboxCloudManagementFactory.js"></script>
 
-<script src="/static/app/controllers/oneDriveLoginController.js"></script>
-<script src="/static/app/controllers/oneDriveCloudController.js"></script>
-<script src="/static/app/services/oneDriveLoginFactory.js"></script>
-<script src="/static/app/services/oneDriveCloudFactory.js"></script>
+<script src="/static/app/controllers/onedrive/oneDriveLoginController.js"></script>
+<script src="/static/app/controllers/onedrive/oneDriveCloudController.js"></script>
+<script src="/static/app/services/onedrive/oneDriveLoginFactory.js"></script>
+<script src="/static/app/services/onedrive/oneDriveCloudFactory.js"></script>
 
+<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+<script src="/static/app/controllers/google/googleModalController.js"></script>
+<script src="/static/app/controllers/dropbox/dropboxModalController.js"></script>
+<script src="/static/app/controllers/onedrive/oneDriveModalController.js"></script>
+<script src="/static/app/controllers/menuController.js"></script>
 
 </body>
 </html>

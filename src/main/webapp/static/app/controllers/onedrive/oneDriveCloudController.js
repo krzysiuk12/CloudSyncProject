@@ -3,10 +3,12 @@
  */
 (function () {
 
-    var OneDriveCloudController = function ($scope, $log, oneDriveCloudFactory, initialDirectoryPath, oneDriveSession, synchroConf) {
+    var OneDriveCloudController = function ($scope, $log, oneDriveCloudFactory, initialDirectoryPath, sessionService, $modal) {
         $scope.files = null;
         $scope.currentDirectoryPath = initialDirectoryPath;
         $scope.parentsPaths = [];
+
+        $scope.sessions = sessionService;
 
         $scope.listFiles = function (directoryPath) {
             oneDriveCloudFactory.getAllDirectoryFiles({
@@ -55,26 +57,60 @@
             }
         };
 
-        $scope.asSource = function (file) {
-            synchroConf.source = {
-                "sessionId" : oneDriveSession.sessionId,
-                "cloudPath" : {
-                    "path" : $scope.currentDirectoryPath + '/' + file.fileName,
-                    "type" : "ONE_DRIVE"
-                }
+        $scope.syncGoogle = function (srcFile) {
+            var pathString = '';
+            if ($scope.currentDirectoryPath === '/') {
+                pathString = '/' + srcFile.fileName;
+            } else {
+                pathString = $scope.currentDirectoryPath + '/' + srcFile.fileName;
             }
-            console.log(synchroConf.source);
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: '/static/app/views/modalWindow.html',
+                controller: 'GoogleModalController',
+                resolve: {
+                    source: function () {
+                        return {
+                            "sessionId": sessionService.getOneDrive().sessionId,
+                            "fileName": srcFile.fileName,
+                            "cloudPath": {
+                                "path": pathString,
+                                "type": "ONE_DRIVE"
+                            }
+                        };
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
         };
-        $scope.asDestination = function (file) {
-            synchroConf.destination.push({
-                "sessionId" : oneDriveSession.sessionId,
-                "cloudPath" : {
-                    "path" : $scope.currentDirectoryPath + '/' + file.fileName,
-                    "type" : "ONE_DRIVE"
+
+        $scope.syncDropbox = function (srcFile) {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: '/static/app/views/modalWindow.html',
+                controller: 'DropboxModalController',
+                resolve: {
+                    source: function () {
+                        return {
+                            "sessionId": sessionService.getOneDrive().sessionId,
+                            "fileName": srcFile.fileName,
+                            "cloudPath": {
+                                "path": srcFile.path.path,
+                                "type": "ONE_DRIVE"
+                            }
+                        };
+                    }
                 }
-            }
-            );
-            console.log(synchroConf.destination);
+            });
+
+            modalInstance.result.then(function () {
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
         };
 
 
@@ -82,8 +118,6 @@
             $scope.listFiles(initialDirectoryPath);
         }
     };
-
-    OneDriveCloudController.$inject = ['$scope', '$log', 'oneDriveCloudFactory', 'initialDirectoryPath', 'oneDriveSession', 'synchroConf'];
 
     angular.module('cloudSyncApp').controller('OneDriveCloudController', OneDriveCloudController);
 

@@ -1,9 +1,32 @@
 <h2>Available services:</h2>
 <br/>
-<div ng-repeat="login in logins">
-    <p class="text-left">
-        <a href="{{ login.url }}">
-            <button class="btn btn-primary" type="button">{{ login.name }}</button>
-        </a>
-    </p>
-</div>
+<p class="text-left" ng-show="sessions.getGoogle() == null" aria-hidden="true">
+    <a href="#/googlelogin">
+        <button class="btn btn-primary" type="button">Google</button>
+    </a>
+</p>
+<p class="text-left" ng-show="sessions.getGoogle() != null" aria-hidden="true">
+    <a href="#/googlecloud">
+        <button class="btn btn-primary" type="button">Google</button>
+    </a>
+</p>
+<p class="text-left" ng-show="sessions.getDropbox() == null" aria-hidden="true">
+    <a href="#/dropboxsession">
+        <button class="btn btn-primary" type="button">Dropbox</button>
+    </a>
+</p>
+<p class="text-left" ng-show="sessions.getDropbox() != null" aria-hidden="true">
+    <a href="#/dropboxmanagement">
+        <button class="btn btn-primary" type="button">Dropbox</button>
+    </a>
+</p>
+<p class="text-left" ng-show="sessions.getOneDrive() == null" aria-hidden="true">
+    <a href="#/onedrivelogin">
+        <button class="btn btn-primary" type="button">OneDrive</button>
+    </a>
+</p>
+<p class="text-left" ng-show="sessions.getOneDrive() != null" aria-hidden="true">
+    <a href="#/onedrivecloud">
+        <button class="btn btn-primary" type="button">OneDrive</button>
+    </a>
+</p>
