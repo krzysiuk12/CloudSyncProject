@@ -1,8 +1,10 @@
 package pl.edu.agh.iosr.services.implementation;
 
+import com.google.api.client.repackaged.com.google.common.base.Joiner;
 import com.sun.jersey.api.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.iosr.domain.cloud.CloudType;
 import pl.edu.agh.iosr.domain.cloud.files.CloudPath;
 import pl.edu.agh.iosr.domain.cloud.files.FileMetadata;
 import pl.edu.agh.iosr.services.interfaces.ICloudManagementService;
@@ -58,10 +60,20 @@ public class OnedriveCloudManagementService implements ICloudManagementService<O
     public ProgressAwareFuture<FileMetadata> uploadFile(OnedriveCloudSession session, CloudPath directory, String fileName,  InputStream inputStream) throws ExecutionException, InterruptedException {
         OnedriveTaskFactory taskFactory = new OnedriveTaskFactory(client, session);
         ProgressMonitor progressMonitor = new ProgressMonitor();
-        OnedriveUploadTask uploadTask = taskFactory.createUploadTask(directory, progressMonitor, inputStream);
+        CloudPath pathToUpload = createJoinedPath(directory, fileName);
+        OnedriveUploadTask uploadTask = taskFactory.createUploadTask(pathToUpload, progressMonitor, inputStream);
         Future<FileMetadata> future = executorService.submit(uploadTask);
 
         return new ProgressAwareFuture<>(future, progressMonitor);
+    }
+
+    private CloudPath createJoinedPath(CloudPath directory, String fileName) {
+        Joiner joiner = Joiner.on("/");
+        if (directory.getPath().endsWith("/")) {
+            joiner = Joiner.on("");
+        }
+        String joinedPath = joiner.join(directory.getPath(), fileName);
+        return new CloudPath(joinedPath, CloudType.ONE_DRIVE);
     }
 
     @Override

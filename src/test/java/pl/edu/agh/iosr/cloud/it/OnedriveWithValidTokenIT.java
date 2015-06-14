@@ -43,7 +43,7 @@ public class OnedriveWithValidTokenIT {
         List<FileMetadata> listed = managementService.listAllDirectoryFiles(session, new CloudPath("/", CloudType.ONE_DRIVE)).get();
         assertThat(listed).extracting(FileMetadata::getFileName).doesNotContain("__E2E_TEST_FILE");
 
-        managementService.uploadFile(session, new CloudPath("/__E2E_TEST_FILE", CloudType.ONE_DRIVE), "ABSOLUTELY_NOT_IMPORTANT_THING", createInputStreamWithText("hello world")).get();
+        managementService.uploadFile(session, new CloudPath("/", CloudType.ONE_DRIVE), "__E2E_TEST_FILE", createInputStreamWithText("hello world")).get();
 
         List<FileMetadata> listedAfterUpload = managementService.listAllDirectoryFiles(session, new CloudPath("/", CloudType.ONE_DRIVE)).get();
         assertThat(listedAfterUpload).extracting(FileMetadata::getFileName).contains("__E2E_TEST_FILE");

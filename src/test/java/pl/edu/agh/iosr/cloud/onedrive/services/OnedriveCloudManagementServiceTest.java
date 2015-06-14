@@ -85,14 +85,15 @@ public class OnedriveCloudManagementServiceTest {
     @Test
     public void testUpload() throws Exception {
         // given
-        CloudPath path = new CloudPath("/uploaded.txt", CloudType.ONE_DRIVE);
+        CloudPath path = new CloudPath("/", CloudType.ONE_DRIVE);
+        String filename = "uploaded.txt";
         PipedInputStream givenContentStream = new PipedInputStream();
         PipedOutputStream outputStream = new PipedOutputStream(givenContentStream);
         outputStream.write("hello world".getBytes(StandardCharsets.US_ASCII));
         outputStream.close();
 
         // when
-        ProgressAwareFuture<FileMetadata> future = underTest.uploadFile(session, path, null, givenContentStream);
+        ProgressAwareFuture<FileMetadata> future = underTest.uploadFile(session, path, filename, givenContentStream);
         FileMetadata file = future.get();
 
         // then
