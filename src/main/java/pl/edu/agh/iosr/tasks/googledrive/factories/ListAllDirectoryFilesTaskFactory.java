@@ -50,7 +50,7 @@ public class ListAllDirectoryFilesTaskFactory {
     private List<FileMetadata> getResult(Drive service, String directoryId) throws IOException {
         List<FileMetadata> result = new ArrayList<>();
         // todo: fix: directory id/path, cloudPath properties
-        Drive.Files.List request = service.files().list().setQ("'" + directoryId + "' in parents");
+        Drive.Files.List request = service.files().list().setQ("'" + directoryId + "' in parents and trashed = false");
         do {
             try {
                 FileList files = request.execute();

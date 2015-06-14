@@ -10,7 +10,7 @@
 
         $scope.source = source;
         $scope.destination = {
-            "sessionId" : sessionService.getDropbox().sessionId,
+            "sessionId" : sessionService.getOneDrive().sessionId,
             "fileName" : "",
             "cloudPath" : {
                 "path" : "",
