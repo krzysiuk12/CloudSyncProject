@@ -20,6 +20,7 @@
         };
         $scope.destinationSelected = false;
         $scope.sessions = sessionService;
+        $scope.modalTitle = "Dropbox Cloud";
 
         $scope.listFiles = function (directoryPath) {
             dropboxCloudManagementFactory.listFiles({

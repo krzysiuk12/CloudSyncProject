@@ -19,6 +19,7 @@
         };
         $scope.destinationSelected = false;
         $scope.sessions = sessionService;
+        $scope.modalTitle = "OneDrive Cloud";
 
 
         $scope.listFiles = function (directoryPath) {

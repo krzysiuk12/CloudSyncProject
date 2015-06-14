@@ -7,9 +7,11 @@
             <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
         </li>
         <li class="list-group-item" ng-repeat="file in files" >
-            <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true" ng-click="goTo(file)"></span>
-            <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
-            {{ file.fileName }}
+            <span ng-click="goTo(file)">
+                <span class="glyphicon glyphicon-folder-open" ng-show="file.type == 'DIRECTORY'" aria-hidden="true" ></span>
+                <span class="glyphicon glyphicon-duplicate" ng-show="file.type != 'DIRECTORY'" aria-hidden="true"></span>
+                {{ file.fileName }}
+            </span>
             <span class="pull-right" ng-show="file.type != 'DIRECTORY'">
                 <span class="label label-primary" ng-show="sessions.getGoogle() != null" aria-hidden="true" ng-click="syncGoogle(file)">Synchronize with Google</span>
                 <span class="label label-primary" ng-show="sessions.getOneDrive() != null" aria-hidden="true" ng-click="syncOneDrive(file)">Synchronize with OneDrive</span>

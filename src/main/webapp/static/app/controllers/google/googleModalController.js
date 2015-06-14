@@ -22,6 +22,7 @@
             }
         };
         $scope.destinationSelected = false;
+        $scope.modalTitle = "Google Cloud";
 
         function init() {
             console.log("GoogleCloudController: init()");
